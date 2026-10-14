@@ -1,0 +1,43 @@
+[Unit]
+Description=KWS private API
+Requires=postgresql@16-main.service
+After=postgresql@16-main.service
+PartOf=kws.target
+RequiresMountsFor=/srv/kws /var/lib/postgresql
+StartLimitIntervalSec=300
+StartLimitBurst=5
+
+[Service]
+Type=simple
+User=kws
+Group=kws
+WorkingDirectory=/opt/kws/current
+LoadCredential=mfa.env:/etc/kws/mfa.env
+ExecStart=/opt/kws/current/venv/bin/python -I /opt/kws/current/lan_runtime.py api
+Restart=on-failure
+RestartSec=10
+TimeoutStartSec=120
+TimeoutStopSec=90
+KillSignal=SIGTERM
+KillMode=control-group
+UMask=0077
+LimitCORE=0
+Environment=PYTHONDONTWRITEBYTECODE=1
+NoNewPrivileges=true
+ProtectSystem=strict
+ProtectHome=true
+PrivateTmp=true
+PrivateDevices=true
+ProtectKernelTunables=true
+ProtectKernelModules=true
+ProtectControlGroups=true
+RestrictSUIDSGID=true
+RestrictAddressFamilies=AF_UNIX AF_INET AF_INET6
+CapabilityBoundingSet=
+ReadWritePaths=/srv/kws/export /srv/kws/print
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=kws-api
+
+[Install]
+WantedBy=kws.target

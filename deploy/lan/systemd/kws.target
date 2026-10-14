@@ -1,0 +1,7 @@
+[Unit]
+Description=KWS LAN release (explicit migration required)
+Wants=kws-api.service kws-worker@outbox.service kws-worker@export.service kws-worker@print.service kws-worker@export-cleanup.service kws-worker@print-cleanup.service kws-monitor.timer
+After=postgresql@16-main.service
+
+[Install]
+WantedBy=multi-user.target

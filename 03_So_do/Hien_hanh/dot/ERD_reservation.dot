@@ -1,0 +1,15 @@
+digraph KWS {
+graph [rankdir=LR, bgcolor="white", nodesep=.5, ranksep=.9, pad=.3];
+node [shape=plain, fontname="DejaVu Sans", fontsize=12];
+edge [fontname="DejaVu Sans", fontsize=10, color="#334155", fontcolor="#334155", arrowsize=.8];
+label=<<TABLE BORDER="0" CELLBORDER="0" CELLPADDING="3"><TR><TD><FONT POINT-SIZE="20">ERD · reservation</FONT></TD></TR></TABLE>>; labelloc=t; fontname="DejaVu Sans"; fontsize=16;
+"reservation" [label=<<TABLE BORDER="1" CELLBORDER="1" CELLSPACING="0" CELLPADDING="7" COLOR="#526f83"><TR><TD BGCOLOR="#b7dff2"><B>reservation</B></TD></TR><TR><TD ALIGN="LEFT" BALIGN="LEFT">PK id : uuid<BR ALIGN="LEFT"/>FK line_id : uuid<BR ALIGN="LEFT"/>FK stock_item_id : uuid<BR ALIGN="LEFT"/>FK location_id : uuid<BR ALIGN="LEFT"/>quantity : numeric(20,6)<BR ALIGN="LEFT"/>consumed : numeric(20,6)<BR ALIGN="LEFT"/>released : numeric(20,6)<BR ALIGN="LEFT"/>expires_at : timestamp with time zone ?<BR ALIGN="LEFT"/>FK created_by : uuid</TD></TR></TABLE>>];
+"app_user" [label=<<TABLE BORDER="1" CELLBORDER="1" CELLSPACING="0" CELLPADDING="7" COLOR="#526f83"><TR><TD BGCOLOR="#b7dff2"><B>app_user</B></TD></TR><TR><TD ALIGN="LEFT" BALIGN="LEFT">id : uuid</TD></TR></TABLE>>];
+"document_line" [label=<<TABLE BORDER="1" CELLBORDER="1" CELLSPACING="0" CELLPADDING="7" COLOR="#526f83"><TR><TD BGCOLOR="#b7dff2"><B>document_line</B></TD></TR><TR><TD ALIGN="LEFT" BALIGN="LEFT">id : uuid</TD></TR></TABLE>>];
+"location" [label=<<TABLE BORDER="1" CELLBORDER="1" CELLSPACING="0" CELLPADDING="7" COLOR="#526f83"><TR><TD BGCOLOR="#b7dff2"><B>location</B></TD></TR><TR><TD ALIGN="LEFT" BALIGN="LEFT">id : uuid</TD></TR></TABLE>>];
+"stock_item" [label=<<TABLE BORDER="1" CELLBORDER="1" CELLSPACING="0" CELLPADDING="7" COLOR="#526f83"><TR><TD BGCOLOR="#b7dff2"><B>stock_item</B></TD></TR><TR><TD ALIGN="LEFT" BALIGN="LEFT">id : uuid</TD></TR></TABLE>>];
+"reservation" -> "app_user" [label="created_by → id", dir="both", arrowtail="crowodot", arrowhead="teetee", taillabel="0..*", headlabel="1", labeldistance="2", style="dashed"];
+"reservation" -> "document_line" [label="line_id → id", dir="both", arrowtail="crowodot", arrowhead="teetee", taillabel="0..*", headlabel="1", labeldistance="2", style="dashed"];
+"reservation" -> "location" [label="location_id → id", dir="both", arrowtail="crowodot", arrowhead="teetee", taillabel="0..*", headlabel="1", labeldistance="2", style="dashed"];
+"reservation" -> "stock_item" [label="stock_item_id → id", dir="both", arrowtail="crowodot", arrowhead="teetee", taillabel="0..*", headlabel="1", labeldistance="2", style="dashed"];
+}

@@ -1,0 +1,12 @@
+[Unit]
+Description=Periodic KWS readiness check (failure requires operator alert routing)
+PartOf=kws.target
+
+[Timer]
+OnActiveSec=60
+OnUnitActiveSec=60
+AccuracySec=5
+Unit=kws-monitor.service
+
+[Install]
+WantedBy=kws.target

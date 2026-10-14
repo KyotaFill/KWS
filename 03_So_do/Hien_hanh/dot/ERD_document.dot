@@ -1,0 +1,16 @@
+digraph KWS {
+graph [rankdir=LR, bgcolor="white", nodesep=.5, ranksep=.9, pad=.3];
+node [shape=plain, fontname="DejaVu Sans", fontsize=12];
+edge [fontname="DejaVu Sans", fontsize=10, color="#334155", fontcolor="#334155", arrowsize=.8];
+label=<<TABLE BORDER="0" CELLBORDER="0" CELLPADDING="3"><TR><TD><FONT POINT-SIZE="20">ERD · document</FONT></TD></TR></TABLE>>; labelloc=t; fontname="DejaVu Sans"; fontsize=16;
+"document" [label=<<TABLE BORDER="1" CELLBORDER="1" CELLSPACING="0" CELLPADDING="7" COLOR="#526f83"><TR><TD BGCOLOR="#b7dff2"><B>document</B></TD></TR><TR><TD ALIGN="LEFT" BALIGN="LEFT">PK id : uuid<BR ALIGN="LEFT"/>number : character varying(80)<BR ALIGN="LEFT"/>kind : character varying(30)<BR ALIGN="LEFT"/>status : character varying(20)<BR ALIGN="LEFT"/>FK warehouse_id : uuid<BR ALIGN="LEFT"/>FK destination_warehouse_id : uuid ?<BR ALIGN="LEFT"/>FK transit_location_id : uuid ?<BR ALIGN="LEFT"/>FK partner_id : uuid ?<BR ALIGN="LEFT"/>business_date : date<BR ALIGN="LEFT"/>FK created_by : uuid<BR ALIGN="LEFT"/>created_at : timestamp with time zone<BR ALIGN="LEFT"/>version : integer<BR ALIGN="LEFT"/>reason : text ?<BR ALIGN="LEFT"/>attributes : jsonb</TD></TR></TABLE>>];
+"app_user" [label=<<TABLE BORDER="1" CELLBORDER="1" CELLSPACING="0" CELLPADDING="7" COLOR="#526f83"><TR><TD BGCOLOR="#b7dff2"><B>app_user</B></TD></TR><TR><TD ALIGN="LEFT" BALIGN="LEFT">id : uuid</TD></TR></TABLE>>];
+"warehouse" [label=<<TABLE BORDER="1" CELLBORDER="1" CELLSPACING="0" CELLPADDING="7" COLOR="#526f83"><TR><TD BGCOLOR="#b7dff2"><B>warehouse</B></TD></TR><TR><TD ALIGN="LEFT" BALIGN="LEFT">id : uuid</TD></TR></TABLE>>];
+"partner" [label=<<TABLE BORDER="1" CELLBORDER="1" CELLSPACING="0" CELLPADDING="7" COLOR="#526f83"><TR><TD BGCOLOR="#b7dff2"><B>partner</B></TD></TR><TR><TD ALIGN="LEFT" BALIGN="LEFT">id : uuid</TD></TR></TABLE>>];
+"location" [label=<<TABLE BORDER="1" CELLBORDER="1" CELLSPACING="0" CELLPADDING="7" COLOR="#526f83"><TR><TD BGCOLOR="#b7dff2"><B>location</B></TD></TR><TR><TD ALIGN="LEFT" BALIGN="LEFT">id : uuid</TD></TR></TABLE>>];
+"document" -> "app_user" [label="created_by → id", dir="both", arrowtail="crowodot", arrowhead="teetee", taillabel="0..*", headlabel="1", labeldistance="2", style="dashed"];
+"document" -> "warehouse" [label="destination_warehouse_id → id", dir="both", arrowtail="crowodot", arrowhead="teeodot", taillabel="0..*", headlabel="0..1", labeldistance="2", style="dashed"];
+"document" -> "partner" [label="partner_id → id", dir="both", arrowtail="crowodot", arrowhead="teeodot", taillabel="0..*", headlabel="0..1", labeldistance="2", style="dashed"];
+"document" -> "location" [label="transit_location_id → id", dir="both", arrowtail="teeodot", arrowhead="teeodot", taillabel="0..1", headlabel="0..1", labeldistance="2", style="dashed"];
+"document" -> "warehouse" [label="warehouse_id → id", dir="both", arrowtail="crowodot", arrowhead="teetee", taillabel="0..*", headlabel="1", labeldistance="2", style="dashed"];
+}

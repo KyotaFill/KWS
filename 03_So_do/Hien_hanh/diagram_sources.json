@@ -1,0 +1,3648 @@
+[
+  {
+    "code": "ARCHITECTURE",
+    "title": "Kiến trúc ứng dụng hiện tại",
+    "nodes": {
+      "desktop": {
+        "name": "Desktop Tkinter",
+        "lines": [
+          "views / presenters / API client",
+          "Luồng UI và executor I/O"
+        ]
+      },
+      "local": {
+        "name": "SQLite cục bộ",
+        "lines": [
+          "Nháp và nhật ký lệnh",
+          "Tách máy chủ / tài khoản / thiết bị"
+        ]
+      },
+      "proxy": {
+        "name": "Reverse proxy Nginx",
+        "lines": [
+          "Cấu hình triển khai LAN",
+          "HTTPS; chuyển header phục hồi"
+        ]
+      },
+      "api": {
+        "name": "FastAPI",
+        "lines": [
+          "create_app()",
+          "Xác thực và dịch vụ nghiệp vụ"
+        ]
+      },
+      "db": {
+        "name": "PostgreSQL",
+        "lines": [
+          "Dữ liệu nghiệp vụ",
+          "Sổ kho và dấu vết giao dịch"
+        ]
+      },
+      "workers": {
+        "name": "Worker nền",
+        "lines": [
+          "Outbox · export · print",
+          "Export cleanup · print cleanup",
+          "Auth delivery"
+        ]
+      },
+      "files": {
+        "name": "Kho tệp riêng",
+        "lines": [
+          "Export / PDF",
+          "Truy cập qua API kiểm quyền"
+        ]
+      },
+      "vault": {
+        "name": "Kho bí mật hệ điều hành",
+        "lines": [
+          "SessionVault",
+          "Nhớ phiên khi người dùng bật"
+        ]
+      },
+      "print": {
+        "name": "Hệ thống in của máy",
+        "lines": [
+          "Spooler Windows / CUPS",
+          "Máy quét HID nhập bàn phím"
+        ]
+      }
+    },
+    "edges": [
+      [
+        "desktop",
+        "proxy",
+        "HTTPS"
+      ],
+      [
+        "proxy",
+        "api",
+        "HTTP nội bộ"
+      ],
+      [
+        "api",
+        "db",
+        "SQLAlchemy / psycopg"
+      ],
+      [
+        "desktop",
+        "local",
+        "Nháp / key"
+      ],
+      [
+        "desktop",
+        "vault",
+        "Refresh token"
+      ],
+      [
+        "workers",
+        "db",
+        "Job / lease / ACK"
+      ],
+      [
+        "workers",
+        "files",
+        "Tác vụ tệp"
+      ],
+      [
+        "api",
+        "files",
+        "Kiểm soát tải tệp"
+      ],
+      [
+        "desktop",
+        "print",
+        "In / nhập mã"
+      ]
+    ],
+    "sources": [
+      "apps/desktop/views/shell.py",
+      "apps/server/api/app.py",
+      "deploy/lan",
+      "apps/desktop/local_store/session_vault.py"
+    ],
+    "direction": "LR"
+  },
+  {
+    "code": "CLASS_DESKTOP",
+    "title": "Các lớp desktop đang triển khai",
+    "nodes": {
+      "DesktopShell": {
+        "name": "DesktopShell",
+        "lines": [
+          "apps/desktop/views/shell.py",
+          "+root: tk.Tk",
+          "+settings: DesktopSettings",
+          "+closed",
+          "+closing",
+          "+workers_stopped",
+          "+restart_requested",
+          "+resize_header(…)",
+          "+toggle_theme(…)",
+          "+style_mapped_widget(…)",
+          "+resize_workspace(…)",
+          "+load_workspace(…)",
+          "+open_key(…)",
+          "+open_group(…)"
+        ],
+        "kind": "class",
+        "attributes": [
+          "+root: tk.Tk",
+          "+settings: DesktopSettings",
+          "+closed",
+          "+closing",
+          "+workers_stopped",
+          "+restart_requested"
+        ],
+        "operations": [
+          "+resize_header(…)",
+          "+toggle_theme(…)",
+          "+style_mapped_widget(…)",
+          "+resize_workspace(…)",
+          "+load_workspace(…)",
+          "+open_key(…)",
+          "+open_group(…)"
+        ],
+        "bases": [],
+        "partial": true
+      },
+      "OrderView": {
+        "name": "OrderView",
+        "lines": [
+          "apps/desktop/views/orders.py",
+          "+presenter",
+          "+variables",
+          "+warehouses",
+          "+permissions",
+          "+catalog_ready",
+          "+doc",
+          "+combo(…)",
+          "+tree(…)",
+          "+path()",
+          "+warehouse_id()",
+          "+session_changed(…)",
+          "+scope_changed(…)",
+          "+orders_clear()"
+        ],
+        "kind": "class",
+        "attributes": [
+          "+presenter",
+          "+variables",
+          "+warehouses",
+          "+permissions",
+          "+catalog_ready",
+          "+doc"
+        ],
+        "operations": [
+          "+combo(…)",
+          "+tree(…)",
+          "+path()",
+          "+warehouse_id()",
+          "+session_changed(…)",
+          "+scope_changed(…)",
+          "+orders_clear()"
+        ],
+        "bases": [
+          "ttk.Frame"
+        ],
+        "partial": true
+      },
+      "OrderPresenter": {
+        "name": "OrderPresenter",
+        "lines": [
+          "apps/desktop/presenters/orders.py",
+          "+view",
+          "+api",
+          "+executor",
+          "+results",
+          "+sequence",
+          "+closed",
+          "+uncertain()",
+          "+reset(…)",
+          "+submit(…)",
+          "+load(…)",
+          "+read(…)",
+          "+review(…)",
+          "+candidates(…)"
+        ],
+        "kind": "class",
+        "attributes": [
+          "+view",
+          "+api",
+          "+executor",
+          "+results",
+          "+sequence",
+          "+closed"
+        ],
+        "operations": [
+          "+uncertain()",
+          "+reset(…)",
+          "+submit(…)",
+          "+load(…)",
+          "+read(…)",
+          "+review(…)",
+          "+candidates(…)"
+        ],
+        "bases": [],
+        "partial": true
+      },
+      "IdentityClient": {
+        "name": "IdentityClient",
+        "lines": [
+          "apps/desktop/api/identity.py",
+          "+session_store",
+          "+remember_session",
+          "+persist_allowed",
+          "+persistence_notice",
+          "+settings",
+          "+device_id",
+          "+enable_persistence()",
+          "+persist_session()",
+          "+restore_session()",
+          "+file_request(…)",
+          "+login(…)",
+          "+mfa(…)",
+          "+refresh()"
+        ],
+        "kind": "class",
+        "attributes": [
+          "+session_store",
+          "+remember_session",
+          "+persist_allowed",
+          "+persistence_notice",
+          "+settings",
+          "+device_id"
+        ],
+        "operations": [
+          "+enable_persistence()",
+          "+persist_session()",
+          "+restore_session()",
+          "+file_request(…)",
+          "+login(…)",
+          "+mfa(…)",
+          "+refresh()"
+        ],
+        "bases": [
+          "ApiClient"
+        ],
+        "partial": true
+      },
+      "RecoveryJournal": {
+        "name": "RecoveryJournal",
+        "lines": [
+          "apps/desktop/local_store/recovery.py",
+          "+settings",
+          "+executor",
+          "+store",
+          "+partition",
+          "+work(…)",
+          "+call(…)",
+          "+close_store()",
+          "+release()",
+          "+close()"
+        ],
+        "kind": "class",
+        "attributes": [
+          "+settings",
+          "+executor",
+          "+store",
+          "+partition"
+        ],
+        "operations": [
+          "+work(…)",
+          "+call(…)",
+          "+close_store()",
+          "+release()",
+          "+close()"
+        ],
+        "bases": [],
+        "partial": true
+      },
+      "CommandStore": {
+        "name": "CommandStore",
+        "lines": [
+          "apps/desktop/local_store/commands.py",
+          "+checked(…)",
+          "+prepare_command(…)",
+          "+discard_draft(…)",
+          "+edit_draft(…)",
+          "+command_transition(…)",
+          "+command_list(…)",
+          "+cleanup(…)"
+        ],
+        "kind": "class",
+        "attributes": [],
+        "operations": [
+          "+checked(…)",
+          "+prepare_command(…)",
+          "+discard_draft(…)",
+          "+edit_draft(…)",
+          "+command_transition(…)",
+          "+command_list(…)",
+          "+cleanup(…)"
+        ],
+        "bases": [
+          "LocalStore"
+        ],
+        "partial": true
+      }
+    },
+    "edges": [
+      [
+        "DesktopShell",
+        "OrderView",
+        "Khởi tạo / điều phối"
+      ],
+      [
+        "OrderView",
+        "OrderPresenter",
+        "Sự kiện UI"
+      ],
+      [
+        "OrderPresenter",
+        "IdentityClient",
+        "Gọi API qua executor"
+      ],
+      [
+        "IdentityClient",
+        "RecoveryJournal",
+        "Nhật ký phục hồi"
+      ],
+      [
+        "RecoveryJournal",
+        "CommandStore",
+        "Lưu lệnh cục bộ"
+      ]
+    ],
+    "sources": [
+      "apps/desktop/views/shell.py",
+      "apps/desktop/views/orders.py",
+      "apps/desktop/presenters/orders.py",
+      "apps/desktop/api/identity.py",
+      "apps/desktop/local_store/recovery.py",
+      "apps/desktop/local_store/commands.py"
+    ],
+    "direction": "TB",
+    "notation": "UML class",
+    "relations": [
+      {
+        "kind": "dependency"
+      },
+      {
+        "kind": "dependency"
+      },
+      {
+        "kind": "dependency"
+      },
+      {
+        "kind": "dependency"
+      },
+      {
+        "kind": "dependency"
+      }
+    ]
+  },
+  {
+    "code": "CLASS_SERVER",
+    "title": "Các lớp xử lý lệnh trên máy chủ",
+    "nodes": {
+      "OrderService": {
+        "name": "OrderService",
+        "lines": [
+          "apps/server/application/orders.py",
+          "+identity",
+          "+bus",
+          "+document(…)",
+          "+may_edit(…)",
+          "+listing(…)",
+          "+lines(…)",
+          "+snapshot(…)",
+          "+approval(…)",
+          "+approver(…)"
+        ],
+        "kind": "class",
+        "attributes": [
+          "+identity",
+          "+bus"
+        ],
+        "operations": [
+          "+document(…)",
+          "+may_edit(…)",
+          "+listing(…)",
+          "+lines(…)",
+          "+snapshot(…)",
+          "+approval(…)",
+          "+approver(…)"
+        ],
+        "bases": [],
+        "partial": true
+      },
+      "ReceiptService": {
+        "name": "ReceiptService",
+        "lines": [
+          "apps/server/application/receipts.py",
+          "+orders",
+          "+identity",
+          "+bus",
+          "+source(…)",
+          "+approved(…)",
+          "+validate_saved(…)",
+          "+may_post(…)",
+          "+locations(…)",
+          "+read(…)",
+          "+validate_tracking(…)"
+        ],
+        "kind": "class",
+        "attributes": [
+          "+orders",
+          "+identity",
+          "+bus"
+        ],
+        "operations": [
+          "+source(…)",
+          "+approved(…)",
+          "+validate_saved(…)",
+          "+may_post(…)",
+          "+locations(…)",
+          "+read(…)",
+          "+validate_tracking(…)"
+        ],
+        "bases": [],
+        "partial": true
+      },
+      "CommandBus": {
+        "name": "CommandBus",
+        "lines": [
+          "apps/server/application/commands.py",
+          "+uow_factory: Callable[[], UnitOfWork]",
+          "+execute(…): CommandResult"
+        ],
+        "kind": "class",
+        "attributes": [
+          "+uow_factory: Callable[[], UnitOfWork]"
+        ],
+        "operations": [
+          "+execute(…): CommandResult"
+        ],
+        "bases": [],
+        "partial": true
+      },
+      "PostgresUnitOfWork": {
+        "name": "PostgresUnitOfWork",
+        "lines": [
+          "apps/server/infrastructure/database.py",
+          "+engine: Engine",
+          "+commit(): None",
+          "+rollback(): None"
+        ],
+        "kind": "class",
+        "attributes": [
+          "+engine: Engine"
+        ],
+        "operations": [
+          "+commit(): None",
+          "+rollback(): None"
+        ],
+        "bases": [],
+        "partial": true
+      },
+      "PostgresCommandRepository": {
+        "name": "PostgresCommandRepository",
+        "lines": [
+          "apps/server/infrastructure/database.py",
+          "+connection: Connection",
+          "+lock(…): None",
+          "+get(…): dict[str, Any] | None",
+          "+save(…): None"
+        ],
+        "kind": "class",
+        "attributes": [
+          "+connection: Connection"
+        ],
+        "operations": [
+          "+lock(…): None",
+          "+get(…): dict[str, Any] | None",
+          "+save(…): None"
+        ],
+        "bases": [],
+        "partial": true
+      },
+      "UnitOfWork": {
+        "name": "UnitOfWork",
+        "lines": [
+          "apps/server/application/ports.py",
+          "+commands: CommandRepository",
+          "+commit(): None",
+          "+rollback(): None"
+        ],
+        "kind": "class",
+        "attributes": [
+          "+commands: CommandRepository"
+        ],
+        "operations": [
+          "+commit(): None",
+          "+rollback(): None"
+        ],
+        "bases": [
+          "Protocol"
+        ],
+        "partial": true
+      }
+    },
+    "edges": [
+      [
+        "ReceiptService",
+        "OrderService",
+        "Dùng orders / identity / bus"
+      ],
+      [
+        "OrderService",
+        "CommandBus",
+        "execute()"
+      ],
+      [
+        "CommandBus",
+        "UnitOfWork",
+        "Giao diện transaction"
+      ],
+      [
+        "PostgresUnitOfWork",
+        "UnitOfWork",
+        "Hiện thực giao thức"
+      ],
+      [
+        "PostgresUnitOfWork",
+        "PostgresCommandRepository",
+        "commands"
+      ]
+    ],
+    "sources": [
+      "apps/server/application/orders.py",
+      "apps/server/application/receipts.py",
+      "apps/server/application/commands.py",
+      "apps/server/infrastructure/database.py",
+      "apps/server/infrastructure/database.py",
+      "apps/server/application/ports.py"
+    ],
+    "direction": "LR",
+    "notation": "UML class",
+    "relations": [
+      {
+        "kind": "dependency"
+      },
+      {
+        "kind": "dependency"
+      },
+      {
+        "kind": "dependency"
+      },
+      {
+        "kind": "realization"
+      },
+      {
+        "kind": "dependency"
+      }
+    ]
+  },
+  {
+    "code": "CLASS_CONTRACTS",
+    "title": "Các hợp đồng dữ liệu và lỗi đang triển khai",
+    "nodes": {
+      "OrderAction": {
+        "name": "OrderAction",
+        "lines": [
+          "packages/contracts/orders.py",
+          "+expected_version: int",
+          "+reason: Reason"
+        ],
+        "kind": "class",
+        "attributes": [
+          "+expected_version: int",
+          "+reason: Reason"
+        ],
+        "operations": [],
+        "bases": [
+          "Contract"
+        ],
+        "partial": true
+      },
+      "ReceiptPost": {
+        "name": "ReceiptPost",
+        "lines": [
+          "packages/contracts/receipts.py",
+          "+execution_key: UUID",
+          "+lines: list[PostLine]",
+          "+unique_lines()"
+        ],
+        "kind": "class",
+        "attributes": [
+          "+execution_key: UUID",
+          "+lines: list[PostLine]"
+        ],
+        "operations": [
+          "+unique_lines()"
+        ],
+        "bases": [
+          "OrderAction"
+        ],
+        "partial": true
+      },
+      "OrderView": {
+        "name": "OrderView",
+        "lines": [
+          "packages/contracts/orders.py",
+          "+reason: str | None",
+          "+lines: list[OrderLineView]",
+          "+assigned_user_ids: list[UUID]",
+          "+approvals: list[ApprovalView]",
+          "+allowed_actions: list[str]"
+        ],
+        "kind": "class",
+        "attributes": [
+          "+reason: str | None",
+          "+lines: list[OrderLineView]",
+          "+assigned_user_ids: list[UUID]",
+          "+approvals: list[ApprovalView]",
+          "+allowed_actions: list[str]"
+        ],
+        "operations": [],
+        "bases": [
+          "OrderSummary"
+        ],
+        "partial": true
+      },
+      "ReceiptView": {
+        "name": "ReceiptView",
+        "lines": [
+          "packages/contracts/receipts.py",
+          "+source_order_id: UUID",
+          "+plan: list[ReceiptPlan]"
+        ],
+        "kind": "class",
+        "attributes": [
+          "+source_order_id: UUID",
+          "+plan: list[ReceiptPlan]"
+        ],
+        "operations": [],
+        "bases": [
+          "OrderView"
+        ],
+        "partial": true
+      },
+      "CommandResult": {
+        "name": "CommandResult",
+        "lines": [
+          "apps/server/application/commands.py",
+          "+body: dict[str, Any]",
+          "+http_status: int"
+        ],
+        "kind": "class",
+        "attributes": [
+          "+body: dict[str, Any]",
+          "+http_status: int"
+        ],
+        "operations": [],
+        "bases": [],
+        "partial": true
+      },
+      "DomainError": {
+        "name": "DomainError",
+        "lines": [
+          "apps/server/domain/errors.py",
+          "+code: str",
+          "+message: str",
+          "+retryable",
+          "+field"
+        ],
+        "kind": "class",
+        "attributes": [
+          "+code: str",
+          "+message: str",
+          "+retryable",
+          "+field"
+        ],
+        "operations": [],
+        "bases": [
+          "Exception"
+        ],
+        "partial": true
+      }
+    },
+    "edges": [
+      [
+        "ReceiptPost",
+        "OrderAction",
+        "Kế thừa"
+      ],
+      [
+        "ReceiptView",
+        "OrderView",
+        "Kế thừa"
+      ]
+    ],
+    "sources": [
+      "packages/contracts/orders.py",
+      "packages/contracts/receipts.py",
+      "packages/contracts/orders.py",
+      "packages/contracts/receipts.py",
+      "apps/server/application/commands.py",
+      "apps/server/domain/errors.py"
+    ],
+    "direction": "LR",
+    "notation": "UML class",
+    "relations": [
+      {
+        "kind": "generalization"
+      },
+      {
+        "kind": "generalization"
+      }
+    ]
+  },
+  {
+    "code": "STATE_DOCUMENT",
+    "title": "Trạng thái chứng từ và điều kiện chuyển",
+    "nodes": {
+      "DRAFT": {
+        "name": "DRAFT",
+        "lines": [],
+        "kind": "state"
+      },
+      "SUBMITTED": {
+        "name": "SUBMITTED",
+        "lines": [],
+        "kind": "state"
+      },
+      "APPROVED": {
+        "name": "APPROVED",
+        "lines": [],
+        "kind": "state"
+      },
+      "REJECTED": {
+        "name": "REJECTED",
+        "lines": [],
+        "kind": "state"
+      },
+      "PARTIAL": {
+        "name": "PARTIAL",
+        "lines": [],
+        "kind": "state"
+      },
+      "COMPLETED": {
+        "name": "COMPLETED",
+        "lines": [],
+        "kind": "state"
+      },
+      "CANCELLED": {
+        "name": "CANCELLED",
+        "lines": [],
+        "kind": "state"
+      },
+      "initial": {
+        "name": "",
+        "lines": [],
+        "kind": "initial"
+      }
+    },
+    "edges": [
+      [
+        "initial",
+        "DRAFT",
+        "create"
+      ],
+      [
+        "DRAFT",
+        "SUBMITTED",
+        "submit; kiểm tra dữ liệu"
+      ],
+      [
+        "REJECTED",
+        "DRAFT",
+        "Sửa nháp"
+      ],
+      [
+        "REJECTED",
+        "SUBMITTED",
+        "Gửi lại hợp lệ"
+      ],
+      [
+        "SUBMITTED",
+        "APPROVED",
+        "Đủ các bước duyệt"
+      ],
+      [
+        "SUBMITTED",
+        "REJECTED",
+        "Từ chối"
+      ],
+      [
+        "APPROVED",
+        "DRAFT",
+        "revise; hủy hiệu lực duyệt"
+      ],
+      [
+        "APPROVED",
+        "PARTIAL",
+        "Thực hiện một phần theo loại phiếu"
+      ],
+      [
+        "APPROVED",
+        "COMPLETED",
+        "Thực hiện đủ"
+      ],
+      [
+        "PARTIAL",
+        "COMPLETED",
+        "Thực hiện đủ / đóng phần còn lại hợp lệ"
+      ],
+      [
+        "DRAFT",
+        "CANCELLED",
+        "cancel trước thực hiện"
+      ],
+      [
+        "SUBMITTED",
+        "CANCELLED",
+        "cancel trước thực hiện"
+      ],
+      [
+        "REJECTED",
+        "CANCELLED",
+        "cancel trước thực hiện"
+      ],
+      [
+        "APPROVED",
+        "CANCELLED",
+        "cancel trước thực hiện"
+      ]
+    ],
+    "sources": [
+      "apps/server/application/orders.py",
+      "apps/server/application/receipts.py",
+      "apps/server/application/issues.py"
+    ],
+    "direction": "TB",
+    "notation": "UML state"
+  },
+  {
+    "code": "COMMAND_RECOVERY",
+    "title": "Luồng xử lý lệnh và phục hồi ACK",
+    "nodes": {
+      "input": {
+        "name": "Người dùng xác nhận thao tác",
+        "lines": [],
+        "kind": "task"
+      },
+      "store": {
+        "name": "IdentityClient / RecoveryJournal",
+        "lines": [
+          "Lưu nội dung và idempotency key",
+          "Đánh dấu lệnh SENDING"
+        ],
+        "kind": "task"
+      },
+      "api": {
+        "name": "API nhận lệnh",
+        "lines": [
+          "Kiểm tra DTO / phiên / quyền"
+        ],
+        "kind": "task"
+      },
+      "lock": {
+        "name": "CommandBus",
+        "lines": [
+          "Khóa key; authorize trong UoW",
+          "Đối chiếu request hash"
+        ],
+        "kind": "task"
+      },
+      "old": {
+        "name": "Đã có kết quả cùng key",
+        "lines": [
+          "Trả lại kết quả đã lưu"
+        ],
+        "kind": "task"
+      },
+      "handle": {
+        "name": "Handler nghiệp vụ",
+        "lines": [
+          "Kiểm tra phiên bản / trạng thái",
+          "Khóa dữ liệu; cập nhật nghiệp vụ"
+        ],
+        "kind": "task"
+      },
+      "commit": {
+        "name": "Transaction commit",
+        "lines": [
+          "Lưu kết quả idempotency",
+          "Dữ liệu / audit / outbox theo handler"
+        ],
+        "kind": "task"
+      },
+      "ack": {
+        "name": "Nhận ACK và kết quả",
+        "lines": [
+          "Đánh dấu COMMITTED cục bộ"
+        ],
+        "kind": "task"
+      },
+      "unknown": {
+        "name": "Mất phản hồi",
+        "lines": [
+          "Giữ lệnh UNKNOWN"
+        ],
+        "kind": "task"
+      },
+      "lookup": {
+        "name": "Tra ACK bằng yêu cầu gốc",
+        "lines": [
+          "X-KWS-Recovery: lookup-v1",
+          "Không thực thi lệnh còn thiếu"
+        ],
+        "kind": "task"
+      },
+      "retry": {
+        "name": "Người dùng quyết định gửi lại",
+        "lines": [
+          "Cùng key và cùng nội dung"
+        ],
+        "kind": "task"
+      },
+      "choice": {
+        "name": "Có kết quả khớp key/hash?",
+        "lines": [],
+        "kind": "decision"
+      },
+      "response": {
+        "name": "Nhận được phản hồi?",
+        "lines": [],
+        "kind": "decision"
+      },
+      "found": {
+        "name": "Tìm thấy ACK?",
+        "lines": [],
+        "kind": "decision"
+      }
+    },
+    "edges": [
+      [
+        "input",
+        "store",
+        ""
+      ],
+      [
+        "store",
+        "api",
+        "send-v1"
+      ],
+      [
+        "api",
+        "lock",
+        ""
+      ],
+      [
+        "handle",
+        "commit",
+        "Hợp lệ"
+      ],
+      [
+        "old",
+        "ack",
+        ""
+      ],
+      [
+        "unknown",
+        "lookup",
+        "Theo yêu cầu người dùng"
+      ],
+      [
+        "retry",
+        "api",
+        "send-v1"
+      ],
+      [
+        "lock",
+        "choice",
+        "Quyền và hash hợp lệ"
+      ],
+      [
+        "choice",
+        "old",
+        "Có"
+      ],
+      [
+        "choice",
+        "handle",
+        "Chưa có; send-v1"
+      ],
+      [
+        "commit",
+        "response",
+        ""
+      ],
+      [
+        "response",
+        "ack",
+        "Có"
+      ],
+      [
+        "response",
+        "unknown",
+        "Không"
+      ],
+      [
+        "lookup",
+        "found",
+        ""
+      ],
+      [
+        "found",
+        "ack",
+        "Có"
+      ],
+      [
+        "found",
+        "retry",
+        "Không: OPERATION_UNCONFIRMED"
+      ]
+    ],
+    "sources": [
+      "apps/desktop/local_store/recovery.py",
+      "apps/server/api/recovery.py",
+      "apps/server/application/commands.py"
+    ],
+    "direction": "TB",
+    "notation": "Activity overview"
+  },
+  {
+    "code": "FLOW_RECEIPT",
+    "title": "Nhận hàng — phê duyệt và ghi sổ",
+    "nodes": {
+      "start": {
+        "name": "PO đã duyệt",
+        "lines": [],
+        "kind": "start",
+        "x": 171.0,
+        "y": 211.0,
+        "w": 38,
+        "h": 38,
+        "lane": 0
+      },
+      "draft": {
+        "name": "Lập phiếu nhận và kế hoạch dòng",
+        "lines": [],
+        "kind": "task",
+        "x": 263.0,
+        "y": 194.0,
+        "w": 174,
+        "h": 72,
+        "lane": 0
+      },
+      "submit": {
+        "name": "Gửi phiếu nhận để duyệt",
+        "lines": [],
+        "kind": "task",
+        "x": 463.0,
+        "y": 194.0,
+        "w": 174,
+        "h": 72,
+        "lane": 0
+      },
+      "review": {
+        "name": "Thực hiện các bước phê duyệt",
+        "lines": [],
+        "kind": "task",
+        "x": 663.0,
+        "y": 384.0,
+        "w": 174,
+        "h": 72,
+        "lane": 1
+      },
+      "approved": {
+        "name": "Được duyệt?",
+        "lines": [],
+        "kind": "gateway",
+        "x": 921.0,
+        "y": 391.0,
+        "w": 58,
+        "h": 58,
+        "lane": 1
+      },
+      "rejected": {
+        "name": "Phiếu bị từ chối",
+        "lines": [],
+        "kind": "end",
+        "x": 931.0,
+        "y": 591.0,
+        "w": 38,
+        "h": 38,
+        "lane": 2
+      },
+      "post": {
+        "name": "Yêu cầu ghi sổ lượng thực nhận",
+        "lines": [],
+        "kind": "task",
+        "x": 1063.0,
+        "y": 194.0,
+        "w": 174,
+        "h": 72,
+        "lane": 0
+      },
+      "write": {
+        "name": "Ghi sổ vào vị trí lưu trữ",
+        "lines": [],
+        "kind": "task",
+        "x": 1363.0,
+        "y": 574.0,
+        "w": 174,
+        "h": 72,
+        "lane": 2
+      },
+      "end": {
+        "name": "Đã ghi nhận",
+        "lines": [],
+        "kind": "end",
+        "x": 1711.0,
+        "y": 591.0,
+        "w": 38,
+        "h": 38,
+        "lane": 2
+      }
+    },
+    "edges": [
+      [
+        "start",
+        "draft",
+        ""
+      ],
+      [
+        "draft",
+        "submit",
+        ""
+      ],
+      [
+        "submit",
+        "review",
+        ""
+      ],
+      [
+        "review",
+        "approved",
+        ""
+      ],
+      [
+        "approved",
+        "rejected",
+        "Không"
+      ],
+      [
+        "approved",
+        "post",
+        "Có"
+      ],
+      [
+        "post",
+        "write",
+        ""
+      ],
+      [
+        "write",
+        "end",
+        ""
+      ]
+    ],
+    "sources": [
+      "apps/server/application/receipts.py",
+      "apps/server/application/orders.py"
+    ],
+    "notation": "BPMN",
+    "lanes": [
+      "Người nhận hàng",
+      "Người phê duyệt",
+      "Hệ thống KWS"
+    ],
+    "width": 1850,
+    "height": 820,
+    "note": "Nhận thẳng vào STORAGE; từ chối hàng hết hạn, sai kho hoặc vượt đơn mua."
+  },
+  {
+    "code": "FLOW_ISSUE",
+    "title": "Xuất kho — duyệt, giữ hàng và ghi sổ",
+    "nodes": {
+      "start": {
+        "name": "SO đã duyệt",
+        "lines": [],
+        "kind": "start",
+        "x": 171.0,
+        "y": 211.0,
+        "w": 38,
+        "h": 38,
+        "lane": 0
+      },
+      "draft": {
+        "name": "Lập và gửi duyệt phiếu xuất",
+        "lines": [],
+        "kind": "task",
+        "x": 263.0,
+        "y": 194.0,
+        "w": 174,
+        "h": 72,
+        "lane": 0
+      },
+      "review": {
+        "name": "Thực hiện các bước phê duyệt",
+        "lines": [],
+        "kind": "task",
+        "x": 463.0,
+        "y": 384.0,
+        "w": 174,
+        "h": 72,
+        "lane": 1
+      },
+      "approved": {
+        "name": "Được duyệt?",
+        "lines": [],
+        "kind": "gateway",
+        "x": 721.0,
+        "y": 391.0,
+        "w": 58,
+        "h": 58,
+        "lane": 1
+      },
+      "rejected": {
+        "name": "Phiếu bị từ chối",
+        "lines": [],
+        "kind": "end",
+        "x": 731.0,
+        "y": 591.0,
+        "w": 38,
+        "h": 38,
+        "lane": 2
+      },
+      "reserve": {
+        "name": "Giữ số lượng khả dụng",
+        "lines": [],
+        "kind": "task",
+        "x": 863.0,
+        "y": 194.0,
+        "w": 174,
+        "h": 72,
+        "lane": 0
+      },
+      "post": {
+        "name": "Yêu cầu ghi sổ xuất",
+        "lines": [],
+        "kind": "task",
+        "x": 1263.0,
+        "y": 194.0,
+        "w": 174,
+        "h": 72,
+        "lane": 0
+      },
+      "write": {
+        "name": "Kiểm tra và ghi phát sinh xuất",
+        "lines": [],
+        "kind": "task",
+        "x": 1463.0,
+        "y": 574.0,
+        "w": 174,
+        "h": 72,
+        "lane": 2
+      },
+      "end": {
+        "name": "Đã ghi xuất",
+        "lines": [],
+        "kind": "end",
+        "x": 1741.0,
+        "y": 591.0,
+        "w": 38,
+        "h": 38,
+        "lane": 2
+      }
+    },
+    "edges": [
+      [
+        "start",
+        "draft",
+        ""
+      ],
+      [
+        "draft",
+        "review",
+        ""
+      ],
+      [
+        "review",
+        "approved",
+        ""
+      ],
+      [
+        "approved",
+        "rejected",
+        "Không"
+      ],
+      [
+        "approved",
+        "reserve",
+        "Có"
+      ],
+      [
+        "post",
+        "write",
+        ""
+      ],
+      [
+        "write",
+        "end",
+        ""
+      ],
+      [
+        "reserve",
+        "post",
+        ""
+      ]
+    ],
+    "sources": [
+      "apps/server/application/issues.py",
+      "apps/server/application/reservations.py"
+    ],
+    "notation": "BPMN",
+    "lanes": [
+      "Người xử lý phiếu xuất",
+      "Người phê duyệt",
+      "Hệ thống KWS"
+    ],
+    "width": 1850,
+    "height": 820,
+    "note": "KWS xuất trực tiếp từ nguồn đã giữ; không có bước soạn hàng hoặc đóng kiện."
+  },
+  {
+    "code": "FLOW_LIFECYCLE",
+    "title": "Tải lại hoặc đóng ứng dụng",
+    "nodes": {
+      "start": {
+        "name": "Đóng / Tải lại",
+        "lines": [],
+        "kind": "start",
+        "x": 171.0,
+        "y": 211.0,
+        "w": 38,
+        "h": 38,
+        "lane": 0
+      },
+      "confirm": {
+        "name": "Xác nhận và lưu ý phần chưa lưu",
+        "lines": [],
+        "kind": "task",
+        "x": 263.0,
+        "y": 194.0,
+        "w": 174,
+        "h": 72,
+        "lane": 0
+      },
+      "yes": {
+        "name": "Đồng ý?",
+        "lines": [],
+        "kind": "gateway",
+        "x": 521.0,
+        "y": 201.0,
+        "w": 58,
+        "h": 58,
+        "lane": 0
+      },
+      "cancel": {
+        "name": "Tiếp tục dùng",
+        "lines": [],
+        "kind": "end",
+        "x": 531.0,
+        "y": 401.0,
+        "w": 38,
+        "h": 38,
+        "lane": 1
+      },
+      "stop": {
+        "name": "Khóa thao tác, ngừng nhận việc mới",
+        "lines": [],
+        "kind": "task",
+        "x": 663.0,
+        "y": 384.0,
+        "w": 174,
+        "h": 72,
+        "lane": 1
+      },
+      "wait": {
+        "name": "Chờ worker và đóng journal",
+        "lines": [],
+        "kind": "task",
+        "x": 863.0,
+        "y": 574.0,
+        "w": 174,
+        "h": 72,
+        "lane": 2
+      },
+      "release": {
+        "name": "Đóng Tk, API và nhả khóa",
+        "lines": [],
+        "kind": "task",
+        "x": 1063.0,
+        "y": 384.0,
+        "w": 174,
+        "h": 72,
+        "lane": 1
+      },
+      "reload": {
+        "name": "Đã chọn Tải lại?",
+        "lines": [],
+        "kind": "gateway",
+        "x": 1321.0,
+        "y": 581.0,
+        "w": 58,
+        "h": 58,
+        "lane": 2
+      },
+      "restart": {
+        "name": "Khởi động lại bản đang cài",
+        "lines": [],
+        "kind": "task",
+        "x": 1463.0,
+        "y": 384.0,
+        "w": 174,
+        "h": 72,
+        "lane": 1
+      },
+      "end": {
+        "name": "Đã thoát",
+        "lines": [],
+        "kind": "end",
+        "x": 1531.0,
+        "y": 591.0,
+        "w": 38,
+        "h": 38,
+        "lane": 2
+      },
+      "ready": {
+        "name": "Phiên mới",
+        "lines": [],
+        "kind": "end",
+        "x": 1741.0,
+        "y": 401.0,
+        "w": 38,
+        "h": 38,
+        "lane": 1
+      }
+    },
+    "edges": [
+      [
+        "start",
+        "confirm",
+        ""
+      ],
+      [
+        "confirm",
+        "yes",
+        ""
+      ],
+      [
+        "yes",
+        "cancel",
+        "Không"
+      ],
+      [
+        "yes",
+        "stop",
+        "Có"
+      ],
+      [
+        "stop",
+        "wait",
+        ""
+      ],
+      [
+        "wait",
+        "release",
+        ""
+      ],
+      [
+        "release",
+        "reload",
+        ""
+      ],
+      [
+        "reload",
+        "restart",
+        "Có"
+      ],
+      [
+        "reload",
+        "end",
+        "Không"
+      ],
+      [
+        "restart",
+        "ready",
+        ""
+      ]
+    ],
+    "sources": [
+      "apps/desktop/views/shell.py",
+      "apps/desktop/lifecycle.py",
+      "apps/desktop/__main__.py"
+    ],
+    "notation": "BPMN",
+    "lanes": [
+      "Người dùng",
+      "Desktop / main thread",
+      "Worker và vòng đời tiến trình"
+    ],
+    "width": 1850,
+    "height": 820,
+    "note": "Tải lại khởi động lại phần mềm đang cài sau khi giải phóng tài nguyên; không tải bộ cài từ Internet."
+  },
+  {
+    "code": "UC_CURRENT_01",
+    "title": "Use case — Không gian làm việc",
+    "notation": "UML use case",
+    "nodes": {
+      "actor": {
+        "name": "Người dùng có quyền tương ứng",
+        "lines": [],
+        "kind": "actor",
+        "x": 125.0,
+        "y": 207.5,
+        "w": 70,
+        "h": 105,
+        "lane": null
+      },
+      "session_view": {
+        "name": "Chọn kho và quản lý phiên làm việc",
+        "lines": [],
+        "kind": "usecase",
+        "x": 455.0,
+        "y": 162.0,
+        "w": 390,
+        "h": 66,
+        "lane": null
+      }
+    },
+    "edges": [
+      [
+        "actor",
+        "session_view",
+        ""
+      ]
+    ],
+    "sources": [
+      "apps/desktop/views/admin_workspace.py",
+      "apps/desktop/views/session.py"
+    ],
+    "width": 1100,
+    "height": 520,
+    "group": "Không gian làm việc",
+    "feature_keys": [
+      "session_view"
+    ],
+    "note": "Actor chỉ tham gia use case khi được cấp quyền; scope kho, thời hạn và tách nhiệm vụ vẫn được kiểm tra."
+  },
+  {
+    "code": "UC_CURRENT_02",
+    "title": "Use case — Dữ liệu",
+    "notation": "UML use case",
+    "nodes": {
+      "actor": {
+        "name": "Người dùng có quyền tương ứng",
+        "lines": [],
+        "kind": "actor",
+        "x": 125.0,
+        "y": 207.5,
+        "w": 70,
+        "h": 105,
+        "lane": null
+      },
+      "master_container": {
+        "name": "Quản lý danh mục kho và hàng hóa",
+        "lines": [],
+        "kind": "usecase",
+        "x": 455.0,
+        "y": 162.0,
+        "w": 390,
+        "h": 66,
+        "lane": null
+      }
+    },
+    "edges": [
+      [
+        "actor",
+        "master_container",
+        ""
+      ]
+    ],
+    "sources": [
+      "apps/desktop/views/admin_workspace.py",
+      "apps/desktop/views/master_data.py"
+    ],
+    "width": 1100,
+    "height": 520,
+    "group": "Dữ liệu",
+    "feature_keys": [
+      "master_container"
+    ],
+    "note": "Actor chỉ tham gia use case khi được cấp quyền; scope kho, thời hạn và tách nhiệm vụ vẫn được kiểm tra."
+  },
+  {
+    "code": "UC_CURRENT_03",
+    "title": "Use case — Nhập hàng",
+    "notation": "UML use case",
+    "nodes": {
+      "actor": {
+        "name": "Người dùng có quyền tương ứng",
+        "lines": [],
+        "kind": "actor",
+        "x": 125.0,
+        "y": 267.5,
+        "w": 70,
+        "h": 105,
+        "lane": null
+      },
+      "order_view": {
+        "name": "Lập và theo dõi đơn mua / đơn bán",
+        "lines": [],
+        "kind": "usecase",
+        "x": 455.0,
+        "y": 162.0,
+        "w": 390,
+        "h": 66,
+        "lane": null
+      },
+      "approval_view": {
+        "name": "Phê duyệt hoặc từ chối chứng từ",
+        "lines": [],
+        "kind": "usecase",
+        "x": 455.0,
+        "y": 257.0,
+        "w": 390,
+        "h": 66,
+        "lane": null
+      },
+      "receipt_view": {
+        "name": "Tiếp nhận và ghi sổ hàng mua",
+        "lines": [],
+        "kind": "usecase",
+        "x": 455.0,
+        "y": 352.0,
+        "w": 390,
+        "h": 66,
+        "lane": null
+      },
+      "opening_view": {
+        "name": "Khai báo và ghi sổ tồn đầu kỳ",
+        "lines": [],
+        "kind": "usecase",
+        "x": 455.0,
+        "y": 447.0,
+        "w": 390,
+        "h": 66,
+        "lane": null
+      }
+    },
+    "edges": [
+      [
+        "actor",
+        "order_view",
+        ""
+      ],
+      [
+        "actor",
+        "approval_view",
+        ""
+      ],
+      [
+        "actor",
+        "receipt_view",
+        ""
+      ],
+      [
+        "actor",
+        "opening_view",
+        ""
+      ]
+    ],
+    "sources": [
+      "apps/desktop/views/admin_workspace.py",
+      "apps/desktop/views/orders.py",
+      "apps/desktop/views/approvals.py",
+      "apps/desktop/views/receipts.py",
+      "apps/desktop/views/openings.py"
+    ],
+    "width": 1100,
+    "height": 640,
+    "group": "Nhập hàng",
+    "feature_keys": [
+      "order_view",
+      "approval_view",
+      "receipt_view",
+      "opening_view"
+    ],
+    "note": "Actor chỉ tham gia use case khi được cấp quyền; scope kho, thời hạn và tách nhiệm vụ vẫn được kiểm tra."
+  },
+  {
+    "code": "UC_CURRENT_04",
+    "title": "Use case — Vận hành kho",
+    "notation": "UML use case",
+    "nodes": {
+      "actor": {
+        "name": "Người dùng có quyền tương ứng",
+        "lines": [],
+        "kind": "actor",
+        "x": 125.0,
+        "y": 207.5,
+        "w": 70,
+        "h": 105,
+        "lane": null
+      },
+      "issue_view": {
+        "name": "Giữ hàng và ghi sổ xuất kho",
+        "lines": [],
+        "kind": "usecase",
+        "x": 455.0,
+        "y": 162.0,
+        "w": 390,
+        "h": 66,
+        "lane": null
+      }
+    },
+    "edges": [
+      [
+        "actor",
+        "issue_view",
+        ""
+      ]
+    ],
+    "sources": [
+      "apps/desktop/views/admin_workspace.py",
+      "apps/desktop/views/issues.py"
+    ],
+    "width": 1100,
+    "height": 520,
+    "group": "Vận hành kho",
+    "feature_keys": [
+      "issue_view"
+    ],
+    "note": "Actor chỉ tham gia use case khi được cấp quyền; scope kho, thời hạn và tách nhiệm vụ vẫn được kiểm tra."
+  },
+  {
+    "code": "UC_CURRENT_05",
+    "title": "Use case — Kiểm soát",
+    "notation": "UML use case",
+    "nodes": {
+      "actor": {
+        "name": "Người dùng có quyền tương ứng",
+        "lines": [],
+        "kind": "actor",
+        "x": 125.0,
+        "y": 207.5,
+        "w": 70,
+        "h": 105,
+        "lane": null
+      },
+      "report_view": {
+        "name": "Tra cứu tồn và xuất báo cáo",
+        "lines": [],
+        "kind": "usecase",
+        "x": 455.0,
+        "y": 162.0,
+        "w": 390,
+        "h": 66,
+        "lane": null
+      }
+    },
+    "edges": [
+      [
+        "actor",
+        "report_view",
+        ""
+      ]
+    ],
+    "sources": [
+      "apps/desktop/views/admin_workspace.py",
+      "apps/desktop/views/reports.py"
+    ],
+    "width": 1100,
+    "height": 520,
+    "group": "Kiểm soát",
+    "feature_keys": [
+      "report_view"
+    ],
+    "note": "Actor chỉ tham gia use case khi được cấp quyền; scope kho, thời hạn và tách nhiệm vụ vẫn được kiểm tra."
+  },
+  {
+    "code": "UC_CURRENT_06",
+    "title": "Use case — Công cụ & hệ thống",
+    "notation": "UML use case",
+    "nodes": {
+      "actor": {
+        "name": "Người dùng có quyền tương ứng",
+        "lines": [],
+        "kind": "actor",
+        "x": 125.0,
+        "y": 267.5,
+        "w": 70,
+        "h": 105,
+        "lane": null
+      },
+      "print_view": {
+        "name": "Tạo PDF, in chứng từ và tem",
+        "lines": [],
+        "kind": "usecase",
+        "x": 455.0,
+        "y": 162.0,
+        "w": 390,
+        "h": 66,
+        "lane": null
+      },
+      "admin_view": {
+        "name": "Quản lý tài khoản và phân quyền",
+        "lines": [],
+        "kind": "usecase",
+        "x": 455.0,
+        "y": 257.0,
+        "w": 390,
+        "h": 66,
+        "lane": null
+      },
+      "recovery_view": {
+        "name": "Quản lý nháp và phục hồi lệnh",
+        "lines": [],
+        "kind": "usecase",
+        "x": 455.0,
+        "y": 352.0,
+        "w": 390,
+        "h": 66,
+        "lane": null
+      },
+      "connection_view": {
+        "name": "Kiểm tra kết nối máy chủ",
+        "lines": [],
+        "kind": "usecase",
+        "x": 455.0,
+        "y": 447.0,
+        "w": 390,
+        "h": 66,
+        "lane": null
+      }
+    },
+    "edges": [
+      [
+        "actor",
+        "print_view",
+        ""
+      ],
+      [
+        "actor",
+        "admin_view",
+        ""
+      ],
+      [
+        "actor",
+        "recovery_view",
+        ""
+      ],
+      [
+        "actor",
+        "connection_view",
+        ""
+      ]
+    ],
+    "sources": [
+      "apps/desktop/views/admin_workspace.py",
+      "apps/desktop/printing/view.py",
+      "apps/desktop/views/admin.py",
+      "apps/desktop/views/recovery.py",
+      "apps/desktop/views/shell.py"
+    ],
+    "width": 1100,
+    "height": 640,
+    "group": "Công cụ & hệ thống",
+    "feature_keys": [
+      "print_view",
+      "admin_view",
+      "recovery_view",
+      "connection_view"
+    ],
+    "note": "Actor chỉ tham gia use case khi được cấp quyền; scope kho, thời hạn và tách nhiệm vụ vẫn được kiểm tra."
+  },
+  {
+    "code": "ERD_app_user",
+    "title": "ERD · app_user",
+    "nodes": {
+      "app_user": {
+        "name": "app_user",
+        "lines": [
+          "PK id : uuid",
+          "username : character varying(100)",
+          "display_name : character varying(200)",
+          "password_hash : text",
+          "is_active : boolean",
+          "auth_version : integer",
+          "created_at : timestamp with time zone"
+        ]
+      }
+    },
+    "edges": [],
+    "sources": [
+      "02_CSDL/current/schema.json",
+      "migrations/001_schema.sql … 026_user_avatar.sql"
+    ],
+    "direction": "LR",
+    "notation": "Physical ERD",
+    "relations": []
+  },
+  {
+    "code": "ERD_approval_request",
+    "title": "ERD · approval_request",
+    "nodes": {
+      "approval_request": {
+        "name": "approval_request",
+        "lines": [
+          "PK id : uuid",
+          "FK document_id : uuid",
+          "document_version : integer",
+          "FK policy_id : uuid",
+          "FK requested_by : uuid",
+          "status : character varying(20)",
+          "created_at : timestamp with time zone",
+          "content_snapshot : jsonb ?"
+        ]
+      },
+      "document": {
+        "name": "document",
+        "lines": [
+          "id : uuid"
+        ]
+      },
+      "approval_policy": {
+        "name": "approval_policy",
+        "lines": [
+          "id : uuid"
+        ]
+      },
+      "app_user": {
+        "name": "app_user",
+        "lines": [
+          "id : uuid"
+        ]
+      }
+    },
+    "edges": [
+      [
+        "approval_request",
+        "document",
+        "document_id → id"
+      ],
+      [
+        "approval_request",
+        "approval_policy",
+        "policy_id → id"
+      ],
+      [
+        "approval_request",
+        "app_user",
+        "requested_by → id"
+      ]
+    ],
+    "sources": [
+      "02_CSDL/current/schema.json",
+      "migrations/001_schema.sql … 026_user_avatar.sql"
+    ],
+    "direction": "LR",
+    "notation": "Physical ERD",
+    "relations": [
+      {
+        "kind": "fk",
+        "source_columns": [
+          "document_id"
+        ],
+        "target_columns": [
+          "id"
+        ],
+        "constraint": "approval_request_document_id_fkey",
+        "source_cardinality": "0..*",
+        "target_cardinality": "1",
+        "identifying": false
+      },
+      {
+        "kind": "fk",
+        "source_columns": [
+          "policy_id"
+        ],
+        "target_columns": [
+          "id"
+        ],
+        "constraint": "approval_request_policy_id_fkey",
+        "source_cardinality": "0..*",
+        "target_cardinality": "1",
+        "identifying": false
+      },
+      {
+        "kind": "fk",
+        "source_columns": [
+          "requested_by"
+        ],
+        "target_columns": [
+          "id"
+        ],
+        "constraint": "approval_request_requested_by_fkey",
+        "source_cardinality": "0..*",
+        "target_cardinality": "1",
+        "identifying": false
+      }
+    ]
+  },
+  {
+    "code": "ERD_audit_event",
+    "title": "ERD · audit_event",
+    "nodes": {
+      "audit_event": {
+        "name": "audit_event",
+        "lines": [
+          "PK id : uuid",
+          "FK actor_id : uuid ?",
+          "FK warehouse_id : uuid ?",
+          "action : character varying(100)",
+          "entity_type : character varying(80)",
+          "entity_id : uuid ?",
+          "request_id : uuid",
+          "occurred_at : timestamp with time zone",
+          "before_data : jsonb ?",
+          "after_data : jsonb ?",
+          "reason : text ?"
+        ]
+      },
+      "app_user": {
+        "name": "app_user",
+        "lines": [
+          "id : uuid"
+        ]
+      },
+      "warehouse": {
+        "name": "warehouse",
+        "lines": [
+          "id : uuid"
+        ]
+      }
+    },
+    "edges": [
+      [
+        "audit_event",
+        "app_user",
+        "actor_id → id"
+      ],
+      [
+        "audit_event",
+        "warehouse",
+        "warehouse_id → id"
+      ]
+    ],
+    "sources": [
+      "02_CSDL/current/schema.json",
+      "migrations/001_schema.sql … 026_user_avatar.sql"
+    ],
+    "direction": "LR",
+    "notation": "Physical ERD",
+    "relations": [
+      {
+        "kind": "fk",
+        "source_columns": [
+          "actor_id"
+        ],
+        "target_columns": [
+          "id"
+        ],
+        "constraint": "audit_event_actor_id_fkey",
+        "source_cardinality": "0..*",
+        "target_cardinality": "0..1",
+        "identifying": false
+      },
+      {
+        "kind": "fk",
+        "source_columns": [
+          "warehouse_id"
+        ],
+        "target_columns": [
+          "id"
+        ],
+        "constraint": "audit_event_warehouse_id_fkey",
+        "source_cardinality": "0..*",
+        "target_cardinality": "0..1",
+        "identifying": false
+      }
+    ]
+  },
+  {
+    "code": "ERD_document",
+    "title": "ERD · document",
+    "nodes": {
+      "document": {
+        "name": "document",
+        "lines": [
+          "PK id : uuid",
+          "number : character varying(80)",
+          "kind : character varying(30)",
+          "status : character varying(20)",
+          "FK warehouse_id : uuid",
+          "FK destination_warehouse_id : uuid ?",
+          "FK transit_location_id : uuid ?",
+          "FK partner_id : uuid ?",
+          "business_date : date",
+          "FK created_by : uuid",
+          "created_at : timestamp with time zone",
+          "version : integer",
+          "reason : text ?",
+          "attributes : jsonb"
+        ]
+      },
+      "app_user": {
+        "name": "app_user",
+        "lines": [
+          "id : uuid"
+        ]
+      },
+      "warehouse": {
+        "name": "warehouse",
+        "lines": [
+          "id : uuid"
+        ]
+      },
+      "partner": {
+        "name": "partner",
+        "lines": [
+          "id : uuid"
+        ]
+      },
+      "location": {
+        "name": "location",
+        "lines": [
+          "id : uuid"
+        ]
+      }
+    },
+    "edges": [
+      [
+        "document",
+        "app_user",
+        "created_by → id"
+      ],
+      [
+        "document",
+        "warehouse",
+        "destination_warehouse_id → id"
+      ],
+      [
+        "document",
+        "partner",
+        "partner_id → id"
+      ],
+      [
+        "document",
+        "location",
+        "transit_location_id → id"
+      ],
+      [
+        "document",
+        "warehouse",
+        "warehouse_id → id"
+      ]
+    ],
+    "sources": [
+      "02_CSDL/current/schema.json",
+      "migrations/001_schema.sql … 026_user_avatar.sql"
+    ],
+    "direction": "LR",
+    "notation": "Physical ERD",
+    "relations": [
+      {
+        "kind": "fk",
+        "source_columns": [
+          "created_by"
+        ],
+        "target_columns": [
+          "id"
+        ],
+        "constraint": "document_created_by_fkey",
+        "source_cardinality": "0..*",
+        "target_cardinality": "1",
+        "identifying": false
+      },
+      {
+        "kind": "fk",
+        "source_columns": [
+          "destination_warehouse_id"
+        ],
+        "target_columns": [
+          "id"
+        ],
+        "constraint": "document_destination_warehouse_id_fkey",
+        "source_cardinality": "0..*",
+        "target_cardinality": "0..1",
+        "identifying": false
+      },
+      {
+        "kind": "fk",
+        "source_columns": [
+          "partner_id"
+        ],
+        "target_columns": [
+          "id"
+        ],
+        "constraint": "document_partner_id_fkey",
+        "source_cardinality": "0..*",
+        "target_cardinality": "0..1",
+        "identifying": false
+      },
+      {
+        "kind": "fk",
+        "source_columns": [
+          "transit_location_id"
+        ],
+        "target_columns": [
+          "id"
+        ],
+        "constraint": "document_transit_location_id_fkey",
+        "source_cardinality": "0..1",
+        "target_cardinality": "0..1",
+        "identifying": false
+      },
+      {
+        "kind": "fk",
+        "source_columns": [
+          "warehouse_id"
+        ],
+        "target_columns": [
+          "id"
+        ],
+        "constraint": "document_warehouse_id_fkey",
+        "source_cardinality": "0..*",
+        "target_cardinality": "1",
+        "identifying": false
+      }
+    ]
+  },
+  {
+    "code": "ERD_document_line",
+    "title": "ERD · document_line",
+    "nodes": {
+      "document_line": {
+        "name": "document_line",
+        "lines": [
+          "PK id : uuid",
+          "FK document_id : uuid",
+          "line_no : integer",
+          "FK product_id : uuid",
+          "FK uom_id : uuid",
+          "quantity : numeric(20,6)",
+          "factor_snapshot : numeric(20,8)",
+          "base_quantity : numeric(20,6)",
+          "FK source_line_id : uuid ?",
+          "reference_unit_price : numeric(20,4) ?",
+          "FK owner_id : uuid",
+          "FK consignment_id : uuid ?",
+          "closed_base_quantity : numeric(20,6)"
+        ]
+      },
+      "consignment_agreement": {
+        "name": "consignment_agreement",
+        "lines": [
+          "id : uuid"
+        ]
+      },
+      "document": {
+        "name": "document",
+        "lines": [
+          "id : uuid"
+        ]
+      },
+      "stock_owner": {
+        "name": "stock_owner",
+        "lines": [
+          "id : uuid"
+        ]
+      },
+      "product": {
+        "name": "product",
+        "lines": [
+          "id : uuid"
+        ]
+      },
+      "uom": {
+        "name": "uom",
+        "lines": [
+          "id : uuid"
+        ]
+      }
+    },
+    "edges": [
+      [
+        "document_line",
+        "consignment_agreement",
+        "consignment_id → id"
+      ],
+      [
+        "document_line",
+        "document",
+        "document_id → id"
+      ],
+      [
+        "document_line",
+        "stock_owner",
+        "owner_id → id"
+      ],
+      [
+        "document_line",
+        "product",
+        "product_id → id"
+      ],
+      [
+        "document_line",
+        "document_line",
+        "source_line_id → id"
+      ],
+      [
+        "document_line",
+        "uom",
+        "uom_id → id"
+      ]
+    ],
+    "sources": [
+      "02_CSDL/current/schema.json",
+      "migrations/001_schema.sql … 026_user_avatar.sql"
+    ],
+    "direction": "LR",
+    "notation": "Physical ERD",
+    "relations": [
+      {
+        "kind": "fk",
+        "source_columns": [
+          "consignment_id"
+        ],
+        "target_columns": [
+          "id"
+        ],
+        "constraint": "document_line_consignment_id_fkey",
+        "source_cardinality": "0..*",
+        "target_cardinality": "0..1",
+        "identifying": false
+      },
+      {
+        "kind": "fk",
+        "source_columns": [
+          "document_id"
+        ],
+        "target_columns": [
+          "id"
+        ],
+        "constraint": "document_line_document_id_fkey",
+        "source_cardinality": "0..*",
+        "target_cardinality": "1",
+        "identifying": false
+      },
+      {
+        "kind": "fk",
+        "source_columns": [
+          "owner_id"
+        ],
+        "target_columns": [
+          "id"
+        ],
+        "constraint": "document_line_owner_id_fkey",
+        "source_cardinality": "0..*",
+        "target_cardinality": "1",
+        "identifying": false
+      },
+      {
+        "kind": "fk",
+        "source_columns": [
+          "product_id"
+        ],
+        "target_columns": [
+          "id"
+        ],
+        "constraint": "document_line_product_id_fkey",
+        "source_cardinality": "0..*",
+        "target_cardinality": "1",
+        "identifying": false
+      },
+      {
+        "kind": "fk",
+        "source_columns": [
+          "source_line_id"
+        ],
+        "target_columns": [
+          "id"
+        ],
+        "constraint": "document_line_source_line_id_fkey",
+        "source_cardinality": "0..*",
+        "target_cardinality": "0..1",
+        "identifying": false
+      },
+      {
+        "kind": "fk",
+        "source_columns": [
+          "uom_id"
+        ],
+        "target_columns": [
+          "id"
+        ],
+        "constraint": "document_line_uom_id_fkey",
+        "source_cardinality": "0..*",
+        "target_cardinality": "1",
+        "identifying": false
+      }
+    ]
+  },
+  {
+    "code": "ERD_idempotency_record",
+    "title": "ERD · idempotency_record",
+    "nodes": {
+      "idempotency_record": {
+        "name": "idempotency_record",
+        "lines": [
+          "PK id : uuid",
+          "FK actor_id : uuid",
+          "key : uuid",
+          "command : character varying(100)",
+          "request_hash : character(64)",
+          "response : jsonb",
+          "http_status : integer",
+          "completed_at : timestamp with time zone",
+          "expires_at : timestamp with time zone"
+        ]
+      },
+      "app_user": {
+        "name": "app_user",
+        "lines": [
+          "id : uuid"
+        ]
+      }
+    },
+    "edges": [
+      [
+        "idempotency_record",
+        "app_user",
+        "actor_id → id"
+      ]
+    ],
+    "sources": [
+      "02_CSDL/current/schema.json",
+      "migrations/001_schema.sql … 026_user_avatar.sql"
+    ],
+    "direction": "LR",
+    "notation": "Physical ERD",
+    "relations": [
+      {
+        "kind": "fk",
+        "source_columns": [
+          "actor_id"
+        ],
+        "target_columns": [
+          "id"
+        ],
+        "constraint": "idempotency_record_actor_id_fkey",
+        "source_cardinality": "0..*",
+        "target_cardinality": "1",
+        "identifying": false
+      }
+    ]
+  },
+  {
+    "code": "ERD_inventory_transaction",
+    "title": "ERD · inventory_transaction",
+    "nodes": {
+      "inventory_transaction": {
+        "name": "inventory_transaction",
+        "lines": [
+          "PK id : uuid",
+          "FK document_id : uuid",
+          "execution_key : uuid",
+          "operation : character varying(30)",
+          "business_date : date",
+          "posted_at : timestamp with time zone",
+          "FK posted_by : uuid",
+          "FK reverses_transaction_id : uuid ?",
+          "request_hash : character(64) ?",
+          "response : jsonb ?"
+        ]
+      },
+      "document": {
+        "name": "document",
+        "lines": [
+          "id : uuid"
+        ]
+      },
+      "app_user": {
+        "name": "app_user",
+        "lines": [
+          "id : uuid"
+        ]
+      }
+    },
+    "edges": [
+      [
+        "inventory_transaction",
+        "document",
+        "document_id → id"
+      ],
+      [
+        "inventory_transaction",
+        "app_user",
+        "posted_by → id"
+      ],
+      [
+        "inventory_transaction",
+        "inventory_transaction",
+        "reverses_transaction_id → id"
+      ]
+    ],
+    "sources": [
+      "02_CSDL/current/schema.json",
+      "migrations/001_schema.sql … 026_user_avatar.sql"
+    ],
+    "direction": "LR",
+    "notation": "Physical ERD",
+    "relations": [
+      {
+        "kind": "fk",
+        "source_columns": [
+          "document_id"
+        ],
+        "target_columns": [
+          "id"
+        ],
+        "constraint": "inventory_transaction_document_id_fkey",
+        "source_cardinality": "0..*",
+        "target_cardinality": "1",
+        "identifying": false
+      },
+      {
+        "kind": "fk",
+        "source_columns": [
+          "posted_by"
+        ],
+        "target_columns": [
+          "id"
+        ],
+        "constraint": "inventory_transaction_posted_by_fkey",
+        "source_cardinality": "0..*",
+        "target_cardinality": "1",
+        "identifying": false
+      },
+      {
+        "kind": "fk",
+        "source_columns": [
+          "reverses_transaction_id"
+        ],
+        "target_columns": [
+          "id"
+        ],
+        "constraint": "inventory_transaction_reverses_transaction_id_fkey",
+        "source_cardinality": "0..1",
+        "target_cardinality": "0..1",
+        "identifying": false
+      }
+    ]
+  },
+  {
+    "code": "ERD_location",
+    "title": "ERD · location",
+    "nodes": {
+      "location": {
+        "name": "location",
+        "lines": [
+          "PK id : uuid",
+          "FK warehouse_id : uuid ?",
+          "FK parent_id : uuid ?",
+          "code : character varying(80)",
+          "name : character varying(160)",
+          "kind : character varying(20)",
+          "is_active : boolean",
+          "version : integer"
+        ]
+      },
+      "warehouse": {
+        "name": "warehouse",
+        "lines": [
+          "id : uuid"
+        ]
+      }
+    },
+    "edges": [
+      [
+        "location",
+        "location",
+        "parent_id → id"
+      ],
+      [
+        "location",
+        "warehouse",
+        "warehouse_id → id"
+      ]
+    ],
+    "sources": [
+      "02_CSDL/current/schema.json",
+      "migrations/001_schema.sql … 026_user_avatar.sql"
+    ],
+    "direction": "LR",
+    "notation": "Physical ERD",
+    "relations": [
+      {
+        "kind": "fk",
+        "source_columns": [
+          "parent_id"
+        ],
+        "target_columns": [
+          "id"
+        ],
+        "constraint": "location_parent_id_fkey",
+        "source_cardinality": "0..*",
+        "target_cardinality": "0..1",
+        "identifying": false
+      },
+      {
+        "kind": "fk",
+        "source_columns": [
+          "warehouse_id"
+        ],
+        "target_columns": [
+          "id"
+        ],
+        "constraint": "location_warehouse_id_fkey",
+        "source_cardinality": "0..*",
+        "target_cardinality": "0..1",
+        "identifying": false
+      }
+    ]
+  },
+  {
+    "code": "ERD_outbox_event",
+    "title": "ERD · outbox_event",
+    "nodes": {
+      "outbox_event": {
+        "name": "outbox_event",
+        "lines": [
+          "PK id : uuid",
+          "event_type : character varying(100)",
+          "aggregate_id : uuid",
+          "payload : jsonb",
+          "occurred_at : timestamp with time zone",
+          "available_at : timestamp with time zone",
+          "attempts : integer",
+          "processed_at : timestamp with time zone ?",
+          "last_error : text ?",
+          "version : integer",
+          "replay_count : integer",
+          "replayed_at : timestamp with time zone ?"
+        ]
+      }
+    },
+    "edges": [],
+    "sources": [
+      "02_CSDL/current/schema.json",
+      "migrations/001_schema.sql … 026_user_avatar.sql"
+    ],
+    "direction": "LR",
+    "notation": "Physical ERD",
+    "relations": []
+  },
+  {
+    "code": "ERD_partner",
+    "title": "ERD · partner",
+    "nodes": {
+      "partner": {
+        "name": "partner",
+        "lines": [
+          "PK id : uuid",
+          "code : character varying(60)",
+          "name : character varying(240)",
+          "is_customer : boolean",
+          "is_supplier : boolean",
+          "tax_code : character varying(40) ?",
+          "address : text ?",
+          "is_active : boolean",
+          "version : integer"
+        ]
+      }
+    },
+    "edges": [],
+    "sources": [
+      "02_CSDL/current/schema.json",
+      "migrations/001_schema.sql … 026_user_avatar.sql"
+    ],
+    "direction": "LR",
+    "notation": "Physical ERD",
+    "relations": []
+  },
+  {
+    "code": "ERD_permission",
+    "title": "ERD · permission",
+    "nodes": {
+      "permission": {
+        "name": "permission",
+        "lines": [
+          "PK id : uuid",
+          "code : character varying(100)",
+          "scope_kind : character varying(20)",
+          "description : text"
+        ]
+      }
+    },
+    "edges": [],
+    "sources": [
+      "02_CSDL/current/schema.json",
+      "migrations/001_schema.sql … 026_user_avatar.sql"
+    ],
+    "direction": "LR",
+    "notation": "Physical ERD",
+    "relations": []
+  },
+  {
+    "code": "ERD_product",
+    "title": "ERD · product",
+    "nodes": {
+      "product": {
+        "name": "product",
+        "lines": [
+          "PK id : uuid",
+          "sku : character varying(80)",
+          "name : character varying(240)",
+          "FK category_id : uuid ?",
+          "FK base_uom_id : uuid",
+          "tracking : character varying(10)",
+          "expiry_required : boolean",
+          "is_active : boolean",
+          "version : integer",
+          "attributes : jsonb"
+        ]
+      },
+      "uom": {
+        "name": "uom",
+        "lines": [
+          "id : uuid"
+        ]
+      },
+      "product_category": {
+        "name": "product_category",
+        "lines": [
+          "id : uuid"
+        ]
+      }
+    },
+    "edges": [
+      [
+        "product",
+        "uom",
+        "base_uom_id → id"
+      ],
+      [
+        "product",
+        "product_category",
+        "category_id → id"
+      ]
+    ],
+    "sources": [
+      "02_CSDL/current/schema.json",
+      "migrations/001_schema.sql … 026_user_avatar.sql"
+    ],
+    "direction": "LR",
+    "notation": "Physical ERD",
+    "relations": [
+      {
+        "kind": "fk",
+        "source_columns": [
+          "base_uom_id"
+        ],
+        "target_columns": [
+          "id"
+        ],
+        "constraint": "product_base_uom_id_fkey",
+        "source_cardinality": "0..*",
+        "target_cardinality": "1",
+        "identifying": false
+      },
+      {
+        "kind": "fk",
+        "source_columns": [
+          "category_id"
+        ],
+        "target_columns": [
+          "id"
+        ],
+        "constraint": "product_category_id_fkey",
+        "source_cardinality": "0..*",
+        "target_cardinality": "0..1",
+        "identifying": false
+      }
+    ]
+  },
+  {
+    "code": "ERD_reservation",
+    "title": "ERD · reservation",
+    "nodes": {
+      "reservation": {
+        "name": "reservation",
+        "lines": [
+          "PK id : uuid",
+          "FK line_id : uuid",
+          "FK stock_item_id : uuid",
+          "FK location_id : uuid",
+          "quantity : numeric(20,6)",
+          "consumed : numeric(20,6)",
+          "released : numeric(20,6)",
+          "expires_at : timestamp with time zone ?",
+          "FK created_by : uuid"
+        ]
+      },
+      "app_user": {
+        "name": "app_user",
+        "lines": [
+          "id : uuid"
+        ]
+      },
+      "document_line": {
+        "name": "document_line",
+        "lines": [
+          "id : uuid"
+        ]
+      },
+      "location": {
+        "name": "location",
+        "lines": [
+          "id : uuid"
+        ]
+      },
+      "stock_item": {
+        "name": "stock_item",
+        "lines": [
+          "id : uuid"
+        ]
+      }
+    },
+    "edges": [
+      [
+        "reservation",
+        "app_user",
+        "created_by → id"
+      ],
+      [
+        "reservation",
+        "document_line",
+        "line_id → id"
+      ],
+      [
+        "reservation",
+        "location",
+        "location_id → id"
+      ],
+      [
+        "reservation",
+        "stock_item",
+        "stock_item_id → id"
+      ]
+    ],
+    "sources": [
+      "02_CSDL/current/schema.json",
+      "migrations/001_schema.sql … 026_user_avatar.sql"
+    ],
+    "direction": "LR",
+    "notation": "Physical ERD",
+    "relations": [
+      {
+        "kind": "fk",
+        "source_columns": [
+          "created_by"
+        ],
+        "target_columns": [
+          "id"
+        ],
+        "constraint": "reservation_created_by_fkey",
+        "source_cardinality": "0..*",
+        "target_cardinality": "1",
+        "identifying": false
+      },
+      {
+        "kind": "fk",
+        "source_columns": [
+          "line_id"
+        ],
+        "target_columns": [
+          "id"
+        ],
+        "constraint": "reservation_line_id_fkey",
+        "source_cardinality": "0..*",
+        "target_cardinality": "1",
+        "identifying": false
+      },
+      {
+        "kind": "fk",
+        "source_columns": [
+          "location_id"
+        ],
+        "target_columns": [
+          "id"
+        ],
+        "constraint": "reservation_location_id_fkey",
+        "source_cardinality": "0..*",
+        "target_cardinality": "1",
+        "identifying": false
+      },
+      {
+        "kind": "fk",
+        "source_columns": [
+          "stock_item_id"
+        ],
+        "target_columns": [
+          "id"
+        ],
+        "constraint": "reservation_stock_item_id_fkey",
+        "source_cardinality": "0..*",
+        "target_cardinality": "1",
+        "identifying": false
+      }
+    ]
+  },
+  {
+    "code": "ERD_role",
+    "title": "ERD · role",
+    "nodes": {
+      "role": {
+        "name": "role",
+        "lines": [
+          "PK id : uuid",
+          "code : character varying(60)",
+          "name : character varying(160)",
+          "is_active : boolean"
+        ]
+      }
+    },
+    "edges": [],
+    "sources": [
+      "02_CSDL/current/schema.json",
+      "migrations/001_schema.sql … 026_user_avatar.sql"
+    ],
+    "direction": "LR",
+    "notation": "Physical ERD",
+    "relations": []
+  },
+  {
+    "code": "ERD_stock_balance",
+    "title": "ERD · stock_balance",
+    "nodes": {
+      "stock_balance": {
+        "name": "stock_balance",
+        "lines": [
+          "PK id : uuid",
+          "FK stock_item_id : uuid",
+          "FK location_id : uuid",
+          "on_hand : numeric(20,6)",
+          "reserved : numeric(20,6)",
+          "version : bigint"
+        ]
+      },
+      "location": {
+        "name": "location",
+        "lines": [
+          "id : uuid"
+        ]
+      },
+      "stock_item": {
+        "name": "stock_item",
+        "lines": [
+          "id : uuid"
+        ]
+      }
+    },
+    "edges": [
+      [
+        "stock_balance",
+        "location",
+        "location_id → id"
+      ],
+      [
+        "stock_balance",
+        "stock_item",
+        "stock_item_id → id"
+      ]
+    ],
+    "sources": [
+      "02_CSDL/current/schema.json",
+      "migrations/001_schema.sql … 026_user_avatar.sql"
+    ],
+    "direction": "LR",
+    "notation": "Physical ERD",
+    "relations": [
+      {
+        "kind": "fk",
+        "source_columns": [
+          "location_id"
+        ],
+        "target_columns": [
+          "id"
+        ],
+        "constraint": "stock_balance_location_id_fkey",
+        "source_cardinality": "0..*",
+        "target_cardinality": "1",
+        "identifying": false
+      },
+      {
+        "kind": "fk",
+        "source_columns": [
+          "stock_item_id"
+        ],
+        "target_columns": [
+          "id"
+        ],
+        "constraint": "stock_balance_stock_item_id_fkey",
+        "source_cardinality": "0..*",
+        "target_cardinality": "1",
+        "identifying": false
+      }
+    ]
+  },
+  {
+    "code": "ERD_stock_item",
+    "title": "ERD · stock_item",
+    "nodes": {
+      "stock_item": {
+        "name": "stock_item",
+        "lines": [
+          "PK id : uuid",
+          "FK product_id : uuid",
+          "FK lot_id : uuid ?",
+          "FK serial_id : uuid ?",
+          "FK owner_id : uuid",
+          "FK consignment_id : uuid ?"
+        ]
+      },
+      "consignment_agreement": {
+        "name": "consignment_agreement",
+        "lines": [
+          "id : uuid"
+        ]
+      },
+      "lot": {
+        "name": "lot",
+        "lines": [
+          "id : uuid"
+        ]
+      },
+      "stock_owner": {
+        "name": "stock_owner",
+        "lines": [
+          "id : uuid"
+        ]
+      },
+      "product": {
+        "name": "product",
+        "lines": [
+          "id : uuid"
+        ]
+      },
+      "serial": {
+        "name": "serial",
+        "lines": [
+          "id : uuid"
+        ]
+      }
+    },
+    "edges": [
+      [
+        "stock_item",
+        "consignment_agreement",
+        "consignment_id → id"
+      ],
+      [
+        "stock_item",
+        "lot",
+        "lot_id → id"
+      ],
+      [
+        "stock_item",
+        "stock_owner",
+        "owner_id → id"
+      ],
+      [
+        "stock_item",
+        "product",
+        "product_id → id"
+      ],
+      [
+        "stock_item",
+        "serial",
+        "serial_id → id"
+      ]
+    ],
+    "sources": [
+      "02_CSDL/current/schema.json",
+      "migrations/001_schema.sql … 026_user_avatar.sql"
+    ],
+    "direction": "LR",
+    "notation": "Physical ERD",
+    "relations": [
+      {
+        "kind": "fk",
+        "source_columns": [
+          "consignment_id"
+        ],
+        "target_columns": [
+          "id"
+        ],
+        "constraint": "stock_item_consignment_id_fkey",
+        "source_cardinality": "0..*",
+        "target_cardinality": "0..1",
+        "identifying": false
+      },
+      {
+        "kind": "fk",
+        "source_columns": [
+          "lot_id"
+        ],
+        "target_columns": [
+          "id"
+        ],
+        "constraint": "stock_item_lot_id_fkey",
+        "source_cardinality": "0..*",
+        "target_cardinality": "0..1",
+        "identifying": false
+      },
+      {
+        "kind": "fk",
+        "source_columns": [
+          "owner_id"
+        ],
+        "target_columns": [
+          "id"
+        ],
+        "constraint": "stock_item_owner_id_fkey",
+        "source_cardinality": "0..*",
+        "target_cardinality": "1",
+        "identifying": false
+      },
+      {
+        "kind": "fk",
+        "source_columns": [
+          "product_id"
+        ],
+        "target_columns": [
+          "id"
+        ],
+        "constraint": "stock_item_product_id_fkey",
+        "source_cardinality": "0..*",
+        "target_cardinality": "1",
+        "identifying": false
+      },
+      {
+        "kind": "fk",
+        "source_columns": [
+          "serial_id"
+        ],
+        "target_columns": [
+          "id"
+        ],
+        "constraint": "stock_item_serial_id_fkey",
+        "source_cardinality": "0..*",
+        "target_cardinality": "0..1",
+        "identifying": false
+      }
+    ]
+  },
+  {
+    "code": "ERD_stock_move",
+    "title": "ERD · stock_move",
+    "nodes": {
+      "stock_move": {
+        "name": "stock_move",
+        "lines": [
+          "PK id : uuid",
+          "FK transaction_id : uuid",
+          "FK line_id : uuid",
+          "FK stock_item_id : uuid",
+          "FK source_location_id : uuid",
+          "FK destination_location_id : uuid",
+          "quantity_base : numeric(20,6)",
+          "FK base_uom_id : uuid",
+          "FK reverses_move_id : uuid ?"
+        ]
+      },
+      "uom": {
+        "name": "uom",
+        "lines": [
+          "id : uuid"
+        ]
+      },
+      "location": {
+        "name": "location",
+        "lines": [
+          "id : uuid"
+        ]
+      },
+      "document_line": {
+        "name": "document_line",
+        "lines": [
+          "id : uuid"
+        ]
+      },
+      "stock_item": {
+        "name": "stock_item",
+        "lines": [
+          "id : uuid"
+        ]
+      },
+      "inventory_transaction": {
+        "name": "inventory_transaction",
+        "lines": [
+          "id : uuid"
+        ]
+      }
+    },
+    "edges": [
+      [
+        "stock_move",
+        "uom",
+        "base_uom_id → id"
+      ],
+      [
+        "stock_move",
+        "location",
+        "destination_location_id → id"
+      ],
+      [
+        "stock_move",
+        "document_line",
+        "line_id → id"
+      ],
+      [
+        "stock_move",
+        "stock_move",
+        "reverses_move_id → id"
+      ],
+      [
+        "stock_move",
+        "location",
+        "source_location_id → id"
+      ],
+      [
+        "stock_move",
+        "stock_item",
+        "stock_item_id → id"
+      ],
+      [
+        "stock_move",
+        "inventory_transaction",
+        "transaction_id → id"
+      ]
+    ],
+    "sources": [
+      "02_CSDL/current/schema.json",
+      "migrations/001_schema.sql … 026_user_avatar.sql"
+    ],
+    "direction": "LR",
+    "notation": "Physical ERD",
+    "relations": [
+      {
+        "kind": "fk",
+        "source_columns": [
+          "base_uom_id"
+        ],
+        "target_columns": [
+          "id"
+        ],
+        "constraint": "stock_move_base_uom_id_fkey",
+        "source_cardinality": "0..*",
+        "target_cardinality": "1",
+        "identifying": false
+      },
+      {
+        "kind": "fk",
+        "source_columns": [
+          "destination_location_id"
+        ],
+        "target_columns": [
+          "id"
+        ],
+        "constraint": "stock_move_destination_location_id_fkey",
+        "source_cardinality": "0..*",
+        "target_cardinality": "1",
+        "identifying": false
+      },
+      {
+        "kind": "fk",
+        "source_columns": [
+          "line_id"
+        ],
+        "target_columns": [
+          "id"
+        ],
+        "constraint": "stock_move_line_id_fkey",
+        "source_cardinality": "0..*",
+        "target_cardinality": "1",
+        "identifying": false
+      },
+      {
+        "kind": "fk",
+        "source_columns": [
+          "reverses_move_id"
+        ],
+        "target_columns": [
+          "id"
+        ],
+        "constraint": "stock_move_reverses_move_id_fkey",
+        "source_cardinality": "0..1",
+        "target_cardinality": "0..1",
+        "identifying": false
+      },
+      {
+        "kind": "fk",
+        "source_columns": [
+          "source_location_id"
+        ],
+        "target_columns": [
+          "id"
+        ],
+        "constraint": "stock_move_source_location_id_fkey",
+        "source_cardinality": "0..*",
+        "target_cardinality": "1",
+        "identifying": false
+      },
+      {
+        "kind": "fk",
+        "source_columns": [
+          "stock_item_id"
+        ],
+        "target_columns": [
+          "id"
+        ],
+        "constraint": "stock_move_stock_item_id_fkey",
+        "source_cardinality": "0..*",
+        "target_cardinality": "1",
+        "identifying": false
+      },
+      {
+        "kind": "fk",
+        "source_columns": [
+          "transaction_id"
+        ],
+        "target_columns": [
+          "id"
+        ],
+        "constraint": "stock_move_transaction_id_fkey",
+        "source_cardinality": "0..*",
+        "target_cardinality": "1",
+        "identifying": false
+      }
+    ]
+  },
+  {
+    "code": "ERD_stock_period",
+    "title": "ERD · stock_period",
+    "nodes": {
+      "stock_period": {
+        "name": "stock_period",
+        "lines": [
+          "PK id : uuid",
+          "FK warehouse_id : uuid",
+          "starts_on : date",
+          "ends_on : date",
+          "status : character varying(10)",
+          "FK closed_by : uuid ?",
+          "closed_at : timestamp with time zone ?",
+          "version : integer"
+        ]
+      },
+      "app_user": {
+        "name": "app_user",
+        "lines": [
+          "id : uuid"
+        ]
+      },
+      "warehouse": {
+        "name": "warehouse",
+        "lines": [
+          "id : uuid"
+        ]
+      }
+    },
+    "edges": [
+      [
+        "stock_period",
+        "app_user",
+        "closed_by → id"
+      ],
+      [
+        "stock_period",
+        "warehouse",
+        "warehouse_id → id"
+      ]
+    ],
+    "sources": [
+      "02_CSDL/current/schema.json",
+      "migrations/001_schema.sql … 026_user_avatar.sql"
+    ],
+    "direction": "LR",
+    "notation": "Physical ERD",
+    "relations": [
+      {
+        "kind": "fk",
+        "source_columns": [
+          "closed_by"
+        ],
+        "target_columns": [
+          "id"
+        ],
+        "constraint": "stock_period_closed_by_fkey",
+        "source_cardinality": "0..*",
+        "target_cardinality": "0..1",
+        "identifying": false
+      },
+      {
+        "kind": "fk",
+        "source_columns": [
+          "warehouse_id"
+        ],
+        "target_columns": [
+          "id"
+        ],
+        "constraint": "stock_period_warehouse_id_fkey",
+        "source_cardinality": "0..*",
+        "target_cardinality": "1",
+        "identifying": false
+      }
+    ]
+  },
+  {
+    "code": "ERD_uom",
+    "title": "ERD · uom",
+    "nodes": {
+      "uom": {
+        "name": "uom",
+        "lines": [
+          "PK id : uuid",
+          "code : character varying(30)",
+          "name : character varying(80)",
+          "decimal_places : integer",
+          "version : integer",
+          "is_active : boolean"
+        ]
+      }
+    },
+    "edges": [],
+    "sources": [
+      "02_CSDL/current/schema.json",
+      "migrations/001_schema.sql … 026_user_avatar.sql"
+    ],
+    "direction": "LR",
+    "notation": "Physical ERD",
+    "relations": []
+  },
+  {
+    "code": "ERD_user_role_grant",
+    "title": "ERD · user_role_grant",
+    "nodes": {
+      "user_role_grant": {
+        "name": "user_role_grant",
+        "lines": [
+          "PK id : uuid",
+          "FK user_id : uuid",
+          "FK role_id : uuid",
+          "scope_kind : character varying(20)",
+          "FK warehouse_id : uuid ?",
+          "valid_from : timestamp with time zone",
+          "valid_until : timestamp with time zone ?",
+          "FK granted_by : uuid",
+          "revoked_at : timestamp with time zone ?"
+        ]
+      },
+      "app_user": {
+        "name": "app_user",
+        "lines": [
+          "id : uuid"
+        ]
+      },
+      "role": {
+        "name": "role",
+        "lines": [
+          "id : uuid"
+        ]
+      },
+      "warehouse": {
+        "name": "warehouse",
+        "lines": [
+          "id : uuid"
+        ]
+      }
+    },
+    "edges": [
+      [
+        "user_role_grant",
+        "app_user",
+        "granted_by → id"
+      ],
+      [
+        "user_role_grant",
+        "role",
+        "role_id → id"
+      ],
+      [
+        "user_role_grant",
+        "app_user",
+        "user_id → id"
+      ],
+      [
+        "user_role_grant",
+        "warehouse",
+        "warehouse_id → id"
+      ]
+    ],
+    "sources": [
+      "02_CSDL/current/schema.json",
+      "migrations/001_schema.sql … 026_user_avatar.sql"
+    ],
+    "direction": "LR",
+    "notation": "Physical ERD",
+    "relations": [
+      {
+        "kind": "fk",
+        "source_columns": [
+          "granted_by"
+        ],
+        "target_columns": [
+          "id"
+        ],
+        "constraint": "user_role_grant_granted_by_fkey",
+        "source_cardinality": "0..*",
+        "target_cardinality": "1",
+        "identifying": false
+      },
+      {
+        "kind": "fk",
+        "source_columns": [
+          "role_id"
+        ],
+        "target_columns": [
+          "id"
+        ],
+        "constraint": "user_role_grant_role_id_fkey",
+        "source_cardinality": "0..*",
+        "target_cardinality": "1",
+        "identifying": false
+      },
+      {
+        "kind": "fk",
+        "source_columns": [
+          "user_id"
+        ],
+        "target_columns": [
+          "id"
+        ],
+        "constraint": "user_role_grant_user_id_fkey",
+        "source_cardinality": "0..*",
+        "target_cardinality": "1",
+        "identifying": false
+      },
+      {
+        "kind": "fk",
+        "source_columns": [
+          "warehouse_id"
+        ],
+        "target_columns": [
+          "id"
+        ],
+        "constraint": "user_role_grant_warehouse_id_fkey",
+        "source_cardinality": "0..*",
+        "target_cardinality": "0..1",
+        "identifying": false
+      }
+    ]
+  },
+  {
+    "code": "ERD_warehouse",
+    "title": "ERD · warehouse",
+    "nodes": {
+      "warehouse": {
+        "name": "warehouse",
+        "lines": [
+          "PK id : uuid",
+          "code : character varying(40)",
+          "name : character varying(160)",
+          "address : text ?",
+          "is_active : boolean",
+          "version : integer"
+        ]
+      }
+    },
+    "edges": [],
+    "sources": [
+      "02_CSDL/current/schema.json",
+      "migrations/001_schema.sql … 026_user_avatar.sql"
+    ],
+    "direction": "LR",
+    "notation": "Physical ERD",
+    "relations": []
+  }
+]

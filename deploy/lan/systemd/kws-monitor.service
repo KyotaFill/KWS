@@ -1,0 +1,25 @@
+[Unit]
+Description=Check KWS schema, private storage and all six worker heartbeats
+After=kws-api.service
+PartOf=kws.target
+
+[Service]
+Type=oneshot
+User=kws
+Group=kws
+WorkingDirectory=/opt/kws/current
+LoadCredential=mfa.env:/etc/kws/mfa.env
+ExecStart=/opt/kws/current/venv/bin/python -I /opt/kws/current/lan_runtime.py monitor
+NoNewPrivileges=true
+ProtectSystem=strict
+ProtectHome=true
+PrivateTmp=true
+PrivateDevices=true
+CapabilityBoundingSet=
+ReadWritePaths=/srv/kws/export /srv/kws/print
+UMask=0077
+LimitCORE=0
+TimeoutStartSec=120
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=kws-monitor

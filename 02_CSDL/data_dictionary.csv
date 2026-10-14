@@ -1,0 +1,356 @@
+﻿module,table,column,data_type,nullable,references,description_vi
+master,organization,id,uuid,NO,,Định danh ổn định do ứng dụng tạo (UUID).
+master,organization,code,varchar(40),NO,,Mã doanh nghiệp duy nhất
+master,organization,name,varchar(200),NO,,Tên doanh nghiệp
+master,organization,timezone,varchar(80),NO,,"Múi giờ IANA, mặc định cấu hình Asia/Ho_Chi_Minh"
+master,organization,currency,char(3),NO,,Tiền tệ tham chiếu VND
+iam,app_user,id,uuid,NO,,Định danh ổn định do ứng dụng tạo (UUID).
+iam,app_user,username,varchar(100),NO,,Tên đăng nhập chuẩn hóa chữ thường
+iam,app_user,display_name,varchar(200),NO,,Tên hiển thị
+iam,app_user,password_hash,text,NO,,Hash mật khẩu; không lưu plaintext
+iam,app_user,is_active,boolean,NO,,Khóa user được kiểm tra trên mỗi lệnh
+iam,app_user,auth_version,integer,NO,,Tăng khi thu hồi toàn bộ phiên hoặc thay đổi bảo mật
+iam,app_user,created_at,timestamptz,NO,,Thời điểm tạo
+iam,role,id,uuid,NO,,Định danh ổn định do ứng dụng tạo (UUID).
+iam,role,code,varchar(60),NO,,Mã vai trò
+iam,role,name,varchar(160),NO,,Tên vai trò
+iam,role,is_active,boolean,NO,,Còn hiệu lực
+iam,permission,id,uuid,NO,,Định danh ổn định do ứng dụng tạo (UUID).
+iam,permission,code,varchar(100),NO,,Mã quyền theo file permissions.csv
+iam,permission,scope_kind,varchar(20),NO,,WAREHOUSE hoặc GLOBAL
+iam,permission,description,text,NO,,Hành động được cấp
+iam,role_permission,id,uuid,NO,,Định danh ổn định do ứng dụng tạo (UUID).
+iam,role_permission,role_id,uuid,NO,role.id,Vai trò
+iam,role_permission,permission_id,uuid,NO,permission.id,Quyền
+iam,user_role_grant,id,uuid,NO,,Định danh ổn định do ứng dụng tạo (UUID).
+iam,user_role_grant,user_id,uuid,NO,app_user.id,Tài khoản được cấp
+iam,user_role_grant,role_id,uuid,NO,role.id,Vai trò được cấp
+iam,user_role_grant,scope_kind,varchar(20),NO,,"GLOBAL, WAREHOUSE hoặc ALL_WAREHOUSES"
+iam,user_role_grant,warehouse_id,uuid,YES,warehouse.id,Chỉ có khi scope WAREHOUSE
+iam,user_role_grant,valid_from,timestamptz,NO,,Bắt đầu hiệu lực
+iam,user_role_grant,valid_until,timestamptz,YES,,Hết hạn tùy chọn
+iam,user_role_grant,granted_by,uuid,NO,app_user.id,Người cấp
+iam,user_role_grant,revoked_at,timestamptz,YES,,"Thu hồi, không xóa lịch sử"
+iam,auth_session,id,uuid,NO,,Định danh ổn định do ứng dụng tạo (UUID).
+iam,auth_session,user_id,uuid,NO,app_user.id,Chủ phiên
+iam,auth_session,refresh_hash,text,NO,,Hash token xoay vòng
+iam,auth_session,device_id,uuid,NO,,ID cài đặt desktop
+iam,auth_session,auth_version,integer,NO,,Phiên bản xác thực lúc phát hành
+iam,auth_session,expires_at,timestamptz,NO,,Hạn phiên
+iam,auth_session,revoked_at,timestamptz,YES,,Thời điểm thu hồi
+iam,mfa_factor,id,uuid,NO,,Định danh ổn định do ứng dụng tạo (UUID).
+iam,mfa_factor,user_id,uuid,NO,app_user.id,Chủ yếu tố
+iam,mfa_factor,kind,varchar(30),NO,,TOTP hoặc WEBAUTHN khi triển khai
+iam,mfa_factor,credential_ciphertext,text,NO,,Bí mật mã hóa hoặc public credential theo loại
+iam,mfa_factor,verified_at,timestamptz,YES,,Đã xác minh
+iam,mfa_factor,revoked_at,timestamptz,YES,,Thu hồi
+master,warehouse,id,uuid,NO,,Định danh ổn định do ứng dụng tạo (UUID).
+master,warehouse,code,varchar(40),NO,,Mã kho
+master,warehouse,name,varchar(160),NO,,Tên kho
+master,warehouse,address,text,YES,,Địa chỉ
+master,warehouse,is_active,boolean,NO,,Cho dùng mới
+master,location,id,uuid,NO,,Định danh ổn định do ứng dụng tạo (UUID).
+master,location,warehouse_id,uuid,YES,warehouse.id,Kho sở hữu; rỗng cho EXTERNAL/TRANSIT/LOSS/OPENING
+master,location,parent_id,uuid,YES,location.id,"Cha trong cùng kho, service chặn chu kỳ"
+master,location,code,varchar(80),NO,,Mã vị trí duy nhất toàn hệ thống
+master,location,name,varchar(160),NO,,Tên vị trí
+master,location,kind,varchar(20),NO,,"GROUP, STORAGE, RECEIVING, QUARANTINE, SHIPPING, TRANSIT, EXTERNAL, LOSS, OPENING"
+master,location,is_active,boolean,NO,,Cho dùng mới
+master,uom,id,uuid,NO,,Định danh ổn định do ứng dụng tạo (UUID).
+master,uom,code,varchar(30),NO,,Mã đơn vị
+master,uom,name,varchar(80),NO,,Tên đơn vị
+master,uom,decimal_places,integer,NO,,Số lẻ tối đa cho phép từ 0 tới 6
+master,product_category,id,uuid,NO,,Định danh ổn định do ứng dụng tạo (UUID).
+master,product_category,code,varchar(40),NO,,Mã nhóm
+master,product_category,name,varchar(160),NO,,Tên nhóm
+master,product_category,parent_id,uuid,YES,product_category.id,Nhóm cha
+master,product,id,uuid,NO,,Định danh ổn định do ứng dụng tạo (UUID).
+master,product,sku,varchar(80),NO,,Mã SKU duy nhất
+master,product,name,varchar(240),NO,,Tên hàng
+master,product,category_id,uuid,YES,product_category.id,Nhóm hàng
+master,product,base_uom_id,uuid,NO,uom.id,Đơn vị sổ kho
+master,product,tracking,varchar(10),NO,,"NONE, LOT hoặc SERIAL"
+master,product,expiry_required,boolean,NO,,Chỉ bật cho LOT trong bản cơ sở
+master,product,is_active,boolean,NO,,Ngừng dùng vẫn giữ lịch sử
+master,product,version,integer,NO,,Optimistic concurrency
+master,product,attributes,jsonb,NO,,"Trường bổ sung đã khai báo, không chứa lượng/quyền/trạng thái lõi"
+master,product_uom,id,uuid,NO,,Định danh ổn định do ứng dụng tạo (UUID).
+master,product_uom,product_id,uuid,NO,product.id,SKU
+master,product_uom,uom_id,uuid,NO,uom.id,Đơn vị
+master,product_uom,factor,"numeric(20,8)",NO,,Một đơn vị nhập bằng bao nhiêu đơn vị cơ sở
+master,product_uom,revision,integer,NO,,Phiên bản quy đổi
+master,product_uom,is_active,boolean,NO,,Chỉ một phiên bản hoạt động mỗi SKU/đơn vị (partial unique SQL)
+master,barcode,id,uuid,NO,,Định danh ổn định do ứng dụng tạo (UUID).
+master,barcode,code,varchar(160),NO,,"Giữ số 0 đầu, không tự đổi sang số"
+master,barcode,product_uom_id,uuid,NO,product_uom.id,SKU và quy cách quét
+master,barcode,is_active,boolean,NO,,Được dùng để quét mới
+master,partner,id,uuid,NO,,Định danh ổn định do ứng dụng tạo (UUID).
+master,partner,code,varchar(60),NO,,Mã đối tác
+master,partner,name,varchar(240),NO,,Tên đối tác
+master,partner,is_customer,boolean,NO,,Là khách hàng
+master,partner,is_supplier,boolean,NO,,Là nhà cung cấp
+master,partner,tax_code,varchar(40),YES,,Thông tin tham chiếu
+master,partner,address,text,YES,,Địa chỉ
+master,partner,is_active,boolean,NO,,Còn hoạt động
+inventory,lot,id,uuid,NO,,Định danh ổn định do ứng dụng tạo (UUID).
+inventory,lot,product_id,uuid,NO,product.id,SKU theo lô
+inventory,lot,code,varchar(100),NO,,Mã lô theo SKU
+inventory,lot,manufactured_on,date,YES,,Ngày sản xuất
+inventory,lot,expires_on,date,YES,,Ngày hết hạn; hết hạn từ đầu ngày tiếp theo theo timezone doanh nghiệp
+inventory,lot,version,integer,NO,,Chống sửa đè
+inventory,serial,id,uuid,NO,,Định danh ổn định do ứng dụng tạo (UUID).
+inventory,serial,product_id,uuid,NO,product.id,SKU theo serial
+inventory,serial,code,varchar(160),NO,,Số serial
+inventory,stock_item,id,uuid,NO,,Định danh ổn định do ứng dụng tạo (UUID).
+inventory,stock_item,product_id,uuid,NO,product.id,SKU
+inventory,stock_item,lot_id,uuid,YES,lot.id,Lô hoặc rỗng
+inventory,stock_item,serial_id,uuid,YES,serial.id,Serial hoặc rỗng
+master,reference_price,id,uuid,NO,,Định danh ổn định do ứng dụng tạo (UUID).
+master,reference_price,product_id,uuid,NO,product.id,SKU
+master,reference_price,effective_on,date,NO,,"Áp dụng từ ngày, đến trước bản tiếp theo"
+master,reference_price,amount,"numeric(20,4)",NO,,Giá cho một đơn vị cơ sở
+master,reference_price,currency,char(3),NO,,VND ở bản cơ sở
+master,reference_price,source,text,NO,,Nguồn tham chiếu
+master,reference_price,created_by,uuid,NO,app_user.id,Người cập nhật
+documents,document,id,uuid,NO,,Định danh ổn định do ứng dụng tạo (UUID).
+documents,document,number,varchar(80),NO,,Mã phiếu duy nhất do sequence service cấp
+documents,document,kind,varchar(30),NO,,"PO, SO, RECEIPT, ISSUE, TRANSFER, CUSTOMER_RETURN, SUPPLIER_RETURN, INTERNAL_MOVE, ADJUSTMENT, OPENING, REVERSAL"
+documents,document,status,varchar(20),NO,,"DRAFT, SUBMITTED, APPROVED, REJECTED, PARTIAL, COMPLETED, CANCELLED"
+documents,document,warehouse_id,uuid,NO,warehouse.id,Kho tác nghiệp chính; với transfer là nguồn
+documents,document,destination_warehouse_id,uuid,YES,warehouse.id,Kho đích chuyển
+documents,document,transit_location_id,uuid,YES,location.id,Vị trí TRANSIT riêng một phiếu chuyển
+documents,document,partner_id,uuid,YES,partner.id,Đối tác theo loại
+documents,document,business_date,date,NO,,Ngày nghiệp vụ
+documents,document,created_by,uuid,NO,app_user.id,Người tạo
+documents,document,created_at,timestamptz,NO,,Thời điểm tạo
+documents,document,version,integer,NO,,Tăng mọi thay đổi nghiệp vụ
+documents,document,reason,text,YES,,Lý do hủy/điều chỉnh/ngoại lệ
+documents,document,attributes,jsonb,NO,,Thuộc tính mở rộng đã validate
+documents,document_line,id,uuid,NO,,Định danh ổn định do ứng dụng tạo (UUID).
+documents,document_line,document_id,uuid,NO,document.id,Phiếu cha
+documents,document_line,line_no,integer,NO,,Số dòng trong phiếu
+documents,document_line,product_id,uuid,NO,product.id,SKU
+documents,document_line,uom_id,uuid,NO,uom.id,Đơn vị nhập
+documents,document_line,quantity,"numeric(20,6)",NO,,"Lượng yêu cầu, dương"
+documents,document_line,factor_snapshot,"numeric(20,8)",NO,,Tỷ lệ quy đổi lúc lập/duyệt
+documents,document_line,base_quantity,"numeric(20,6)",NO,,Lượng cơ sở sau validation độ chính xác
+documents,document_line,source_line_id,uuid,YES,document_line.id,Dòng PO/SO hoặc dòng xuất/nhập gốc cho hàng trả
+documents,document_line,reference_unit_price,"numeric(20,4)",YES,,Giá tham chiếu tại thời điểm lập; quyền giá riêng
+documents,document_link,id,uuid,NO,,Định danh ổn định do ứng dụng tạo (UUID).
+documents,document_link,document_id,uuid,NO,document.id,Phiếu hiện tại
+documents,document_link,related_document_id,uuid,NO,document.id,Phiếu liên quan
+documents,document_link,relation,varchar(30),NO,,"REVERSES, COMPENSATES, RETURN_OF, LOSS_OF, FULFILLS"
+documents,document_assignment,id,uuid,NO,,Định danh ổn định do ứng dụng tạo (UUID).
+documents,document_assignment,document_id,uuid,NO,document.id,Phiếu
+documents,document_assignment,user_id,uuid,NO,app_user.id,Người được phân công
+documents,document_assignment,assigned_by,uuid,NO,app_user.id,Người giao
+inventory,inventory_transaction,id,uuid,NO,,Định danh ổn định do ứng dụng tạo (UUID).
+inventory,inventory_transaction,document_id,uuid,NO,document.id,Phiếu tác nghiệp
+inventory,inventory_transaction,execution_key,uuid,NO,,"Định danh lần thực hiện từng phần, bền vững kể cả idempotency hết hạn"
+inventory,inventory_transaction,operation,varchar(30),NO,,"RECEIVE, ISSUE, DISPATCH, ARRIVE, MOVE, ADJUST, OPEN, REVERSE"
+inventory,inventory_transaction,business_date,date,NO,,Ngày nghiệp vụ được kiểm tra kỳ khóa
+inventory,inventory_transaction,posted_at,timestamptz,NO,,Thời gian server commit logic
+inventory,inventory_transaction,posted_by,uuid,NO,app_user.id,Người ghi sổ
+inventory,inventory_transaction,reverses_transaction_id,uuid,YES,inventory_transaction.id,"Lần post bị đảo, chỉ cho đảo toàn lần ở cơ sở"
+inventory,stock_move,id,uuid,NO,,Định danh ổn định do ứng dụng tạo (UUID).
+inventory,stock_move,transaction_id,uuid,NO,inventory_transaction.id,Lần post
+inventory,stock_move,line_id,uuid,NO,document_line.id,Dòng phiếu; phải thuộc document của transaction
+inventory,stock_move,stock_item_id,uuid,NO,stock_item.id,SKU/lô/serial
+inventory,stock_move,source_location_id,uuid,NO,location.id,Vị trí nguồn
+inventory,stock_move,destination_location_id,uuid,NO,location.id,Vị trí đích
+inventory,stock_move,quantity_base,"numeric(20,6)",NO,,Lượng theo đơn vị cơ sở
+inventory,stock_move,base_uom_id,uuid,NO,uom.id,Đơn vị cơ sở snapshot
+inventory,stock_move,reverses_move_id,uuid,YES,stock_move.id,Dòng đảo tương ứng
+inventory,stock_balance,id,uuid,NO,,Định danh ổn định do ứng dụng tạo (UUID).
+inventory,stock_balance,stock_item_id,uuid,NO,stock_item.id,Nhận dạng hàng
+inventory,stock_balance,location_id,uuid,NO,location.id,Vị trí giữ hàng kể cả TRANSIT
+inventory,stock_balance,on_hand,"numeric(20,6)",NO,,Tồn vật lý tại vị trí
+inventory,stock_balance,reserved,"numeric(20,6)",NO,,Tổng lượng giữ còn mở tại vị trí
+inventory,stock_balance,version,bigint,NO,,Tăng khi thay đổi
+inventory,serial_position,id,uuid,NO,,Định danh ổn định do ứng dụng tạo (UUID).
+inventory,serial_position,serial_id,uuid,NO,serial.id,"Serial, unique"
+inventory,serial_position,location_id,uuid,NO,location.id,Vị trí giữ hàng hoặc transit
+inventory,serial_position,last_move_id,uuid,NO,stock_move.id,Phát sinh xác lập trạng thái
+fulfillment,reservation,id,uuid,NO,,Định danh ổn định do ứng dụng tạo (UUID).
+fulfillment,reservation,line_id,uuid,NO,document_line.id,Dòng nhu cầu
+fulfillment,reservation,stock_item_id,uuid,NO,stock_item.id,Hàng giữ
+fulfillment,reservation,location_id,uuid,NO,location.id,Vị trí nguồn
+fulfillment,reservation,quantity,"numeric(20,6)",NO,,Lượng đã giữ ban đầu
+fulfillment,reservation,consumed,"numeric(20,6)",NO,,Lượng đã xuất từ giữ chỗ
+fulfillment,reservation,released,"numeric(20,6)",NO,,Lượng đã giải phóng
+fulfillment,reservation,expires_at,timestamptz,YES,,Hạn giữ nếu chính sách cho phép
+fulfillment,reservation,created_by,uuid,NO,app_user.id,Người tạo
+fulfillment,pick_task,id,uuid,NO,,Định danh ổn định do ứng dụng tạo (UUID).
+fulfillment,pick_task,reservation_id,uuid,NO,reservation.id,Giữ chỗ nguồn
+fulfillment,pick_task,assigned_to,uuid,NO,app_user.id,Người soạn
+fulfillment,pick_task,picked_quantity,"numeric(20,6)",NO,,Lượng đã soạn trong đơn vị cơ sở
+fulfillment,pick_task,status,varchar(20),NO,,"OPEN, PICKING, DONE, CANCELLED"
+fulfillment,pick_task,version,integer,NO,,Chống ghi đè
+fulfillment,reservation_consumption,id,uuid,NO,,Định danh ổn định do ứng dụng tạo (UUID).
+fulfillment,reservation_consumption,reservation_id,uuid,NO,reservation.id,Giữ chỗ
+fulfillment,reservation_consumption,move_id,uuid,NO,stock_move.id,Phát sinh xuất
+fulfillment,reservation_consumption,quantity,"numeric(20,6)",NO,,Lượng tiêu thụ
+fulfillment,package,id,uuid,NO,,Định danh ổn định do ứng dụng tạo (UUID).
+fulfillment,package,document_id,uuid,NO,document.id,Phiếu xuất
+fulfillment,package,code,varchar(100),NO,,Mã kiện
+fulfillment,package_line,id,uuid,NO,,Định danh ổn định do ứng dụng tạo (UUID).
+fulfillment,package_line,package_id,uuid,NO,package.id,Kiện
+fulfillment,package_line,document_line_id,uuid,NO,document_line.id,Dòng xuất
+fulfillment,package_line,stock_item_id,uuid,NO,stock_item.id,Lô/serial đóng gói
+fulfillment,package_line,quantity,"numeric(20,6)",NO,,Lượng cơ sở
+fulfillment,quality_decision,id,uuid,NO,,Định danh ổn định do ứng dụng tạo (UUID).
+fulfillment,quality_decision,receipt_move_id,uuid,NO,stock_move.id,Phát sinh nhận vào khu chờ
+fulfillment,quality_decision,quantity,"numeric(20,6)",NO,,Lượng được đánh giá; cộng không vượt lần nhận
+fulfillment,quality_decision,result,varchar(20),NO,,"ACCEPT, REJECT"
+fulfillment,quality_decision,reason,text,NO,,Lý do
+fulfillment,quality_decision,decided_by,uuid,NO,app_user.id,Người kiểm tra
+fulfillment,quality_decision,decided_at,timestamptz,NO,,Thời điểm
+fulfillment,quality_decision,followup_document_id,uuid,YES,document.id,Phiếu cất/chuyển/trả xử lý quyết định
+approval,approval_policy,id,uuid,NO,,Định danh ổn định do ứng dụng tạo (UUID).
+approval,approval_policy,document_kind,varchar(30),NO,,Loại phiếu
+approval,approval_policy,revision,integer,NO,,Phiên bản policy
+approval,approval_policy,is_active,boolean,NO,,Đang áp dụng
+approval,approval_policy_step,id,uuid,NO,,Định danh ổn định do ứng dụng tạo (UUID).
+approval,approval_policy_step,policy_id,uuid,NO,approval_policy.id,Policy
+approval,approval_policy_step,step_no,integer,NO,,Bước 1 hoặc 2
+approval,approval_policy_step,role_id,uuid,NO,role.id,Vai trò cần có
+approval,approval_request,id,uuid,NO,,Định danh ổn định do ứng dụng tạo (UUID).
+approval,approval_request,document_id,uuid,NO,document.id,Phiếu
+approval,approval_request,document_version,integer,NO,,Phiên bản đã submit
+approval,approval_request,policy_id,uuid,NO,approval_policy.id,Policy đã chọn
+approval,approval_request,requested_by,uuid,NO,app_user.id,Người gửi
+approval,approval_request,status,varchar(20),NO,,"PENDING, APPROVED, REJECTED, INVALIDATED"
+approval,approval_request,created_at,timestamptz,NO,,Lúc gửi
+approval,approval_step,id,uuid,NO,,Định danh ổn định do ứng dụng tạo (UUID).
+approval,approval_step,request_id,uuid,NO,approval_request.id,Lần gửi duyệt
+approval,approval_step,step_no,integer,NO,,Thứ tự
+approval,approval_step,required_role_id,uuid,NO,role.id,Role snapshot
+approval,approval_step,status,varchar(20),NO,,"PENDING, APPROVED, REJECTED"
+approval,approval_step,decided_by,uuid,YES,app_user.id,Người quyết định
+approval,approval_step,decided_at,timestamptz,YES,,Thời điểm quyết định
+approval,approval_step,comment,text,YES,,Bắt buộc khi từ chối
+counting,stock_period,id,uuid,NO,,Định danh ổn định do ứng dụng tạo (UUID).
+counting,stock_period,warehouse_id,uuid,NO,warehouse.id,Kho
+counting,stock_period,starts_on,date,NO,,Ngày đầu
+counting,stock_period,ends_on,date,NO,,Ngày cuối bao gồm
+counting,stock_period,status,varchar(10),NO,,"OPEN, CLOSED"
+counting,stock_period,closed_by,uuid,YES,app_user.id,Người khóa
+counting,stock_period,closed_at,timestamptz,YES,,Thời điểm khóa
+counting,count_session,id,uuid,NO,,Định danh ổn định do ứng dụng tạo (UUID).
+counting,count_session,warehouse_id,uuid,NO,warehouse.id,Kho
+counting,count_session,number,varchar(80),NO,,Mã phiên
+counting,count_session,status,varchar(20),NO,,"DRAFT, FROZEN, COUNTED, SUBMITTED, POSTED, CANCELLED"
+counting,count_session,created_by,uuid,NO,app_user.id,Người lập
+counting,count_session,frozen_at,timestamptz,YES,,Mốc chụp số dư
+counting,count_session,adjustment_document_id,uuid,YES,document.id,Phiếu ADJUSTMENT sau duyệt
+counting,count_session,version,integer,NO,,Chống xung đột
+counting,count_location_lock,id,uuid,NO,,Định danh ổn định do ứng dụng tạo (UUID).
+counting,count_location_lock,session_id,uuid,NO,count_session.id,Phiên kiểm kê
+counting,count_location_lock,location_id,uuid,NO,location.id,Vị trí đếm
+counting,count_location_lock,locked_at,timestamptz,NO,,Thời điểm khóa
+counting,count_location_lock,released_at,timestamptz,YES,,Mở khóa khi hoàn tất/hủy có kiểm soát
+counting,count_assignment,id,uuid,NO,,Định danh ổn định do ứng dụng tạo (UUID).
+counting,count_assignment,session_id,uuid,NO,count_session.id,Phiên kiểm kê
+counting,count_assignment,location_id,uuid,NO,location.id,Vị trí được giao
+counting,count_assignment,user_id,uuid,NO,app_user.id,Người đếm
+counting,count_assignment,assigned_by,uuid,NO,app_user.id,Người giao
+counting,count_line,id,uuid,NO,,Định danh ổn định do ứng dụng tạo (UUID).
+counting,count_line,session_id,uuid,NO,count_session.id,Phiên
+counting,count_line,stock_item_id,uuid,NO,stock_item.id,Hàng
+counting,count_line,location_id,uuid,NO,location.id,Vị trí
+counting,count_line,snapshot_quantity,"numeric(20,6)",NO,,"Lượng hệ thống lúc freeze, chỉ người có quyền được xem"
+counting,count_line,approved_quantity,"numeric(20,6)",YES,,Số đếm được chọn để trình duyệt
+counting,count_observation,id,uuid,NO,,Định danh ổn định do ứng dụng tạo (UUID).
+counting,count_observation,count_line_id,uuid,NO,count_line.id,Dòng kiểm kê
+counting,count_observation,round_no,integer,NO,,Lần đếm
+counting,count_observation,quantity,"numeric(20,6)",NO,,Số đếm
+counting,count_observation,counted_by,uuid,NO,app_user.id,Người đếm
+counting,count_observation,counted_at,timestamptz,NO,,Thời điểm
+counting,count_observation,scan_event_key,uuid,YES,,Chống lặp sự kiện từ client
+operations,idempotency_record,id,uuid,NO,,Định danh ổn định do ứng dụng tạo (UUID).
+operations,idempotency_record,actor_id,uuid,NO,app_user.id,Người gọi
+operations,idempotency_record,key,uuid,NO,,Khóa lệnh
+operations,idempotency_record,command,varchar(100),NO,,Loại lệnh và resource trong hash
+operations,idempotency_record,request_hash,char(64),NO,,SHA256 canonical request gồm version/resource/body
+operations,idempotency_record,response,jsonb,NO,,Kết quả không chứa bí mật
+operations,idempotency_record,http_status,integer,NO,,Trạng thái đã commit
+operations,idempotency_record,completed_at,timestamptz,NO,,Thời điểm
+operations,idempotency_record,expires_at,timestamptz,NO,,Hạn giữ chi tiết response; không xóa key/hash hoặc cho tái dùng key
+operations,outbox_event,id,uuid,NO,,Định danh ổn định do ứng dụng tạo (UUID).
+operations,outbox_event,event_type,varchar(100),NO,,Tên có phiên bản
+operations,outbox_event,aggregate_id,uuid,NO,,"ID aggregate, tham chiếu logic kiểm tra ở service"
+operations,outbox_event,payload,jsonb,NO,,Payload tối thiểu
+operations,outbox_event,occurred_at,timestamptz,NO,,Thời điểm
+operations,outbox_event,available_at,timestamptz,NO,,Lần retry sớm nhất
+operations,outbox_event,attempts,integer,NO,,Số lần thử
+operations,outbox_event,processed_at,timestamptz,YES,,Đã phát/xử lý
+operations,outbox_event,last_error,text,YES,,Lỗi đã lọc bí mật
+operations,consumer_receipt,id,uuid,NO,,Định danh ổn định do ứng dụng tạo (UUID).
+operations,consumer_receipt,event_id,uuid,NO,outbox_event.id,Sự kiện
+operations,consumer_receipt,consumer,varchar(100),NO,,Consumer ổn định
+operations,consumer_receipt,processed_at,timestamptz,NO,,Đã hoàn tất
+operations,audit_event,id,uuid,NO,,Định danh ổn định do ứng dụng tạo (UUID).
+operations,audit_event,actor_id,uuid,YES,app_user.id,User hoặc tác vụ hệ thống
+operations,audit_event,warehouse_id,uuid,YES,warehouse.id,Scope kho nếu có
+operations,audit_event,action,varchar(100),NO,,Hành động
+operations,audit_event,entity_type,varchar(80),NO,,Loại thực thể
+operations,audit_event,entity_id,uuid,YES,,Tham chiếu logic
+operations,audit_event,request_id,uuid,NO,,Đối chiếu log
+operations,audit_event,occurred_at,timestamptz,NO,,Thời điểm server
+operations,audit_event,before_data,jsonb,YES,,Dữ liệu trước đã loại bỏ bí mật
+operations,audit_event,after_data,jsonb,YES,,Dữ liệu sau đã loại bỏ bí mật
+operations,audit_event,reason,text,YES,,Lý do
+operations,stored_file,id,uuid,NO,,Định danh ổn định do ứng dụng tạo (UUID).
+operations,stored_file,storage_key,text,NO,,Khóa lưu trữ do server tạo
+operations,stored_file,original_name,varchar(240),NO,,Tên gốc đã làm sạch
+operations,stored_file,mime_type,varchar(100),NO,,MIME được kiểm tra
+operations,stored_file,sha256,char(64),NO,,Checksum
+operations,stored_file,size_bytes,bigint,NO,,Kích thước
+operations,stored_file,uploaded_by,uuid,NO,app_user.id,Người tải lên
+operations,stored_file,created_at,timestamptz,NO,,Thời điểm
+documents,document_attachment,id,uuid,NO,,Định danh ổn định do ứng dụng tạo (UUID).
+documents,document_attachment,document_id,uuid,NO,document.id,Phiếu
+documents,document_attachment,file_id,uuid,NO,stored_file.id,Tệp
+master,product_image,id,uuid,NO,,Định danh ổn định do ứng dụng tạo (UUID).
+master,product_image,product_id,uuid,NO,product.id,SKU
+master,product_image,file_id,uuid,NO,stored_file.id,Tệp ảnh
+master,product_image,sort_order,integer,NO,,Thứ tự
+operations,import_job,id,uuid,NO,,Định danh ổn định do ứng dụng tạo (UUID).
+operations,import_job,kind,varchar(60),NO,,Loại mẫu
+operations,import_job,file_id,uuid,NO,stored_file.id,Nguồn
+operations,import_job,requested_by,uuid,NO,app_user.id,Người nạp
+operations,import_job,status,varchar(20),NO,,"UPLOADED, VALIDATING, INVALID, VALIDATED, COMMITTING, COMPLETED, FAILED"
+operations,import_job,file_hash,char(64),NO,,Hash bytes đã duyệt
+operations,import_job,mapping_version,varchar(30),NO,,Phiên bản template
+operations,import_job,operation_key,uuid,NO,,Dedup commit import
+operations,import_job,created_at,timestamptz,NO,,Thời điểm
+operations,import_row,id,uuid,NO,,Định danh ổn định do ứng dụng tạo (UUID).
+operations,import_row,job_id,uuid,NO,import_job.id,Job
+operations,import_row,row_no,integer,NO,,Dòng Excel/CSV gốc
+operations,import_row,payload,jsonb,NO,,Dữ liệu chuẩn hóa
+operations,import_row,errors,jsonb,NO,,Mã lỗi và field
+operations,import_row,target_id,uuid,YES,,"ID sinh sau commit, tham chiếu logic"
+operations,import_row,status,varchar(20),NO,,"PENDING, INVALID, VALID, COMMITTED"
+operations,export_job,id,uuid,NO,,Định danh ổn định do ứng dụng tạo (UUID).
+operations,export_job,requested_by,uuid,NO,app_user.id,Chủ job
+operations,export_job,report_code,varchar(40),NO,,R01..R08 hoặc mẫu in
+operations,export_job,filters,jsonb,NO,,Kho/ngày/điều kiện đã validate
+operations,export_job,status,varchar(20),NO,,"QUEUED, RUNNING, COMPLETED, FAILED, EXPIRED"
+operations,export_job,file_id,uuid,YES,stored_file.id,Kết quả
+operations,export_job,created_at,timestamptz,NO,,Thời điểm
+operations,export_job,expires_at,timestamptz,NO,,Hạn tải
+extension,custom_field_definition,id,uuid,NO,,Định danh ổn định do ứng dụng tạo (UUID).
+extension,custom_field_definition,entity_type,varchar(40),NO,,product hoặc document
+extension,custom_field_definition,code,varchar(60),NO,,Mã trường
+extension,custom_field_definition,value_type,varchar(20),NO,,"string, decimal, date, boolean, enum"
+extension,custom_field_definition,required,boolean,NO,,Bắt buộc cho bản ghi mới
+extension,custom_field_definition,validation,jsonb,NO,,Giới hạn/enum/độ dài
+extension,custom_field_definition,is_active,boolean,NO,,Còn hiệu lực
+extension,client_release,id,uuid,NO,,Định danh ổn định do ứng dụng tạo (UUID).
+extension,client_release,version,varchar(40),NO,,Phiên bản client
+extension,client_release,os,varchar(20),NO,,"WINDOWS, LINUX, MACOS"
+extension,client_release,architecture,varchar(20),NO,,x86_64 hoặc arm64
+extension,client_release,api_major,integer,NO,,API tương thích
+extension,client_release,sha256,char(64),NO,,Checksum artifact
+extension,client_release,download_uri,text,NO,,Địa chỉ nội bộ qua TLS
+extension,client_release,is_minimum,boolean,NO,,"Bản tối thiểu theo OS/arch, service kiểm tra chỉ một"

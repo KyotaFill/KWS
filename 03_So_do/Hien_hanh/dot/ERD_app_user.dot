@@ -1,0 +1,7 @@
+digraph KWS {
+graph [rankdir=LR, bgcolor="white", nodesep=.5, ranksep=.9, pad=.3];
+node [shape=plain, fontname="DejaVu Sans", fontsize=12];
+edge [fontname="DejaVu Sans", fontsize=10, color="#334155", fontcolor="#334155", arrowsize=.8];
+label=<<TABLE BORDER="0" CELLBORDER="0" CELLPADDING="3"><TR><TD><FONT POINT-SIZE="20">ERD · app_user</FONT></TD></TR></TABLE>>; labelloc=t; fontname="DejaVu Sans"; fontsize=16;
+"app_user" [label=<<TABLE BORDER="1" CELLBORDER="1" CELLSPACING="0" CELLPADDING="7" COLOR="#526f83"><TR><TD BGCOLOR="#b7dff2"><B>app_user</B></TD></TR><TR><TD ALIGN="LEFT" BALIGN="LEFT">PK id : uuid<BR ALIGN="LEFT"/>username : character varying(100)<BR ALIGN="LEFT"/>display_name : character varying(200)<BR ALIGN="LEFT"/>password_hash : text<BR ALIGN="LEFT"/>is_active : boolean<BR ALIGN="LEFT"/>auth_version : integer<BR ALIGN="LEFT"/>created_at : timestamp with time zone</TD></TR></TABLE>>];
+}

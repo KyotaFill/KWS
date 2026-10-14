@@ -1,0 +1,1023 @@
+Project wms_desktop {
+  database_type: 'PostgreSQL'
+  Note: 'WMS-DD-003 v1.0. Single enterprise. Read SQL and business invariants together. PostgreSQL 15+ syntax.'
+}
+
+Table organization {
+  Note: 'Một doanh nghiệp ở bản cơ sở; mở đa pháp nhân cần migration và thiết kế isolation riêng.'
+  id uuid [pk, not null, note: 'Định danh ổn định do ứng dụng tạo (UUID).']
+  code varchar(40) [not null, note: 'Mã doanh nghiệp duy nhất']
+  name varchar(200) [not null, note: 'Tên doanh nghiệp']
+  timezone varchar(80) [not null, note: 'Múi giờ IANA, mặc định cấu hình Asia/Ho_Chi_Minh']
+  currency char(3) [not null, note: 'Tiền tệ tham chiếu VND']
+  indexes {
+    (code) [unique]
+  }
+}
+
+Table app_user {
+  Note: 'Tài khoản định danh, không xóa sau khi có nghiệp vụ.'
+  id uuid [pk, not null, note: 'Định danh ổn định do ứng dụng tạo (UUID).']
+  username varchar(100) [not null, note: 'Tên đăng nhập chuẩn hóa chữ thường']
+  display_name varchar(200) [not null, note: 'Tên hiển thị']
+  password_hash text [not null, note: 'Hash mật khẩu; không lưu plaintext']
+  is_active boolean [not null, note: 'Khóa user được kiểm tra trên mỗi lệnh']
+  auth_version integer [not null, note: 'Tăng khi thu hồi toàn bộ phiên hoặc thay đổi bảo mật']
+  created_at timestamptz [not null, note: 'Thời điểm tạo']
+  indexes {
+    (username) [unique]
+  }
+  checks {
+    `auth_version >= 0`
+  }
+}
+
+Table role {
+  Note: 'Vai trò cấu hình được; không hardcode tên role trong domain.'
+  id uuid [pk, not null, note: 'Định danh ổn định do ứng dụng tạo (UUID).']
+  code varchar(60) [not null, note: 'Mã vai trò']
+  name varchar(160) [not null, note: 'Tên vai trò']
+  is_active boolean [not null, note: 'Còn hiệu lực']
+  indexes {
+    (code) [unique]
+  }
+}
+
+Table permission {
+  Note: 'Danh mục quyền action.resource ổn định, được seed bằng migration.'
+  id uuid [pk, not null, note: 'Định danh ổn định do ứng dụng tạo (UUID).']
+  code varchar(100) [not null, note: 'Mã quyền theo file permissions.csv']
+  scope_kind varchar(20) [not null, note: 'WAREHOUSE hoặc GLOBAL']
+  description text [not null, note: 'Hành động được cấp']
+  indexes {
+    (code) [unique]
+  }
+  checks {
+    `scope_kind IN ('WAREHOUSE','GLOBAL')`
+  }
+}
+
+Table role_permission {
+  Note: 'Quyền allow của một vai trò; thiếu grant là deny.'
+  id uuid [pk, not null, note: 'Định danh ổn định do ứng dụng tạo (UUID).']
+  role_id uuid [not null, note: 'Vai trò']
+  permission_id uuid [not null, note: 'Quyền']
+  indexes {
+    (role_id,permission_id) [unique]
+  }
+}
+
+Table user_role_grant {
+  Note: 'Cấp vai trò và scope trên cùng bản ghi để không nhân chéo quyền các kho.'
+  id uuid [pk, not null, note: 'Định danh ổn định do ứng dụng tạo (UUID).']
+  user_id uuid [not null, note: 'Tài khoản được cấp']
+  role_id uuid [not null, note: 'Vai trò được cấp']
+  scope_kind varchar(20) [not null, note: 'GLOBAL, WAREHOUSE hoặc ALL_WAREHOUSES']
+  warehouse_id uuid [note: 'Chỉ có khi scope WAREHOUSE']
+  valid_from timestamptz [not null, note: 'Bắt đầu hiệu lực']
+  valid_until timestamptz [note: 'Hết hạn tùy chọn']
+  granted_by uuid [not null, note: 'Người cấp']
+  revoked_at timestamptz [note: 'Thu hồi, không xóa lịch sử']
+  checks {
+    `scope_kind IN ('GLOBAL','WAREHOUSE','ALL_WAREHOUSES')`
+    `(scope_kind = 'WAREHOUSE') = (warehouse_id IS NOT NULL)`
+    `valid_until IS NULL OR valid_until > valid_from`
+  }
+}
+
+Table auth_session {
+  Note: 'Refresh token chỉ lưu hash; kiểm tra user/auth_version khi sử dụng.'
+  id uuid [pk, not null, note: 'Định danh ổn định do ứng dụng tạo (UUID).']
+  user_id uuid [not null, note: 'Chủ phiên']
+  refresh_hash text [not null, note: 'Hash token xoay vòng']
+  device_id uuid [not null, note: 'ID cài đặt desktop']
+  auth_version integer [not null, note: 'Phiên bản xác thực lúc phát hành']
+  expires_at timestamptz [not null, note: 'Hạn phiên']
+  revoked_at timestamptz [note: 'Thời điểm thu hồi']
+  indexes {
+    (refresh_hash) [unique]
+  }
+}
+
+Table mfa_factor {
+  Note: 'MFA cho vai trò đặc quyền. Khóa mã hóa nằm ngoài DB.'
+  id uuid [pk, not null, note: 'Định danh ổn định do ứng dụng tạo (UUID).']
+  user_id uuid [not null, note: 'Chủ yếu tố']
+  kind varchar(30) [not null, note: 'TOTP hoặc WEBAUTHN khi triển khai']
+  credential_ciphertext text [not null, note: 'Bí mật mã hóa hoặc public credential theo loại']
+  verified_at timestamptz [note: 'Đã xác minh']
+  revoked_at timestamptz [note: 'Thu hồi']
+}
+
+Table warehouse {
+  Note: 'Kho vật lý; scope phân quyền chính.'
+  id uuid [pk, not null, note: 'Định danh ổn định do ứng dụng tạo (UUID).']
+  code varchar(40) [not null, note: 'Mã kho']
+  name varchar(160) [not null, note: 'Tên kho']
+  address text [note: 'Địa chỉ']
+  is_active boolean [not null, note: 'Cho dùng mới']
+  indexes {
+    (code) [unique]
+  }
+}
+
+Table location {
+  Note: 'Cây kho và các vị trí ảo; transit được tách theo lệnh chuyển.'
+  id uuid [pk, not null, note: 'Định danh ổn định do ứng dụng tạo (UUID).']
+  warehouse_id uuid [note: 'Kho sở hữu; rỗng cho EXTERNAL/TRANSIT/LOSS/OPENING']
+  parent_id uuid [note: 'Cha trong cùng kho, service chặn chu kỳ']
+  code varchar(80) [not null, note: 'Mã vị trí duy nhất toàn hệ thống']
+  name varchar(160) [not null, note: 'Tên vị trí']
+  kind varchar(20) [not null, note: 'GROUP, STORAGE, RECEIVING, QUARANTINE, SHIPPING, TRANSIT, EXTERNAL, LOSS, OPENING']
+  is_active boolean [not null, note: 'Cho dùng mới']
+  indexes {
+    (code) [unique]
+  }
+  checks {
+    `kind IN ('GROUP','STORAGE','RECEIVING','QUARANTINE','SHIPPING','TRANSIT','EXTERNAL','LOSS','OPENING')`
+    `(kind IN ('GROUP','STORAGE','RECEIVING','QUARANTINE','SHIPPING')) = (warehouse_id IS NOT NULL)`
+    `parent_id IS NULL OR parent_id <> id`
+  }
+}
+
+Table uom {
+  Note: 'Đơn vị cơ sở và đơn vị đóng gói.'
+  id uuid [pk, not null, note: 'Định danh ổn định do ứng dụng tạo (UUID).']
+  code varchar(30) [not null, note: 'Mã đơn vị']
+  name varchar(80) [not null, note: 'Tên đơn vị']
+  decimal_places integer [not null, note: 'Số lẻ tối đa cho phép từ 0 tới 6']
+  indexes {
+    (code) [unique]
+  }
+  checks {
+    `decimal_places BETWEEN 0 AND 6`
+  }
+}
+
+Table product_category {
+  Note: 'Cây nhóm hàng; kiểm tra chu kỳ tại service.'
+  id uuid [pk, not null, note: 'Định danh ổn định do ứng dụng tạo (UUID).']
+  code varchar(40) [not null, note: 'Mã nhóm']
+  name varchar(160) [not null, note: 'Tên nhóm']
+  parent_id uuid [note: 'Nhóm cha']
+  indexes {
+    (code) [unique]
+  }
+  checks {
+    `parent_id IS NULL OR parent_id <> id`
+  }
+}
+
+Table product {
+  Note: 'SKU; tracking/base UOM khóa sau phát sinh.'
+  id uuid [pk, not null, note: 'Định danh ổn định do ứng dụng tạo (UUID).']
+  sku varchar(80) [not null, note: 'Mã SKU duy nhất']
+  name varchar(240) [not null, note: 'Tên hàng']
+  category_id uuid [note: 'Nhóm hàng']
+  base_uom_id uuid [not null, note: 'Đơn vị sổ kho']
+  tracking varchar(10) [not null, note: 'NONE, LOT hoặc SERIAL']
+  expiry_required boolean [not null, note: 'Chỉ bật cho LOT trong bản cơ sở']
+  is_active boolean [not null, note: 'Ngừng dùng vẫn giữ lịch sử']
+  version integer [not null, note: 'Optimistic concurrency']
+  attributes jsonb [not null, note: 'Trường bổ sung đã khai báo, không chứa lượng/quyền/trạng thái lõi']
+  indexes {
+    (sku) [unique]
+  }
+  checks {
+    `tracking IN ('NONE','LOT','SERIAL')`
+    `NOT expiry_required OR tracking = 'LOT'`
+    `version > 0`
+  }
+}
+
+Table product_uom {
+  Note: 'Quy đổi cố định có phiên bản; dòng cũ không đổi tỷ lệ.'
+  id uuid [pk, not null, note: 'Định danh ổn định do ứng dụng tạo (UUID).']
+  product_id uuid [not null, note: 'SKU']
+  uom_id uuid [not null, note: 'Đơn vị']
+  factor numeric(20,8) [not null, note: 'Một đơn vị nhập bằng bao nhiêu đơn vị cơ sở']
+  revision integer [not null, note: 'Phiên bản quy đổi']
+  is_active boolean [not null, note: 'Chỉ một phiên bản hoạt động mỗi SKU/đơn vị (partial unique SQL)']
+  indexes {
+    (product_id,uom_id,revision) [unique]
+  }
+  checks {
+    `factor > 0`
+    `revision > 0`
+  }
+}
+
+Table barcode {
+  Note: 'Barcode chuẩn hóa, duy nhất cả khi ngừng dùng để tránh tái gán nhầm.'
+  id uuid [pk, not null, note: 'Định danh ổn định do ứng dụng tạo (UUID).']
+  code varchar(160) [not null, note: 'Giữ số 0 đầu, không tự đổi sang số']
+  product_uom_id uuid [not null, note: 'SKU và quy cách quét']
+  is_active boolean [not null, note: 'Được dùng để quét mới']
+  indexes {
+    (code) [unique]
+  }
+}
+
+Table partner {
+  Note: 'Khách hàng và nhà cung cấp chung danh mục.'
+  id uuid [pk, not null, note: 'Định danh ổn định do ứng dụng tạo (UUID).']
+  code varchar(60) [not null, note: 'Mã đối tác']
+  name varchar(240) [not null, note: 'Tên đối tác']
+  is_customer boolean [not null, note: 'Là khách hàng']
+  is_supplier boolean [not null, note: 'Là nhà cung cấp']
+  tax_code varchar(40) [note: 'Thông tin tham chiếu']
+  address text [note: 'Địa chỉ']
+  is_active boolean [not null, note: 'Còn hoạt động']
+  indexes {
+    (code) [unique]
+  }
+  checks {
+    `is_customer OR is_supplier`
+  }
+}
+
+Table lot {
+  Note: 'Lô thuộc SKU; thay hạn dùng phải audit và kiểm tra giữ chỗ.'
+  id uuid [pk, not null, note: 'Định danh ổn định do ứng dụng tạo (UUID).']
+  product_id uuid [not null, note: 'SKU theo lô']
+  code varchar(100) [not null, note: 'Mã lô theo SKU']
+  manufactured_on date [note: 'Ngày sản xuất']
+  expires_on date [note: 'Ngày hết hạn; hết hạn từ đầu ngày tiếp theo theo timezone doanh nghiệp']
+  version integer [not null, note: 'Chống sửa đè']
+  indexes {
+    (product_id,code) [unique]
+  }
+  checks {
+    `expires_on IS NULL OR manufactured_on IS NULL OR expires_on >= manufactured_on`
+  }
+}
+
+Table serial {
+  Note: 'Serial duy nhất theo SKU trong toàn vòng đời, có thể nhập lại khi trả hàng.'
+  id uuid [pk, not null, note: 'Định danh ổn định do ứng dụng tạo (UUID).']
+  product_id uuid [not null, note: 'SKU theo serial']
+  code varchar(160) [not null, note: 'Số serial']
+  indexes {
+    (product_id,code) [unique]
+  }
+}
+
+Table stock_item {
+  Note: 'Chiều nhận dạng chuẩn hóa, tránh NULL gây trùng khóa số dư.'
+  id uuid [pk, not null, note: 'Định danh ổn định do ứng dụng tạo (UUID).']
+  product_id uuid [not null, note: 'SKU']
+  lot_id uuid [note: 'Lô hoặc rỗng']
+  serial_id uuid [note: 'Serial hoặc rỗng']
+  checks {
+    `NOT (lot_id IS NOT NULL AND serial_id IS NOT NULL)`
+  }
+}
+
+Table reference_price {
+  Note: 'Giá quản trị có hiệu lực từ ngày, không phải giá vốn kế toán.'
+  id uuid [pk, not null, note: 'Định danh ổn định do ứng dụng tạo (UUID).']
+  product_id uuid [not null, note: 'SKU']
+  effective_on date [not null, note: 'Áp dụng từ ngày, đến trước bản tiếp theo']
+  amount numeric(20,4) [not null, note: 'Giá cho một đơn vị cơ sở']
+  currency char(3) [not null, note: 'VND ở bản cơ sở']
+  source text [not null, note: 'Nguồn tham chiếu']
+  created_by uuid [not null, note: 'Người cập nhật']
+  indexes {
+    (product_id,effective_on) [unique]
+  }
+  checks {
+    `amount >= 0`
+  }
+}
+
+Table document {
+  Note: 'Header chung; loại phiếu quy định state machine và validator riêng.'
+  id uuid [pk, not null, note: 'Định danh ổn định do ứng dụng tạo (UUID).']
+  number varchar(80) [not null, note: 'Mã phiếu duy nhất do sequence service cấp']
+  kind varchar(30) [not null, note: 'PO, SO, RECEIPT, ISSUE, TRANSFER, CUSTOMER_RETURN, SUPPLIER_RETURN, INTERNAL_MOVE, ADJUSTMENT, OPENING, REVERSAL']
+  status varchar(20) [not null, note: 'DRAFT, SUBMITTED, APPROVED, REJECTED, PARTIAL, COMPLETED, CANCELLED']
+  warehouse_id uuid [not null, note: 'Kho tác nghiệp chính; với transfer là nguồn']
+  destination_warehouse_id uuid [note: 'Kho đích chuyển']
+  transit_location_id uuid [note: 'Vị trí TRANSIT riêng một phiếu chuyển']
+  partner_id uuid [note: 'Đối tác theo loại']
+  business_date date [not null, note: 'Ngày nghiệp vụ']
+  created_by uuid [not null, note: 'Người tạo']
+  created_at timestamptz [not null, note: 'Thời điểm tạo']
+  version integer [not null, note: 'Tăng mọi thay đổi nghiệp vụ']
+  reason text [note: 'Lý do hủy/điều chỉnh/ngoại lệ']
+  attributes jsonb [not null, note: 'Thuộc tính mở rộng đã validate']
+  indexes {
+    (number) [unique]
+  }
+  checks {
+    `kind IN ('PO','SO','RECEIPT','ISSUE','TRANSFER','CUSTOMER_RETURN','SUPPLIER_RETURN','INTERNAL_MOVE','ADJUSTMENT','OPENING','REVERSAL')`
+    `status IN ('DRAFT','SUBMITTED','APPROVED','REJECTED','PARTIAL','COMPLETED','CANCELLED')`
+    `version > 0`
+    `(kind = 'TRANSFER') = (destination_warehouse_id IS NOT NULL AND transit_location_id IS NOT NULL)`
+    `destination_warehouse_id IS NULL OR destination_warehouse_id <> warehouse_id`
+  }
+}
+
+Table document_line {
+  Note: 'Dòng yêu cầu hoặc dòng phiếu thực hiện; liên kết nguồn hỗ trợ từng phần.'
+  id uuid [pk, not null, note: 'Định danh ổn định do ứng dụng tạo (UUID).']
+  document_id uuid [not null, note: 'Phiếu cha']
+  line_no integer [not null, note: 'Số dòng trong phiếu']
+  product_id uuid [not null, note: 'SKU']
+  uom_id uuid [not null, note: 'Đơn vị nhập']
+  quantity numeric(20,6) [not null, note: 'Lượng yêu cầu, dương']
+  factor_snapshot numeric(20,8) [not null, note: 'Tỷ lệ quy đổi lúc lập/duyệt']
+  base_quantity numeric(20,6) [not null, note: 'Lượng cơ sở sau validation độ chính xác']
+  source_line_id uuid [note: 'Dòng PO/SO hoặc dòng xuất/nhập gốc cho hàng trả']
+  reference_unit_price numeric(20,4) [note: 'Giá tham chiếu tại thời điểm lập; quyền giá riêng']
+  indexes {
+    (document_id,line_no) [unique]
+  }
+  checks {
+    `quantity > 0`
+    `factor_snapshot > 0`
+    `base_quantity > 0`
+    `line_no > 0`
+    `source_line_id IS NULL OR source_line_id <> id`
+  }
+}
+
+Table document_link {
+  Note: 'Quan hệ phiếu gốc, phiếu bù/đảo, biên bản thiếu.'
+  id uuid [pk, not null, note: 'Định danh ổn định do ứng dụng tạo (UUID).']
+  document_id uuid [not null, note: 'Phiếu hiện tại']
+  related_document_id uuid [not null, note: 'Phiếu liên quan']
+  relation varchar(30) [not null, note: 'REVERSES, COMPENSATES, RETURN_OF, LOSS_OF, FULFILLS']
+  indexes {
+    (document_id,related_document_id,relation) [unique]
+  }
+  checks {
+    `document_id <> related_document_id`
+  }
+}
+
+Table document_assignment {
+  Note: 'Phân công xử lý phiếu; scope kho vẫn phải thỏa mãn.'
+  id uuid [pk, not null, note: 'Định danh ổn định do ứng dụng tạo (UUID).']
+  document_id uuid [not null, note: 'Phiếu']
+  user_id uuid [not null, note: 'Người được phân công']
+  assigned_by uuid [not null, note: 'Người giao']
+  indexes {
+    (document_id,user_id) [unique]
+  }
+}
+
+Table inventory_transaction {
+  Note: 'Một lần post nguyên tử; chỉ insert sau các kiểm tra trong transaction.'
+  id uuid [pk, not null, note: 'Định danh ổn định do ứng dụng tạo (UUID).']
+  document_id uuid [not null, note: 'Phiếu tác nghiệp']
+  execution_key uuid [not null, note: 'Định danh lần thực hiện từng phần, bền vững kể cả idempotency hết hạn']
+  operation varchar(30) [not null, note: 'RECEIVE, ISSUE, DISPATCH, ARRIVE, MOVE, ADJUST, OPEN, REVERSE']
+  business_date date [not null, note: 'Ngày nghiệp vụ được kiểm tra kỳ khóa']
+  posted_at timestamptz [not null, note: 'Thời gian server commit logic']
+  posted_by uuid [not null, note: 'Người ghi sổ']
+  reverses_transaction_id uuid [note: 'Lần post bị đảo, chỉ cho đảo toàn lần ở cơ sở']
+  indexes {
+    (document_id,execution_key) [unique]
+  }
+  checks {
+    `operation IN ('RECEIVE','ISSUE','DISPATCH','ARRIVE','MOVE','ADJUST','OPEN','REVERSE')`
+  }
+}
+
+Table stock_move {
+  Note: 'Sổ dịch chuyển bất biến: nguồn sang đích, quantity luôn dương.'
+  id uuid [pk, not null, note: 'Định danh ổn định do ứng dụng tạo (UUID).']
+  transaction_id uuid [not null, note: 'Lần post']
+  line_id uuid [not null, note: 'Dòng phiếu; phải thuộc document của transaction']
+  stock_item_id uuid [not null, note: 'SKU/lô/serial']
+  source_location_id uuid [not null, note: 'Vị trí nguồn']
+  destination_location_id uuid [not null, note: 'Vị trí đích']
+  quantity_base numeric(20,6) [not null, note: 'Lượng theo đơn vị cơ sở']
+  base_uom_id uuid [not null, note: 'Đơn vị cơ sở snapshot']
+  reverses_move_id uuid [note: 'Dòng đảo tương ứng']
+  checks {
+    `quantity_base > 0`
+    `source_location_id <> destination_location_id`
+  }
+}
+
+Table stock_balance {
+  Note: 'Cache sổ kho cho vị trí giữ hàng; không chứa EXTERNAL/LOSS/OPENING/GROUP.'
+  id uuid [pk, not null, note: 'Định danh ổn định do ứng dụng tạo (UUID).']
+  stock_item_id uuid [not null, note: 'Nhận dạng hàng']
+  location_id uuid [not null, note: 'Vị trí giữ hàng kể cả TRANSIT']
+  on_hand numeric(20,6) [not null, note: 'Tồn vật lý tại vị trí']
+  reserved numeric(20,6) [not null, note: 'Tổng lượng giữ còn mở tại vị trí']
+  version bigint [not null, note: 'Tăng khi thay đổi']
+  indexes {
+    (stock_item_id,location_id) [unique]
+  }
+  checks {
+    `on_hand >= 0`
+    `reserved >= 0`
+    `reserved <= on_hand`
+    `version >= 0`
+  }
+}
+
+Table serial_position {
+  Note: 'Projection một vị trí hiện hữu cho mỗi serial đang trong doanh nghiệp.'
+  id uuid [pk, not null, note: 'Định danh ổn định do ứng dụng tạo (UUID).']
+  serial_id uuid [not null, note: 'Serial, unique']
+  location_id uuid [not null, note: 'Vị trí giữ hàng hoặc transit']
+  last_move_id uuid [not null, note: 'Phát sinh xác lập trạng thái']
+  indexes {
+    (serial_id) [unique]
+  }
+}
+
+Table reservation {
+  Note: 'Giữ cho dòng xuất/chuyển/trả NCC; amount = consumed + released + remaining.'
+  id uuid [pk, not null, note: 'Định danh ổn định do ứng dụng tạo (UUID).']
+  line_id uuid [not null, note: 'Dòng nhu cầu']
+  stock_item_id uuid [not null, note: 'Hàng giữ']
+  location_id uuid [not null, note: 'Vị trí nguồn']
+  quantity numeric(20,6) [not null, note: 'Lượng đã giữ ban đầu']
+  consumed numeric(20,6) [not null, note: 'Lượng đã xuất từ giữ chỗ']
+  released numeric(20,6) [not null, note: 'Lượng đã giải phóng']
+  expires_at timestamptz [note: 'Hạn giữ nếu chính sách cho phép']
+  created_by uuid [not null, note: 'Người tạo']
+  checks {
+    `quantity > 0`
+    `consumed >= 0`
+    `released >= 0`
+    `consumed + released <= quantity`
+  }
+}
+
+Table pick_task {
+  Note: 'Theo dõi soạn hàng; hoàn thành pick chưa làm giảm tồn.'
+  id uuid [pk, not null, note: 'Định danh ổn định do ứng dụng tạo (UUID).']
+  reservation_id uuid [not null, note: 'Giữ chỗ nguồn']
+  assigned_to uuid [not null, note: 'Người soạn']
+  picked_quantity numeric(20,6) [not null, note: 'Lượng đã soạn trong đơn vị cơ sở']
+  status varchar(20) [not null, note: 'OPEN, PICKING, DONE, CANCELLED']
+  version integer [not null, note: 'Chống ghi đè']
+  checks {
+    `picked_quantity >= 0`
+    `status IN ('OPEN','PICKING','DONE','CANCELLED')`
+  }
+}
+
+Table reservation_consumption {
+  Note: 'Liên kết lượng giữ đã tiêu thụ với dòng sổ để đối soát.'
+  id uuid [pk, not null, note: 'Định danh ổn định do ứng dụng tạo (UUID).']
+  reservation_id uuid [not null, note: 'Giữ chỗ']
+  move_id uuid [not null, note: 'Phát sinh xuất']
+  quantity numeric(20,6) [not null, note: 'Lượng tiêu thụ']
+  indexes {
+    (reservation_id,move_id) [unique]
+  }
+  checks {
+    `quantity > 0`
+  }
+}
+
+Table package {
+  Note: 'Kiện thuộc phiếu xuất, chỉ là thông tin đóng gói.'
+  id uuid [pk, not null, note: 'Định danh ổn định do ứng dụng tạo (UUID).']
+  document_id uuid [not null, note: 'Phiếu xuất']
+  code varchar(100) [not null, note: 'Mã kiện']
+  indexes {
+    (document_id,code) [unique]
+  }
+}
+
+Table package_line {
+  Note: 'Hàng trong kiện; không thay stock ledger.'
+  id uuid [pk, not null, note: 'Định danh ổn định do ứng dụng tạo (UUID).']
+  package_id uuid [not null, note: 'Kiện']
+  document_line_id uuid [not null, note: 'Dòng xuất']
+  stock_item_id uuid [not null, note: 'Lô/serial đóng gói']
+  quantity numeric(20,6) [not null, note: 'Lượng cơ sở']
+  checks {
+    `quantity > 0`
+  }
+}
+
+Table quality_decision {
+  Note: 'Quyết định đạt/không đạt cho hàng chờ kiểm tra.'
+  id uuid [pk, not null, note: 'Định danh ổn định do ứng dụng tạo (UUID).']
+  receipt_move_id uuid [not null, note: 'Phát sinh nhận vào khu chờ']
+  quantity numeric(20,6) [not null, note: 'Lượng được đánh giá; cộng không vượt lần nhận']
+  result varchar(20) [not null, note: 'ACCEPT, REJECT']
+  reason text [not null, note: 'Lý do']
+  decided_by uuid [not null, note: 'Người kiểm tra']
+  decided_at timestamptz [not null, note: 'Thời điểm']
+  followup_document_id uuid [note: 'Phiếu cất/chuyển/trả xử lý quyết định']
+  checks {
+    `quantity > 0`
+    `result IN ('ACCEPT','REJECT')`
+  }
+}
+
+Table approval_policy {
+  Note: 'Một policy hoạt động mỗi loại phiếu; tối đa hai bước ở cơ sở.'
+  id uuid [pk, not null, note: 'Định danh ổn định do ứng dụng tạo (UUID).']
+  document_kind varchar(30) [not null, note: 'Loại phiếu']
+  revision integer [not null, note: 'Phiên bản policy']
+  is_active boolean [not null, note: 'Đang áp dụng']
+  indexes {
+    (document_kind,revision) [unique]
+  }
+}
+
+Table approval_policy_step {
+  Note: 'Người duyệt theo role trong scope của phiếu; không tự duyệt.'
+  id uuid [pk, not null, note: 'Định danh ổn định do ứng dụng tạo (UUID).']
+  policy_id uuid [not null, note: 'Policy']
+  step_no integer [not null, note: 'Bước 1 hoặc 2']
+  role_id uuid [not null, note: 'Vai trò cần có']
+  indexes {
+    (policy_id,step_no) [unique]
+  }
+  checks {
+    `step_no BETWEEN 1 AND 2`
+  }
+}
+
+Table approval_request {
+  Note: 'Snapshot policy + document version, sửa phiếu làm mất hiệu lực duyệt.'
+  id uuid [pk, not null, note: 'Định danh ổn định do ứng dụng tạo (UUID).']
+  document_id uuid [not null, note: 'Phiếu']
+  document_version integer [not null, note: 'Phiên bản đã submit']
+  policy_id uuid [not null, note: 'Policy đã chọn']
+  requested_by uuid [not null, note: 'Người gửi']
+  status varchar(20) [not null, note: 'PENDING, APPROVED, REJECTED, INVALIDATED']
+  created_at timestamptz [not null, note: 'Lúc gửi']
+  indexes {
+    (document_id,document_version) [unique]
+  }
+  checks {
+    `status IN ('PENDING','APPROVED','REJECTED','INVALIDATED')`
+  }
+}
+
+Table approval_step {
+  Note: 'Snapshot role từng bước, một quyết định duy nhất mỗi bước.'
+  id uuid [pk, not null, note: 'Định danh ổn định do ứng dụng tạo (UUID).']
+  request_id uuid [not null, note: 'Lần gửi duyệt']
+  step_no integer [not null, note: 'Thứ tự']
+  required_role_id uuid [not null, note: 'Role snapshot']
+  status varchar(20) [not null, note: 'PENDING, APPROVED, REJECTED']
+  decided_by uuid [note: 'Người quyết định']
+  decided_at timestamptz [note: 'Thời điểm quyết định']
+  comment text [note: 'Bắt buộc khi từ chối']
+  indexes {
+    (request_id,step_no) [unique]
+  }
+  checks {
+    `step_no BETWEEN 1 AND 2`
+    `status IN ('PENDING','APPROVED','REJECTED')`
+  }
+}
+
+Table stock_period {
+  Note: 'Kỳ nghiệp vụ theo kho; service kiểm tra overlap và khóa row khi post.'
+  id uuid [pk, not null, note: 'Định danh ổn định do ứng dụng tạo (UUID).']
+  warehouse_id uuid [not null, note: 'Kho']
+  starts_on date [not null, note: 'Ngày đầu']
+  ends_on date [not null, note: 'Ngày cuối bao gồm']
+  status varchar(10) [not null, note: 'OPEN, CLOSED']
+  closed_by uuid [note: 'Người khóa']
+  closed_at timestamptz [note: 'Thời điểm khóa']
+  indexes {
+    (warehouse_id,starts_on) [unique]
+  }
+  checks {
+    `ends_on >= starts_on`
+    `status IN ('OPEN','CLOSED')`
+  }
+}
+
+Table count_session {
+  Note: 'Kiểm kê có khóa vị trí và đếm mù; điều chỉnh qua document.'
+  id uuid [pk, not null, note: 'Định danh ổn định do ứng dụng tạo (UUID).']
+  warehouse_id uuid [not null, note: 'Kho']
+  number varchar(80) [not null, note: 'Mã phiên']
+  status varchar(20) [not null, note: 'DRAFT, FROZEN, COUNTED, SUBMITTED, POSTED, CANCELLED']
+  created_by uuid [not null, note: 'Người lập']
+  frozen_at timestamptz [note: 'Mốc chụp số dư']
+  adjustment_document_id uuid [note: 'Phiếu ADJUSTMENT sau duyệt']
+  version integer [not null, note: 'Chống xung đột']
+  indexes {
+    (number) [unique]
+  }
+  checks {
+    `status IN ('DRAFT','FROZEN','COUNTED','SUBMITTED','POSTED','CANCELLED')`
+  }
+}
+
+Table count_location_lock {
+  Note: 'Khóa nghiệp vụ, vẫn khóa row location ở mọi luồng ghi để tránh race.'
+  id uuid [pk, not null, note: 'Định danh ổn định do ứng dụng tạo (UUID).']
+  session_id uuid [not null, note: 'Phiên kiểm kê']
+  location_id uuid [not null, note: 'Vị trí đếm']
+  locked_at timestamptz [not null, note: 'Thời điểm khóa']
+  released_at timestamptz [note: 'Mở khóa khi hoàn tất/hủy có kiểm soát']
+  indexes {
+    (session_id,location_id) [unique]
+  }
+}
+
+Table count_assignment {
+  Note: 'Giao người đếm cho từng vị trí trong phiên.'
+  id uuid [pk, not null, note: 'Định danh ổn định do ứng dụng tạo (UUID).']
+  session_id uuid [not null, note: 'Phiên kiểm kê']
+  location_id uuid [not null, note: 'Vị trí được giao']
+  user_id uuid [not null, note: 'Người đếm']
+  assigned_by uuid [not null, note: 'Người giao']
+  indexes {
+    (session_id,location_id,user_id) [unique]
+  }
+}
+
+Table count_line {
+  Note: 'Một nhận dạng hàng/vị trí trong snapshot, bao gồm hàng phát hiện mới.'
+  id uuid [pk, not null, note: 'Định danh ổn định do ứng dụng tạo (UUID).']
+  session_id uuid [not null, note: 'Phiên']
+  stock_item_id uuid [not null, note: 'Hàng']
+  location_id uuid [not null, note: 'Vị trí']
+  snapshot_quantity numeric(20,6) [not null, note: 'Lượng hệ thống lúc freeze, chỉ người có quyền được xem']
+  approved_quantity numeric(20,6) [note: 'Số đếm được chọn để trình duyệt']
+  indexes {
+    (session_id,stock_item_id,location_id) [unique]
+  }
+  checks {
+    `snapshot_quantity >= 0`
+    `approved_quantity IS NULL OR approved_quantity >= 0`
+  }
+}
+
+Table count_observation {
+  Note: 'Lịch sử các lần đếm, không ghi đè lần đầu.'
+  id uuid [pk, not null, note: 'Định danh ổn định do ứng dụng tạo (UUID).']
+  count_line_id uuid [not null, note: 'Dòng kiểm kê']
+  round_no integer [not null, note: 'Lần đếm']
+  quantity numeric(20,6) [not null, note: 'Số đếm']
+  counted_by uuid [not null, note: 'Người đếm']
+  counted_at timestamptz [not null, note: 'Thời điểm']
+  scan_event_key uuid [note: 'Chống lặp sự kiện từ client']
+  indexes {
+    (count_line_id,round_no) [unique]
+  }
+  checks {
+    `round_no > 0`
+    `quantity >= 0`
+  }
+}
+
+Table idempotency_record {
+  Note: 'Kết quả lệnh theo user + key; payload hash phải khớp.'
+  id uuid [pk, not null, note: 'Định danh ổn định do ứng dụng tạo (UUID).']
+  actor_id uuid [not null, note: 'Người gọi']
+  key uuid [not null, note: 'Khóa lệnh']
+  command varchar(100) [not null, note: 'Loại lệnh và resource trong hash']
+  request_hash char(64) [not null, note: 'SHA256 canonical request gồm version/resource/body']
+  response jsonb [not null, note: 'Kết quả không chứa bí mật']
+  http_status integer [not null, note: 'Trạng thái đã commit']
+  completed_at timestamptz [not null, note: 'Thời điểm']
+  expires_at timestamptz [not null, note: 'Hạn giữ chi tiết response; không xóa key/hash hoặc cho tái dùng key']
+  indexes {
+    (actor_id,key) [unique]
+  }
+}
+
+Table outbox_event {
+  Note: 'Sự kiện lưu cùng giao dịch nghiệp vụ; consumer xử lý ít nhất một lần.'
+  id uuid [pk, not null, note: 'Định danh ổn định do ứng dụng tạo (UUID).']
+  event_type varchar(100) [not null, note: 'Tên có phiên bản']
+  aggregate_id uuid [not null, note: 'ID aggregate, tham chiếu logic kiểm tra ở service']
+  payload jsonb [not null, note: 'Payload tối thiểu']
+  occurred_at timestamptz [not null, note: 'Thời điểm']
+  available_at timestamptz [not null, note: 'Lần retry sớm nhất']
+  attempts integer [not null, note: 'Số lần thử']
+  processed_at timestamptz [note: 'Đã phát/xử lý']
+  last_error text [note: 'Lỗi đã lọc bí mật']
+  checks {
+    `attempts >= 0`
+  }
+}
+
+Table consumer_receipt {
+  Note: 'Dedup theo consumer; side effect ngoài DB cần idempotency ở đích.'
+  id uuid [pk, not null, note: 'Định danh ổn định do ứng dụng tạo (UUID).']
+  event_id uuid [not null, note: 'Sự kiện']
+  consumer varchar(100) [not null, note: 'Consumer ổn định']
+  processed_at timestamptz [not null, note: 'Đã hoàn tất']
+  indexes {
+    (event_id,consumer) [unique]
+  }
+}
+
+Table audit_event {
+  Note: 'Append-only tại quyền ứng dụng, không hứa chống DB superuser.'
+  id uuid [pk, not null, note: 'Định danh ổn định do ứng dụng tạo (UUID).']
+  actor_id uuid [note: 'User hoặc tác vụ hệ thống']
+  warehouse_id uuid [note: 'Scope kho nếu có']
+  action varchar(100) [not null, note: 'Hành động']
+  entity_type varchar(80) [not null, note: 'Loại thực thể']
+  entity_id uuid [note: 'Tham chiếu logic']
+  request_id uuid [not null, note: 'Đối chiếu log']
+  occurred_at timestamptz [not null, note: 'Thời điểm server']
+  before_data jsonb [note: 'Dữ liệu trước đã loại bỏ bí mật']
+  after_data jsonb [note: 'Dữ liệu sau đã loại bỏ bí mật']
+  reason text [note: 'Lý do']
+}
+
+Table stored_file {
+  Note: 'Metadata tệp; key dùng storage adapter, không là đường dẫn tùy ý của client.'
+  id uuid [pk, not null, note: 'Định danh ổn định do ứng dụng tạo (UUID).']
+  storage_key text [not null, note: 'Khóa lưu trữ do server tạo']
+  original_name varchar(240) [not null, note: 'Tên gốc đã làm sạch']
+  mime_type varchar(100) [not null, note: 'MIME được kiểm tra']
+  sha256 char(64) [not null, note: 'Checksum']
+  size_bytes bigint [not null, note: 'Kích thước']
+  uploaded_by uuid [not null, note: 'Người tải lên']
+  created_at timestamptz [not null, note: 'Thời điểm']
+  indexes {
+    (storage_key) [unique]
+  }
+  checks {
+    `size_bytes >= 0`
+  }
+}
+
+Table document_attachment {
+  Note: 'Tệp kế thừa quyền của phiếu; URL tải không công khai.'
+  id uuid [pk, not null, note: 'Định danh ổn định do ứng dụng tạo (UUID).']
+  document_id uuid [not null, note: 'Phiếu']
+  file_id uuid [not null, note: 'Tệp']
+  indexes {
+    (document_id,file_id) [unique]
+  }
+}
+
+Table product_image {
+  Note: 'Ảnh sản phẩm kế thừa quyền danh mục.'
+  id uuid [pk, not null, note: 'Định danh ổn định do ứng dụng tạo (UUID).']
+  product_id uuid [not null, note: 'SKU']
+  file_id uuid [not null, note: 'Tệp ảnh']
+  sort_order integer [not null, note: 'Thứ tự']
+  indexes {
+    (product_id,file_id) [unique]
+  }
+}
+
+Table import_job {
+  Note: 'Validate/staging rồi commit có quyền; file hash cố định sau dry-run.'
+  id uuid [pk, not null, note: 'Định danh ổn định do ứng dụng tạo (UUID).']
+  kind varchar(60) [not null, note: 'Loại mẫu']
+  file_id uuid [not null, note: 'Nguồn']
+  requested_by uuid [not null, note: 'Người nạp']
+  status varchar(20) [not null, note: 'UPLOADED, VALIDATING, INVALID, VALIDATED, COMMITTING, COMPLETED, FAILED']
+  file_hash char(64) [not null, note: 'Hash bytes đã duyệt']
+  mapping_version varchar(30) [not null, note: 'Phiên bản template']
+  operation_key uuid [not null, note: 'Dedup commit import']
+  created_at timestamptz [not null, note: 'Thời điểm']
+  indexes {
+    (operation_key) [unique]
+  }
+}
+
+Table import_row {
+  Note: 'Kết quả theo dòng; staging không là dữ liệu nghiệp vụ.'
+  id uuid [pk, not null, note: 'Định danh ổn định do ứng dụng tạo (UUID).']
+  job_id uuid [not null, note: 'Job']
+  row_no integer [not null, note: 'Dòng Excel/CSV gốc']
+  payload jsonb [not null, note: 'Dữ liệu chuẩn hóa']
+  errors jsonb [not null, note: 'Mã lỗi và field']
+  target_id uuid [note: 'ID sinh sau commit, tham chiếu logic']
+  status varchar(20) [not null, note: 'PENDING, INVALID, VALID, COMMITTED']
+  indexes {
+    (job_id,row_no) [unique]
+  }
+}
+
+Table export_job {
+  Note: 'Kiểm tra quyền khi tạo và tải file, kể cả quyền đã bị thu hồi.'
+  id uuid [pk, not null, note: 'Định danh ổn định do ứng dụng tạo (UUID).']
+  requested_by uuid [not null, note: 'Chủ job']
+  report_code varchar(40) [not null, note: 'R01..R08 hoặc mẫu in']
+  filters jsonb [not null, note: 'Kho/ngày/điều kiện đã validate']
+  status varchar(20) [not null, note: 'QUEUED, RUNNING, COMPLETED, FAILED, EXPIRED']
+  file_id uuid [note: 'Kết quả']
+  created_at timestamptz [not null, note: 'Thời điểm']
+  expires_at timestamptz [not null, note: 'Hạn tải']
+}
+
+Table custom_field_definition {
+  Note: 'Điểm mở rộng có kiểu; không dùng EAV cho tồn kho và quyền.'
+  id uuid [pk, not null, note: 'Định danh ổn định do ứng dụng tạo (UUID).']
+  entity_type varchar(40) [not null, note: 'product hoặc document']
+  code varchar(60) [not null, note: 'Mã trường']
+  value_type varchar(20) [not null, note: 'string, decimal, date, boolean, enum']
+  required boolean [not null, note: 'Bắt buộc cho bản ghi mới']
+  validation jsonb [not null, note: 'Giới hạn/enum/độ dài']
+  is_active boolean [not null, note: 'Còn hiệu lực']
+  indexes {
+    (entity_type,code) [unique]
+  }
+}
+
+Table client_release {
+  Note: 'Thông tin tương thích, không tự cài khi có lệnh từ DB.'
+  id uuid [pk, not null, note: 'Định danh ổn định do ứng dụng tạo (UUID).']
+  version varchar(40) [not null, note: 'Phiên bản client']
+  os varchar(20) [not null, note: 'WINDOWS, LINUX, MACOS']
+  architecture varchar(20) [not null, note: 'x86_64 hoặc arm64']
+  api_major integer [not null, note: 'API tương thích']
+  sha256 char(64) [not null, note: 'Checksum artifact']
+  download_uri text [not null, note: 'Địa chỉ nội bộ qua TLS']
+  is_minimum boolean [not null, note: 'Bản tối thiểu theo OS/arch, service kiểm tra chỉ một']
+  indexes {
+    (version,os,architecture) [unique]
+  }
+}
+
+Ref: role_permission.role_id > role.id [delete: restrict]
+Ref: role_permission.permission_id > permission.id [delete: restrict]
+Ref: user_role_grant.user_id > app_user.id [delete: restrict]
+Ref: user_role_grant.role_id > role.id [delete: restrict]
+Ref: user_role_grant.warehouse_id > warehouse.id [delete: restrict]
+Ref: user_role_grant.granted_by > app_user.id [delete: restrict]
+Ref: auth_session.user_id > app_user.id [delete: restrict]
+Ref: mfa_factor.user_id > app_user.id [delete: restrict]
+Ref: location.warehouse_id > warehouse.id [delete: restrict]
+Ref: location.parent_id > location.id [delete: restrict]
+Ref: product_category.parent_id > product_category.id [delete: restrict]
+Ref: product.category_id > product_category.id [delete: restrict]
+Ref: product.base_uom_id > uom.id [delete: restrict]
+Ref: product_uom.product_id > product.id [delete: restrict]
+Ref: product_uom.uom_id > uom.id [delete: restrict]
+Ref: barcode.product_uom_id > product_uom.id [delete: restrict]
+Ref: lot.product_id > product.id [delete: restrict]
+Ref: serial.product_id > product.id [delete: restrict]
+Ref: stock_item.product_id > product.id [delete: restrict]
+Ref: stock_item.lot_id > lot.id [delete: restrict]
+Ref: stock_item.serial_id > serial.id [delete: restrict]
+Ref: reference_price.product_id > product.id [delete: restrict]
+Ref: reference_price.created_by > app_user.id [delete: restrict]
+Ref: document.warehouse_id > warehouse.id [delete: restrict]
+Ref: document.destination_warehouse_id > warehouse.id [delete: restrict]
+Ref: document.transit_location_id > location.id [delete: restrict]
+Ref: document.partner_id > partner.id [delete: restrict]
+Ref: document.created_by > app_user.id [delete: restrict]
+Ref: document_line.document_id > document.id [delete: restrict]
+Ref: document_line.product_id > product.id [delete: restrict]
+Ref: document_line.uom_id > uom.id [delete: restrict]
+Ref: document_line.source_line_id > document_line.id [delete: restrict]
+Ref: document_link.document_id > document.id [delete: restrict]
+Ref: document_link.related_document_id > document.id [delete: restrict]
+Ref: document_assignment.document_id > document.id [delete: restrict]
+Ref: document_assignment.user_id > app_user.id [delete: restrict]
+Ref: document_assignment.assigned_by > app_user.id [delete: restrict]
+Ref: inventory_transaction.document_id > document.id [delete: restrict]
+Ref: inventory_transaction.posted_by > app_user.id [delete: restrict]
+Ref: inventory_transaction.reverses_transaction_id > inventory_transaction.id [delete: restrict]
+Ref: stock_move.transaction_id > inventory_transaction.id [delete: restrict]
+Ref: stock_move.line_id > document_line.id [delete: restrict]
+Ref: stock_move.stock_item_id > stock_item.id [delete: restrict]
+Ref: stock_move.source_location_id > location.id [delete: restrict]
+Ref: stock_move.destination_location_id > location.id [delete: restrict]
+Ref: stock_move.base_uom_id > uom.id [delete: restrict]
+Ref: stock_move.reverses_move_id > stock_move.id [delete: restrict]
+Ref: stock_balance.stock_item_id > stock_item.id [delete: restrict]
+Ref: stock_balance.location_id > location.id [delete: restrict]
+Ref: serial_position.serial_id > serial.id [delete: restrict]
+Ref: serial_position.location_id > location.id [delete: restrict]
+Ref: serial_position.last_move_id > stock_move.id [delete: restrict]
+Ref: reservation.line_id > document_line.id [delete: restrict]
+Ref: reservation.stock_item_id > stock_item.id [delete: restrict]
+Ref: reservation.location_id > location.id [delete: restrict]
+Ref: reservation.created_by > app_user.id [delete: restrict]
+Ref: pick_task.reservation_id > reservation.id [delete: restrict]
+Ref: pick_task.assigned_to > app_user.id [delete: restrict]
+Ref: reservation_consumption.reservation_id > reservation.id [delete: restrict]
+Ref: reservation_consumption.move_id > stock_move.id [delete: restrict]
+Ref: package.document_id > document.id [delete: restrict]
+Ref: package_line.package_id > package.id [delete: restrict]
+Ref: package_line.document_line_id > document_line.id [delete: restrict]
+Ref: package_line.stock_item_id > stock_item.id [delete: restrict]
+Ref: quality_decision.receipt_move_id > stock_move.id [delete: restrict]
+Ref: quality_decision.decided_by > app_user.id [delete: restrict]
+Ref: quality_decision.followup_document_id > document.id [delete: restrict]
+Ref: approval_policy_step.policy_id > approval_policy.id [delete: restrict]
+Ref: approval_policy_step.role_id > role.id [delete: restrict]
+Ref: approval_request.document_id > document.id [delete: restrict]
+Ref: approval_request.policy_id > approval_policy.id [delete: restrict]
+Ref: approval_request.requested_by > app_user.id [delete: restrict]
+Ref: approval_step.request_id > approval_request.id [delete: restrict]
+Ref: approval_step.required_role_id > role.id [delete: restrict]
+Ref: approval_step.decided_by > app_user.id [delete: restrict]
+Ref: stock_period.warehouse_id > warehouse.id [delete: restrict]
+Ref: stock_period.closed_by > app_user.id [delete: restrict]
+Ref: count_session.warehouse_id > warehouse.id [delete: restrict]
+Ref: count_session.created_by > app_user.id [delete: restrict]
+Ref: count_session.adjustment_document_id > document.id [delete: restrict]
+Ref: count_location_lock.session_id > count_session.id [delete: restrict]
+Ref: count_location_lock.location_id > location.id [delete: restrict]
+Ref: count_assignment.session_id > count_session.id [delete: restrict]
+Ref: count_assignment.location_id > location.id [delete: restrict]
+Ref: count_assignment.user_id > app_user.id [delete: restrict]
+Ref: count_assignment.assigned_by > app_user.id [delete: restrict]
+Ref: count_line.session_id > count_session.id [delete: restrict]
+Ref: count_line.stock_item_id > stock_item.id [delete: restrict]
+Ref: count_line.location_id > location.id [delete: restrict]
+Ref: count_observation.count_line_id > count_line.id [delete: restrict]
+Ref: count_observation.counted_by > app_user.id [delete: restrict]
+Ref: idempotency_record.actor_id > app_user.id [delete: restrict]
+Ref: consumer_receipt.event_id > outbox_event.id [delete: restrict]
+Ref: audit_event.actor_id > app_user.id [delete: restrict]
+Ref: audit_event.warehouse_id > warehouse.id [delete: restrict]
+Ref: stored_file.uploaded_by > app_user.id [delete: restrict]
+Ref: document_attachment.document_id > document.id [delete: restrict]
+Ref: document_attachment.file_id > stored_file.id [delete: restrict]
+Ref: product_image.product_id > product.id [delete: restrict]
+Ref: product_image.file_id > stored_file.id [delete: restrict]
+Ref: import_job.file_id > stored_file.id [delete: restrict]
+Ref: import_job.requested_by > app_user.id [delete: restrict]
+Ref: import_row.job_id > import_job.id [delete: restrict]
+Ref: export_job.requested_by > app_user.id [delete: restrict]
+Ref: export_job.file_id > stored_file.id [delete: restrict]
+// PostgreSQL-specific partial/NULLS NOT DISTINCT indexes and triggers are in 001_schema.sql.
+TableGroup master {
+  organization
+  warehouse
+  location
+  uom
+  product_category
+  product
+  product_uom
+  barcode
+  partner
+  reference_price
+  product_image
+}
+TableGroup iam {
+  app_user
+  role
+  permission
+  role_permission
+  user_role_grant
+  auth_session
+  mfa_factor
+}
+TableGroup inventory {
+  lot
+  serial
+  stock_item
+  inventory_transaction
+  stock_move
+  stock_balance
+  serial_position
+}
+TableGroup documents {
+  document
+  document_line
+  document_link
+  document_assignment
+  document_attachment
+}
+TableGroup fulfillment {
+  reservation
+  pick_task
+  reservation_consumption
+  package
+  package_line
+  quality_decision
+}
+TableGroup approval {
+  approval_policy
+  approval_policy_step
+  approval_request
+  approval_step
+}
+TableGroup counting {
+  stock_period
+  count_session
+  count_location_lock
+  count_assignment
+  count_line
+  count_observation
+}
+TableGroup operations {
+  idempotency_record
+  outbox_event
+  consumer_receipt
+  audit_event
+  stored_file
+  import_job
+  import_row
+  export_job
+}
+TableGroup extension {
+  custom_field_definition
+  client_release
+}

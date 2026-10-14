@@ -1,0 +1,7 @@
+Tool: built-in image_gen.imagegen (not CLI)
+Source: owner-provided Husky Warehouse KWS Logo.png
+Selected output: exec-ca500047-ee21-4d3e-b108-1ebd2dbeadfb.png
+Production path: apps/desktop/assets/kws-logo.png
+Opaque charcoal background; no gold border.
+
+Use case: precise-object-edit. Edit target: the attached Husky warehouse KWS logo. Convert this into a clean monochrome white logo on solid uniform charcoal background #515154. Preserve the husky head, warehouse roof, cartons and exact KWS lettering composition and recognizable shapes. All colored ink becomes pure white; preserve internal negative space as charcoal so the dog and cartons remain legible. Flat crisp vector-like solid shapes, no texture, no speckles, no distressing, no gradients, no shadow. NO border, NO rounded-square tile, NO gold outline. Center with small consistent margins. Opaque charcoal backdrop, not transparent in this step.

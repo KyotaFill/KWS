@@ -1,0 +1,19 @@
+digraph KWS {
+graph [rankdir=LR, bgcolor="white", nodesep=.5, ranksep=.9, pad=.3];
+node [shape=plain, fontname="DejaVu Sans", fontsize=12];
+edge [fontname="DejaVu Sans", fontsize=10, color="#334155", fontcolor="#334155", arrowsize=.8];
+label=<<TABLE BORDER="0" CELLBORDER="0" CELLPADDING="3"><TR><TD><FONT POINT-SIZE="20">ERD · stock_move</FONT></TD></TR></TABLE>>; labelloc=t; fontname="DejaVu Sans"; fontsize=16;
+"stock_move" [label=<<TABLE BORDER="1" CELLBORDER="1" CELLSPACING="0" CELLPADDING="7" COLOR="#526f83"><TR><TD BGCOLOR="#b7dff2"><B>stock_move</B></TD></TR><TR><TD ALIGN="LEFT" BALIGN="LEFT">PK id : uuid<BR ALIGN="LEFT"/>FK transaction_id : uuid<BR ALIGN="LEFT"/>FK line_id : uuid<BR ALIGN="LEFT"/>FK stock_item_id : uuid<BR ALIGN="LEFT"/>FK source_location_id : uuid<BR ALIGN="LEFT"/>FK destination_location_id : uuid<BR ALIGN="LEFT"/>quantity_base : numeric(20,6)<BR ALIGN="LEFT"/>FK base_uom_id : uuid<BR ALIGN="LEFT"/>FK reverses_move_id : uuid ?</TD></TR></TABLE>>];
+"uom" [label=<<TABLE BORDER="1" CELLBORDER="1" CELLSPACING="0" CELLPADDING="7" COLOR="#526f83"><TR><TD BGCOLOR="#b7dff2"><B>uom</B></TD></TR><TR><TD ALIGN="LEFT" BALIGN="LEFT">id : uuid</TD></TR></TABLE>>];
+"location" [label=<<TABLE BORDER="1" CELLBORDER="1" CELLSPACING="0" CELLPADDING="7" COLOR="#526f83"><TR><TD BGCOLOR="#b7dff2"><B>location</B></TD></TR><TR><TD ALIGN="LEFT" BALIGN="LEFT">id : uuid</TD></TR></TABLE>>];
+"document_line" [label=<<TABLE BORDER="1" CELLBORDER="1" CELLSPACING="0" CELLPADDING="7" COLOR="#526f83"><TR><TD BGCOLOR="#b7dff2"><B>document_line</B></TD></TR><TR><TD ALIGN="LEFT" BALIGN="LEFT">id : uuid</TD></TR></TABLE>>];
+"stock_item" [label=<<TABLE BORDER="1" CELLBORDER="1" CELLSPACING="0" CELLPADDING="7" COLOR="#526f83"><TR><TD BGCOLOR="#b7dff2"><B>stock_item</B></TD></TR><TR><TD ALIGN="LEFT" BALIGN="LEFT">id : uuid</TD></TR></TABLE>>];
+"inventory_transaction" [label=<<TABLE BORDER="1" CELLBORDER="1" CELLSPACING="0" CELLPADDING="7" COLOR="#526f83"><TR><TD BGCOLOR="#b7dff2"><B>inventory_transaction</B></TD></TR><TR><TD ALIGN="LEFT" BALIGN="LEFT">id : uuid</TD></TR></TABLE>>];
+"stock_move" -> "uom" [label="base_uom_id → id", dir="both", arrowtail="crowodot", arrowhead="teetee", taillabel="0..*", headlabel="1", labeldistance="2", style="dashed"];
+"stock_move" -> "location" [label="destination_location_id → id", dir="both", arrowtail="crowodot", arrowhead="teetee", taillabel="0..*", headlabel="1", labeldistance="2", style="dashed"];
+"stock_move" -> "document_line" [label="line_id → id", dir="both", arrowtail="crowodot", arrowhead="teetee", taillabel="0..*", headlabel="1", labeldistance="2", style="dashed"];
+"stock_move" -> "stock_move" [label="reverses_move_id → id", dir="both", arrowtail="teeodot", arrowhead="teeodot", taillabel="0..1", headlabel="0..1", labeldistance="2", style="dashed"];
+"stock_move" -> "location" [label="source_location_id → id", dir="both", arrowtail="crowodot", arrowhead="teetee", taillabel="0..*", headlabel="1", labeldistance="2", style="dashed"];
+"stock_move" -> "stock_item" [label="stock_item_id → id", dir="both", arrowtail="crowodot", arrowhead="teetee", taillabel="0..*", headlabel="1", labeldistance="2", style="dashed"];
+"stock_move" -> "inventory_transaction" [label="transaction_id → id", dir="both", arrowtail="crowodot", arrowhead="teetee", taillabel="0..*", headlabel="1", labeldistance="2", style="dashed"];
+}

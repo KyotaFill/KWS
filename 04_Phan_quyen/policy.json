@@ -1,0 +1,606 @@
+{
+  "version": "1.0",
+  "roles": {
+    "SYSADMIN": "Quản trị kỹ thuật",
+    "MASTER_DATA": "Quản lý danh mục",
+    "BUYER": "Mua hàng",
+    "SELLER": "Bán hàng",
+    "RECEIVER": "Nhân viên nhận",
+    "PICKER": "Nhân viên soạn/xuất",
+    "WAREHOUSE_MANAGER": "Quản lý kho",
+    "CONTROLLER": "Kiểm soát/kế toán",
+    "DIRECTOR": "Ban điều hành",
+    "AUDITOR": "Kiểm toán"
+  },
+  "permissions": [
+    {
+      "code": "iam.manage",
+      "scope": "GLOBAL",
+      "description": "Quản lý user, khóa/thu hồi phiên",
+      "roles": [
+        "SYSADMIN"
+      ],
+      "condition": "MFA; không đọc mật khẩu/token; audit; không mặc nhiên có quyền kho"
+    },
+    {
+      "code": "role.manage",
+      "scope": "GLOBAL",
+      "description": "Quản lý role và grant",
+      "roles": [
+        "SYSADMIN"
+      ],
+      "condition": "MFA; không tự yêu cầu/cấp quyền; quản trị viên thứ hai không phải người nhận quyền phê duyệt; audit"
+    },
+    {
+      "code": "config.manage",
+      "scope": "GLOBAL",
+      "description": "Cấu hình máy chủ/client và policy kỹ thuật",
+      "roles": [
+        "SYSADMIN"
+      ],
+      "condition": "MFA; không sửa trực tiếp số dư; thay đổi có version"
+    },
+    {
+      "code": "master.read",
+      "scope": "GLOBAL",
+      "description": "Xem sản phẩm, UOM, barcode, nhóm",
+      "roles": [
+        "MASTER_DATA",
+        "BUYER",
+        "SELLER",
+        "RECEIVER",
+        "PICKER",
+        "WAREHOUSE_MANAGER",
+        "CONTROLLER",
+        "DIRECTOR",
+        "AUDITOR"
+      ],
+      "condition": "Ẩn giá nếu thiếu price.read; không trả credential hay thông tin đối tác nhạy cảm"
+    },
+    {
+      "code": "master.write",
+      "scope": "GLOBAL",
+      "description": "Tạo/sửa/ngừng dùng danh mục",
+      "roles": [
+        "MASTER_DATA"
+      ],
+      "condition": "Không xóa bản ghi đã dùng; tracking/base UOM khóa sau phát sinh"
+    },
+    {
+      "code": "lot.correct",
+      "scope": "WAREHOUSE",
+      "description": "Sửa dữ liệu lô đã có phát sinh",
+      "roles": [
+        "WAREHOUSE_MANAGER"
+      ],
+      "condition": "Kho có lô; kiểm tra tất cả kho bị ảnh hưởng, lý do bắt buộc, không sửa số lượng"
+    },
+    {
+      "code": "partner.read",
+      "scope": "GLOBAL",
+      "description": "Xem đối tác",
+      "roles": [
+        "MASTER_DATA",
+        "BUYER",
+        "SELLER",
+        "WAREHOUSE_MANAGER",
+        "CONTROLLER",
+        "AUDITOR"
+      ],
+      "condition": "Dữ liệu tối thiểu theo nhu cầu"
+    },
+    {
+      "code": "partner.write",
+      "scope": "GLOBAL",
+      "description": "Quản lý đối tác",
+      "roles": [
+        "MASTER_DATA"
+      ],
+      "condition": "Ngừng hoạt động thay xóa"
+    },
+    {
+      "code": "warehouse.configure",
+      "scope": "GLOBAL",
+      "description": "Tạo kho, vị trí và cấu hình cấu trúc",
+      "roles": [
+        "MASTER_DATA"
+      ],
+      "condition": "Không đổi loại/vị trí đã giữ hàng; audit; không đồng nghĩa quyền stock.read"
+    },
+    {
+      "code": "price.read",
+      "scope": "WAREHOUSE",
+      "description": "Xem giá tham chiếu/giá trị",
+      "roles": [
+        "CONTROLLER",
+        "DIRECTOR",
+        "AUDITOR"
+      ],
+      "condition": "Đồng thời phải có quyền đọc đối tượng/báo cáo tương ứng trong kho"
+    },
+    {
+      "code": "price.write",
+      "scope": "GLOBAL",
+      "description": "Nhập giá tham chiếu mới",
+      "roles": [
+        "CONTROLLER"
+      ],
+      "condition": "Append bản giá có ngày hiệu lực; không sửa giá vốn kế toán"
+    },
+    {
+      "code": "stock.read",
+      "scope": "WAREHOUSE",
+      "description": "Xem tồn và thẻ kho",
+      "roles": [
+        "BUYER",
+        "SELLER",
+        "RECEIVER",
+        "PICKER",
+        "WAREHOUSE_MANAGER",
+        "CONTROLLER",
+        "DIRECTOR",
+        "AUDITOR"
+      ],
+      "condition": "Chỉ kho được cấp, transit chỉ theo chứng từ liên quan có quyền"
+    },
+    {
+      "code": "document.read",
+      "scope": "WAREHOUSE",
+      "description": "Xem chứng từ",
+      "roles": [
+        "BUYER",
+        "SELLER",
+        "RECEIVER",
+        "PICKER",
+        "WAREHOUSE_MANAGER",
+        "CONTROLLER",
+        "DIRECTOR",
+        "AUDITOR"
+      ],
+      "condition": "Nhân viên nhận/soạn: phiếu được giao hoặc do mình lập; trường kho khác được che"
+    },
+    {
+      "code": "po.draft",
+      "scope": "WAREHOUSE",
+      "description": "Lập/sửa/gửi duyệt Yêu cầu mua",
+      "roles": [
+        "BUYER"
+      ],
+      "condition": "Chỉ DRAFT/REJECTED và phiếu của mình/được giao; chuyển cần quyền cả kho nguồn và đích; sửa sau duyệt phải vô hiệu duyệt"
+    },
+    {
+      "code": "so.draft",
+      "scope": "WAREHOUSE",
+      "description": "Lập/sửa/gửi duyệt Yêu cầu bán",
+      "roles": [
+        "SELLER"
+      ],
+      "condition": "Chỉ DRAFT/REJECTED và phiếu của mình/được giao; chuyển cần quyền cả kho nguồn và đích; sửa sau duyệt phải vô hiệu duyệt"
+    },
+    {
+      "code": "receipt.draft",
+      "scope": "WAREHOUSE",
+      "description": "Lập/sửa/gửi duyệt Phiếu nhận",
+      "roles": [
+        "RECEIVER"
+      ],
+      "condition": "Chỉ DRAFT/REJECTED và phiếu của mình/được giao; chuyển cần quyền cả kho nguồn và đích; sửa sau duyệt phải vô hiệu duyệt"
+    },
+    {
+      "code": "issue.draft",
+      "scope": "WAREHOUSE",
+      "description": "Lập/sửa/gửi duyệt Phiếu xuất",
+      "roles": [
+        "PICKER"
+      ],
+      "condition": "Chỉ DRAFT/REJECTED và phiếu của mình/được giao; chuyển cần quyền cả kho nguồn và đích; sửa sau duyệt phải vô hiệu duyệt"
+    },
+    {
+      "code": "transfer.draft",
+      "scope": "WAREHOUSE",
+      "description": "Lập/sửa/gửi duyệt Lệnh chuyển",
+      "roles": [
+        "WAREHOUSE_MANAGER"
+      ],
+      "condition": "Chỉ DRAFT/REJECTED và phiếu của mình/được giao; chuyển cần quyền cả kho nguồn và đích; sửa sau duyệt phải vô hiệu duyệt"
+    },
+    {
+      "code": "return.draft",
+      "scope": "WAREHOUSE",
+      "description": "Lập/sửa/gửi duyệt Phiếu trả hàng",
+      "roles": [
+        "RECEIVER",
+        "BUYER",
+        "SELLER"
+      ],
+      "condition": "Chỉ DRAFT/REJECTED và phiếu của mình/được giao; chuyển cần quyền cả kho nguồn và đích; sửa sau duyệt phải vô hiệu duyệt"
+    },
+    {
+      "code": "move.draft",
+      "scope": "WAREHOUSE",
+      "description": "Lập/sửa/gửi duyệt Chuyển vị trí",
+      "roles": [
+        "RECEIVER",
+        "PICKER"
+      ],
+      "condition": "Chỉ DRAFT/REJECTED và phiếu của mình/được giao; chuyển cần quyền cả kho nguồn và đích; sửa sau duyệt phải vô hiệu duyệt"
+    },
+    {
+      "code": "adjustment.draft",
+      "scope": "WAREHOUSE",
+      "description": "Lập/sửa/gửi duyệt Điều chỉnh",
+      "roles": [
+        "WAREHOUSE_MANAGER"
+      ],
+      "condition": "Chỉ DRAFT/REJECTED và phiếu của mình/được giao; chuyển cần quyền cả kho nguồn và đích; sửa sau duyệt phải vô hiệu duyệt"
+    },
+    {
+      "code": "opening.draft",
+      "scope": "WAREHOUSE",
+      "description": "Lập/sửa/gửi duyệt Tồn đầu kỳ",
+      "roles": [
+        "CONTROLLER"
+      ],
+      "condition": "Chỉ DRAFT/REJECTED và phiếu của mình/được giao; chuyển cần quyền cả kho nguồn và đích; sửa sau duyệt phải vô hiệu duyệt"
+    },
+    {
+      "code": "document.assign",
+      "scope": "WAREHOUSE",
+      "description": "Phân công phiếu",
+      "roles": [
+        "WAREHOUSE_MANAGER"
+      ],
+      "condition": "Người được giao phải có quyền tại kho; chuyển giao không mở rộng scope"
+    },
+    {
+      "code": "document.approve",
+      "scope": "WAREHOUSE",
+      "description": "Duyệt phiếu thông thường",
+      "roles": [
+        "WAREHOUSE_MANAGER",
+        "CONTROLLER"
+      ],
+      "condition": "Thủ kho/Kế toán kho được duyệt thay phiếu thông thường, không hạn mức; đúng kho/policy/version; không là creator/requester; SOD luôn áp dụng"
+    },
+    {
+      "code": "adjustment.approve",
+      "scope": "WAREHOUSE",
+      "description": "Duyệt điều chỉnh/đảo/mất hàng",
+      "roles": [
+        "CONTROLLER"
+      ],
+      "condition": "Không là người lập/đếm; lý do, phiên bản, chênh lệch đã chốt; policy tối đa 2 bước"
+    },
+    {
+      "code": "opening.approve",
+      "scope": "WAREHOUSE",
+      "description": "Duyệt tồn đầu kỳ",
+      "roles": [
+        "DIRECTOR",
+        "CONTROLLER"
+      ],
+      "condition": "Không tự duyệt; chỉ cửa sổ cutover; đối soát đã ký"
+    },
+    {
+      "code": "document.cancel",
+      "scope": "WAREHOUSE",
+      "description": "Hủy phần chưa thực hiện/đóng thiếu",
+      "roles": [
+        "WAREHOUSE_MANAGER"
+      ],
+      "condition": "Giải phóng giữ chỗ; không xóa phần đã post; lý do bắt buộc"
+    },
+    {
+      "code": "receipt.post",
+      "scope": "WAREHOUSE",
+      "description": "Ghi nhận hàng thực nhận",
+      "roles": [
+        "RECEIVER",
+        "WAREHOUSE_MANAGER"
+      ],
+      "condition": "APPROVED/PARTIAL, được giao; không vượt nguồn; đủ lô/serial; idempotency"
+    },
+    {
+      "code": "quality.decide",
+      "scope": "WAREHOUSE",
+      "description": "Kiểm tra hàng và quyết định chất lượng",
+      "roles": [
+        "WAREHOUSE_MANAGER"
+      ],
+      "condition": "Chỉ hàng nhận/cách ly; không tự tăng tồn; quyết định phải có phiếu chuyển xử lý"
+    },
+    {
+      "code": "move.post",
+      "scope": "WAREHOUSE",
+      "description": "Ghi sổ chuyển vị trí/cất hàng",
+      "roles": [
+        "RECEIVER",
+        "WAREHOUSE_MANAGER"
+      ],
+      "condition": "Cùng kho; nguồn/đích hợp lệ; không lấy hàng đang giữ cho phiếu khác"
+    },
+    {
+      "code": "reservation.manage",
+      "scope": "WAREHOUSE",
+      "description": "Giữ/giải phóng hàng",
+      "roles": [
+        "PICKER",
+        "WAREHOUSE_MANAGER"
+      ],
+      "condition": "Nhu cầu đã duyệt; khóa số dư; chỉ hàng đủ điều kiện; đúng phiếu được giao"
+    },
+    {
+      "code": "pick.confirm",
+      "scope": "WAREHOUSE",
+      "description": "Xác nhận soạn/đóng gói",
+      "roles": [
+        "PICKER",
+        "WAREHOUSE_MANAGER"
+      ],
+      "condition": "Đúng reservation, không vượt lượng giữ; chưa giảm tồn"
+    },
+    {
+      "code": "issue.post",
+      "scope": "WAREHOUSE",
+      "description": "Xác nhận xuất hàng",
+      "roles": [
+        "PICKER",
+        "WAREHOUSE_MANAGER"
+      ],
+      "condition": "APPROVED/PARTIAL; tiêu thụ đúng giữ chỗ; kiểm tra lại hạn dùng, kỳ và khóa kiểm kê"
+    },
+    {
+      "code": "transfer.dispatch",
+      "scope": "WAREHOUSE",
+      "description": "Xuất chuyển từ kho nguồn",
+      "roles": [
+        "WAREHOUSE_MANAGER",
+        "PICKER"
+      ],
+      "condition": "Quyền kho nguồn và phiếu được giao; phiếu chuyển đã được duyệt cả hai kho"
+    },
+    {
+      "code": "transfer.receive",
+      "scope": "WAREHOUSE",
+      "description": "Nhận chuyển tại kho đích",
+      "roles": [
+        "WAREHOUSE_MANAGER",
+        "RECEIVER"
+      ],
+      "condition": "Quyền kho đích và phiếu được giao; chỉ nhận từ transit riêng của phiếu"
+    },
+    {
+      "code": "return.post",
+      "scope": "WAREHOUSE",
+      "description": "Ghi nhận khách trả/trả NCC",
+      "roles": [
+        "WAREHOUSE_MANAGER"
+      ],
+      "condition": "Liên kết nguồn; khóa lượng trả lũy kế; khách trả vào cách ly"
+    },
+    {
+      "code": "return.unlinked",
+      "scope": "WAREHOUSE",
+      "description": "Cho trả không có chứng từ gốc",
+      "roles": [
+        "CONTROLLER"
+      ],
+      "condition": "Phải có return.draft/post tương ứng qua role khác; lý do và phê duyệt ngoại lệ"
+    },
+    {
+      "code": "adjustment.post",
+      "scope": "WAREHOUSE",
+      "description": "Ghi điều chỉnh/đảo đã duyệt",
+      "roles": [
+        "CONTROLLER"
+      ],
+      "condition": "Không tự duyệt; kỳ mở; không làm âm/đụng giữ chỗ; append-only"
+    },
+    {
+      "code": "opening.post",
+      "scope": "WAREHOUSE",
+      "description": "Ghi tồn đầu kỳ đã duyệt",
+      "roles": [
+        "CONTROLLER"
+      ],
+      "condition": "Opening đã duyệt; mã đợt duy nhất; không nạp trực tiếp balance"
+    },
+    {
+      "code": "count.create",
+      "scope": "WAREHOUSE",
+      "description": "Tạo phiên và khóa vị trí kiểm kê",
+      "roles": [
+        "WAREHOUSE_MANAGER"
+      ],
+      "condition": "Khóa row vị trí trước snapshot; còn reservation thì dừng để xử lý"
+    },
+    {
+      "code": "count.enter",
+      "scope": "WAREHOUSE",
+      "description": "Nhập số đếm/đếm lại",
+      "roles": [
+        "RECEIVER",
+        "PICKER",
+        "WAREHOUSE_MANAGER"
+      ],
+      "condition": "Được giao; FROZEN/COUNTED; đếm mù không thấy snapshot"
+    },
+    {
+      "code": "count.snapshot.read",
+      "scope": "WAREHOUSE",
+      "description": "Xem số hệ thống và chênh lệch",
+      "roles": [
+        "WAREHOUSE_MANAGER",
+        "CONTROLLER",
+        "DIRECTOR",
+        "AUDITOR"
+      ],
+      "condition": "DTO REVIEW chỉ cho người không được phân công đếm của phiên; BLIND tuyệt đối không trả snapshot/delta/vòng trước"
+    },
+    {
+      "code": "count.submit",
+      "scope": "WAREHOUSE",
+      "description": "Chọn kết quả và trình điều chỉnh",
+      "roles": [
+        "WAREHOUSE_MANAGER"
+      ],
+      "condition": "Mọi dòng có hai vòng liên tiếp độc lập cùng số lượng; hàng ngoài snapshot là dòng snapshot 0; không bỏ sai lệch nhỏ"
+    },
+    {
+      "code": "period.close",
+      "scope": "WAREHOUSE",
+      "description": "Khóa kỳ",
+      "roles": [
+        "CONTROLLER"
+      ],
+      "condition": "Không còn giao dịch pending; khóa cùng row period với posting; đối soát"
+    },
+    {
+      "code": "period.reopen",
+      "scope": "WAREHOUSE",
+      "description": "Mở lại kỳ",
+      "roles": [
+        "DIRECTOR"
+      ],
+      "condition": "MFA, lý do và người kiểm soát xác nhận; audit; đối soát lại báo cáo"
+    },
+    {
+      "code": "report.read",
+      "scope": "WAREHOUSE",
+      "description": "Xem 8 báo cáo định sẵn",
+      "roles": [
+        "WAREHOUSE_MANAGER",
+        "CONTROLLER",
+        "DIRECTOR",
+        "AUDITOR"
+      ],
+      "condition": "Scope server; dữ liệu giá cần price.read"
+    },
+    {
+      "code": "report.export",
+      "scope": "WAREHOUSE",
+      "description": "Xuất báo cáo/tải file",
+      "roles": [
+        "CONTROLLER",
+        "DIRECTOR",
+        "AUDITOR"
+      ],
+      "condition": "Quyền được kiểm tra lại khi tải; che giá; chống formula injection"
+    },
+    {
+      "code": "print.execute",
+      "scope": "WAREHOUSE",
+      "description": "In/in lại phiếu hoặc tem",
+      "roles": [
+        "RECEIVER",
+        "PICKER",
+        "WAREHOUSE_MANAGER"
+      ],
+      "condition": "Cần quyền đọc dữ liệu mẫu; audit in lại; không post lần nữa"
+    },
+    {
+      "code": "import.validate",
+      "scope": "GLOBAL",
+      "description": "Nạp staging và chạy dry-run",
+      "roles": [
+        "MASTER_DATA",
+        "CONTROLLER"
+      ],
+      "condition": "Không ghi nghiệp vụ; chỉ mẫu được phép, dữ liệu kho vẫn lọc quyền"
+    },
+    {
+      "code": "import.commit",
+      "scope": "GLOBAL",
+      "description": "Commit dữ liệu đã dry-run",
+      "roles": [
+        "MASTER_DATA",
+        "CONTROLLER"
+      ],
+      "condition": "Cần thêm quyền ghi loại dữ liệu và từng kho; tồn đầu kỳ tạo phiếu chờ duyệt"
+    },
+    {
+      "code": "audit.read",
+      "scope": "WAREHOUSE",
+      "description": "Đọc audit nghiệp vụ",
+      "roles": [
+        "CONTROLLER",
+        "AUDITOR"
+      ],
+      "condition": "Chỉ scope kho; ẩn bí mật; không update/delete"
+    },
+    {
+      "code": "audit.security.read",
+      "scope": "GLOBAL",
+      "description": "Đọc audit tài khoản/quyền",
+      "roles": [
+        "SYSADMIN",
+        "AUDITOR"
+      ],
+      "condition": "Không mặc nhiên đọc dữ liệu kho/giá"
+    },
+    {
+      "code": "backup.operate",
+      "scope": "GLOBAL",
+      "description": "Vận hành sao lưu/khôi phục",
+      "roles": [
+        "SYSADMIN"
+      ],
+      "condition": "Tác vụ hạ tầng có runbook; không cung cấp API sửa kho tùy ý; MFA và biên bản"
+    },
+    {
+      "code": "ownership.read",
+      "scope": "WAREHOUSE",
+      "description": "Đọc phân tách tồn theo chủ sở hữu",
+      "roles": [
+        "WAREHOUSE_MANAGER",
+        "CONTROLLER",
+        "DIRECTOR",
+        "AUDITOR"
+      ],
+      "condition": "Đồng thời có stock.read tại kho; stock.read riêng không tiết lộ chủ hàng"
+    },
+    {
+      "code": "serial.read",
+      "scope": "WAREHOUSE",
+      "description": "Tra serial và nguồn bảo hành",
+      "roles": [
+        "RECEIVER",
+        "PICKER",
+        "WAREHOUSE_MANAGER",
+        "CONTROLLER",
+        "DIRECTOR",
+        "AUDITOR"
+      ],
+      "condition": "Cần stock.read tại kho và document.read/assignment cho receipt nguồn; không trả giá"
+    },
+    {
+      "code": "warranty.write",
+      "scope": "WAREHOUSE",
+      "description": "Ghi bổ sung chứng cứ bảo hành",
+      "roles": [
+        "WAREHOUSE_MANAGER",
+        "CONTROLLER"
+      ],
+      "condition": "Append revision có nguồn receipt đã post, version/idempotency/audit; không suy thời hạn"
+    },
+    {
+      "code": "count.approve",
+      "scope": "WAREHOUSE",
+      "description": "Duyệt kiểm kê hai bước",
+      "roles": [
+        "CONTROLLER",
+        "DIRECTOR"
+      ],
+      "condition": "Policy kiểm kê v1: CONTROLLER rồi DIRECTOR độc lập; khác creator/requester/counters; duyệt snapshot bất biến"
+    },
+    {
+      "code": "period.create",
+      "scope": "WAREHOUSE",
+      "description": "Mở kỳ kho",
+      "roles": [
+        "CONTROLLER"
+      ],
+      "condition": "Khóa warehouse; khoảng ngày không chồng kỳ hiện hữu; audit và version"
+    }
+  ]
+}

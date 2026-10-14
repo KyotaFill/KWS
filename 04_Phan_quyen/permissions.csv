@@ -1,0 +1,59 @@
+﻿code,scope_kind,description_vi,conditions
+iam.manage,GLOBAL,"Quản lý user, khóa/thu hồi phiên",MFA; không đọc mật khẩu/token; audit; không mặc nhiên có quyền kho
+role.manage,GLOBAL,Quản lý role và grant,MFA; không tự yêu cầu/cấp quyền; quản trị viên thứ hai không phải người nhận quyền phê duyệt; audit
+config.manage,GLOBAL,Cấu hình máy chủ/client và policy kỹ thuật,MFA; không sửa trực tiếp số dư; thay đổi có version
+master.read,GLOBAL,"Xem sản phẩm, UOM, barcode, nhóm",Ẩn giá nếu thiếu price.read; không trả credential hay thông tin đối tác nhạy cảm
+master.write,GLOBAL,Tạo/sửa/ngừng dùng danh mục,Không xóa bản ghi đã dùng; tracking/base UOM khóa sau phát sinh
+lot.correct,WAREHOUSE,Sửa dữ liệu lô đã có phát sinh,"Kho có lô; kiểm tra tất cả kho bị ảnh hưởng, lý do bắt buộc, không sửa số lượng"
+partner.read,GLOBAL,Xem đối tác,Dữ liệu tối thiểu theo nhu cầu
+partner.write,GLOBAL,Quản lý đối tác,Ngừng hoạt động thay xóa
+warehouse.configure,GLOBAL,"Tạo kho, vị trí và cấu hình cấu trúc",Không đổi loại/vị trí đã giữ hàng; audit; không đồng nghĩa quyền stock.read
+price.read,WAREHOUSE,Xem giá tham chiếu/giá trị,Đồng thời phải có quyền đọc đối tượng/báo cáo tương ứng trong kho
+price.write,GLOBAL,Nhập giá tham chiếu mới,Append bản giá có ngày hiệu lực; không sửa giá vốn kế toán
+stock.read,WAREHOUSE,Xem tồn và thẻ kho,"Chỉ kho được cấp, transit chỉ theo chứng từ liên quan có quyền"
+document.read,WAREHOUSE,Xem chứng từ,Nhân viên nhận/soạn: phiếu được giao hoặc do mình lập; trường kho khác được che
+po.draft,WAREHOUSE,Lập/sửa/gửi duyệt Yêu cầu mua,Chỉ DRAFT/REJECTED và phiếu của mình/được giao; chuyển cần quyền cả kho nguồn và đích; sửa sau duyệt phải vô hiệu duyệt
+so.draft,WAREHOUSE,Lập/sửa/gửi duyệt Yêu cầu bán,Chỉ DRAFT/REJECTED và phiếu của mình/được giao; chuyển cần quyền cả kho nguồn và đích; sửa sau duyệt phải vô hiệu duyệt
+receipt.draft,WAREHOUSE,Lập/sửa/gửi duyệt Phiếu nhận,Chỉ DRAFT/REJECTED và phiếu của mình/được giao; chuyển cần quyền cả kho nguồn và đích; sửa sau duyệt phải vô hiệu duyệt
+issue.draft,WAREHOUSE,Lập/sửa/gửi duyệt Phiếu xuất,Chỉ DRAFT/REJECTED và phiếu của mình/được giao; chuyển cần quyền cả kho nguồn và đích; sửa sau duyệt phải vô hiệu duyệt
+transfer.draft,WAREHOUSE,Lập/sửa/gửi duyệt Lệnh chuyển,Chỉ DRAFT/REJECTED và phiếu của mình/được giao; chuyển cần quyền cả kho nguồn và đích; sửa sau duyệt phải vô hiệu duyệt
+return.draft,WAREHOUSE,Lập/sửa/gửi duyệt Phiếu trả hàng,Chỉ DRAFT/REJECTED và phiếu của mình/được giao; chuyển cần quyền cả kho nguồn và đích; sửa sau duyệt phải vô hiệu duyệt
+move.draft,WAREHOUSE,Lập/sửa/gửi duyệt Chuyển vị trí,Chỉ DRAFT/REJECTED và phiếu của mình/được giao; chuyển cần quyền cả kho nguồn và đích; sửa sau duyệt phải vô hiệu duyệt
+adjustment.draft,WAREHOUSE,Lập/sửa/gửi duyệt Điều chỉnh,Chỉ DRAFT/REJECTED và phiếu của mình/được giao; chuyển cần quyền cả kho nguồn và đích; sửa sau duyệt phải vô hiệu duyệt
+opening.draft,WAREHOUSE,Lập/sửa/gửi duyệt Tồn đầu kỳ,Chỉ DRAFT/REJECTED và phiếu của mình/được giao; chuyển cần quyền cả kho nguồn và đích; sửa sau duyệt phải vô hiệu duyệt
+document.assign,WAREHOUSE,Phân công phiếu,Người được giao phải có quyền tại kho; chuyển giao không mở rộng scope
+document.approve,WAREHOUSE,Duyệt phiếu thông thường,"Thủ kho/Kế toán kho được duyệt thay phiếu thông thường, không hạn mức; đúng kho/policy/version; không là creator/requester; SOD luôn áp dụng"
+adjustment.approve,WAREHOUSE,Duyệt điều chỉnh/đảo/mất hàng,"Không là người lập/đếm; lý do, phiên bản, chênh lệch đã chốt; policy tối đa 2 bước"
+opening.approve,WAREHOUSE,Duyệt tồn đầu kỳ,Không tự duyệt; chỉ cửa sổ cutover; đối soát đã ký
+document.cancel,WAREHOUSE,Hủy phần chưa thực hiện/đóng thiếu,Giải phóng giữ chỗ; không xóa phần đã post; lý do bắt buộc
+receipt.post,WAREHOUSE,Ghi nhận hàng thực nhận,"APPROVED/PARTIAL, được giao; không vượt nguồn; đủ lô/serial; idempotency"
+quality.decide,WAREHOUSE,Kiểm tra hàng và quyết định chất lượng,Chỉ hàng nhận/cách ly; không tự tăng tồn; quyết định phải có phiếu chuyển xử lý
+move.post,WAREHOUSE,Ghi sổ chuyển vị trí/cất hàng,Cùng kho; nguồn/đích hợp lệ; không lấy hàng đang giữ cho phiếu khác
+reservation.manage,WAREHOUSE,Giữ/giải phóng hàng,Nhu cầu đã duyệt; khóa số dư; chỉ hàng đủ điều kiện; đúng phiếu được giao
+pick.confirm,WAREHOUSE,Xác nhận soạn/đóng gói,"Đúng reservation, không vượt lượng giữ; chưa giảm tồn"
+issue.post,WAREHOUSE,Xác nhận xuất hàng,"APPROVED/PARTIAL; tiêu thụ đúng giữ chỗ; kiểm tra lại hạn dùng, kỳ và khóa kiểm kê"
+transfer.dispatch,WAREHOUSE,Xuất chuyển từ kho nguồn,Quyền kho nguồn và phiếu được giao; phiếu chuyển đã được duyệt cả hai kho
+transfer.receive,WAREHOUSE,Nhận chuyển tại kho đích,Quyền kho đích và phiếu được giao; chỉ nhận từ transit riêng của phiếu
+return.post,WAREHOUSE,Ghi nhận khách trả/trả NCC,Liên kết nguồn; khóa lượng trả lũy kế; khách trả vào cách ly
+return.unlinked,WAREHOUSE,Cho trả không có chứng từ gốc,Phải có return.draft/post tương ứng qua role khác; lý do và phê duyệt ngoại lệ
+adjustment.post,WAREHOUSE,Ghi điều chỉnh/đảo đã duyệt,Không tự duyệt; kỳ mở; không làm âm/đụng giữ chỗ; append-only
+opening.post,WAREHOUSE,Ghi tồn đầu kỳ đã duyệt,Opening đã duyệt; mã đợt duy nhất; không nạp trực tiếp balance
+count.create,WAREHOUSE,Tạo phiên và khóa vị trí kiểm kê,Khóa row vị trí trước snapshot; còn reservation thì dừng để xử lý
+count.enter,WAREHOUSE,Nhập số đếm/đếm lại,Được giao; FROZEN/COUNTED; đếm mù không thấy snapshot
+count.snapshot.read,WAREHOUSE,Xem số hệ thống và chênh lệch,DTO REVIEW chỉ cho người không được phân công đếm của phiên; BLIND tuyệt đối không trả snapshot/delta/vòng trước
+count.submit,WAREHOUSE,Chọn kết quả và trình điều chỉnh,Mọi dòng có hai vòng liên tiếp độc lập cùng số lượng; hàng ngoài snapshot là dòng snapshot 0; không bỏ sai lệch nhỏ
+period.close,WAREHOUSE,Khóa kỳ,Không còn giao dịch pending; khóa cùng row period với posting; đối soát
+period.reopen,WAREHOUSE,Mở lại kỳ,"MFA, lý do và người kiểm soát xác nhận; audit; đối soát lại báo cáo"
+report.read,WAREHOUSE,Xem 8 báo cáo định sẵn,Scope server; dữ liệu giá cần price.read
+report.export,WAREHOUSE,Xuất báo cáo/tải file,Quyền được kiểm tra lại khi tải; che giá; chống formula injection
+print.execute,WAREHOUSE,In/in lại phiếu hoặc tem,Cần quyền đọc dữ liệu mẫu; audit in lại; không post lần nữa
+import.validate,GLOBAL,Nạp staging và chạy dry-run,"Không ghi nghiệp vụ; chỉ mẫu được phép, dữ liệu kho vẫn lọc quyền"
+import.commit,GLOBAL,Commit dữ liệu đã dry-run,Cần thêm quyền ghi loại dữ liệu và từng kho; tồn đầu kỳ tạo phiếu chờ duyệt
+audit.read,WAREHOUSE,Đọc audit nghiệp vụ,Chỉ scope kho; ẩn bí mật; không update/delete
+audit.security.read,GLOBAL,Đọc audit tài khoản/quyền,Không mặc nhiên đọc dữ liệu kho/giá
+backup.operate,GLOBAL,Vận hành sao lưu/khôi phục,Tác vụ hạ tầng có runbook; không cung cấp API sửa kho tùy ý; MFA và biên bản
+ownership.read,,,
+serial.read,,,
+warranty.write,,,
+count.approve,WAREHOUSE,Duyệt kiểm kê hai bước,Policy kiểm kê v1: CONTROLLER rồi DIRECTOR độc lập; khác creator/requester/counters; duyệt snapshot bất biến
+period.create,WAREHOUSE,Mở kỳ kho,Khóa warehouse; khoảng ngày không chồng kỳ hiện hữu; audit và version

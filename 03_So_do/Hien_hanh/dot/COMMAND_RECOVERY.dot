@@ -1,0 +1,37 @@
+digraph KWS {
+graph [rankdir=TB, bgcolor="white", nodesep=.5, ranksep=.9, pad=.3];
+node [shape=plain, fontname="DejaVu Sans", fontsize=12];
+edge [fontname="DejaVu Sans", fontsize=10, color="#334155", fontcolor="#334155", arrowsize=.8];
+label=<<TABLE BORDER="0" CELLBORDER="0" CELLPADDING="3"><TR><TD><FONT POINT-SIZE="20">Luồng xử lý lệnh và phục hồi ACK</FONT></TD></TR></TABLE>>; labelloc=t; fontname="DejaVu Sans"; fontsize=16;
+graph [ranksep=.35];
+"input" [shape=box, style="rounded,filled", fillcolor="#e3f1f8", label="Người dùng xác nhận thao tác"];
+"store" [shape=box, style="rounded,filled", fillcolor="#e3f1f8", label="IdentityClient / RecoveryJournal\nLưu nội dung và idempotency key\nĐánh dấu lệnh SENDING"];
+"api" [shape=box, style="rounded,filled", fillcolor="#e3f1f8", label="API nhận lệnh\nKiểm tra DTO / phiên / quyền"];
+"lock" [shape=box, style="rounded,filled", fillcolor="#e3f1f8", label="CommandBus\nKhóa key; authorize trong UoW\nĐối chiếu request hash"];
+"old" [shape=box, style="rounded,filled", fillcolor="#e3f1f8", label="Đã có kết quả cùng key\nTrả lại kết quả đã lưu"];
+"handle" [shape=box, style="rounded,filled", fillcolor="#e3f1f8", label="Handler nghiệp vụ\nKiểm tra phiên bản / trạng thái\nKhóa dữ liệu; cập nhật nghiệp vụ"];
+"commit" [shape=box, style="rounded,filled", fillcolor="#e3f1f8", label="Transaction commit\nLưu kết quả idempotency\nDữ liệu / audit / outbox theo handler"];
+"ack" [shape=box, style="rounded,filled", fillcolor="#e3f1f8", label="Nhận ACK và kết quả\nĐánh dấu COMMITTED cục bộ"];
+"unknown" [shape=box, style="rounded,filled", fillcolor="#e3f1f8", label="Mất phản hồi\nGiữ lệnh UNKNOWN"];
+"lookup" [shape=box, style="rounded,filled", fillcolor="#e3f1f8", label="Tra ACK bằng yêu cầu gốc\nX-KWS-Recovery: lookup-v1\nKhông thực thi lệnh còn thiếu"];
+"retry" [shape=box, style="rounded,filled", fillcolor="#e3f1f8", label="Người dùng quyết định gửi lại\nCùng key và cùng nội dung"];
+"choice" [shape=diamond, style="filled", fillcolor="#e3f1f8", label="Có kết quả khớp\nkey/hash?"];
+"response" [shape=diamond, style="filled", fillcolor="#e3f1f8", label="Nhận được phản\nhồi?"];
+"found" [shape=diamond, style="filled", fillcolor="#e3f1f8", label="Tìm thấy ACK?"];
+"input" -> "store" [label=""];
+"store" -> "api" [label="send-v1"];
+"api" -> "lock" [label=""];
+"handle" -> "commit" [label="Hợp lệ"];
+"old" -> "ack" [label=""];
+"unknown" -> "lookup" [label="Theo yêu cầu người dùng"];
+"retry" -> "api" [label="send-v1"];
+"lock" -> "choice" [label="Quyền và hash hợp lệ"];
+"choice" -> "old" [label="Có"];
+"choice" -> "handle" [label="Chưa có; send-v1"];
+"commit" -> "response" [label=""];
+"response" -> "ack" [label="Có"];
+"response" -> "unknown" [label="Không"];
+"lookup" -> "found" [label=""];
+"found" -> "ack" [label="Có"];
+"found" -> "retry" [label="Không: OPERATION_UNCONFIRMED"];
+}

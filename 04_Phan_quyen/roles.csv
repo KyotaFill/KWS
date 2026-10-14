@@ -1,0 +1,11 @@
+﻿code,name
+SYSADMIN,Quản trị kỹ thuật
+MASTER_DATA,Quản lý danh mục
+BUYER,Mua hàng
+SELLER,Bán hàng
+RECEIVER,Nhân viên nhận
+PICKER,Nhân viên soạn/xuất
+WAREHOUSE_MANAGER,Quản lý kho
+CONTROLLER,Kiểm soát/kế toán
+DIRECTOR,Ban điều hành
+AUDITOR,Kiểm toán

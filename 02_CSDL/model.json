@@ -1,0 +1,3528 @@
+[
+  {
+    "name": "organization",
+    "group": "master",
+    "purpose": "Một doanh nghiệp ở bản cơ sở; mở đa pháp nhân cần migration và thiết kế isolation riêng.",
+    "cols": [
+      {
+        "name": "id",
+        "type": "uuid",
+        "null": false,
+        "pk": true,
+        "ref": null,
+        "note": "Định danh ổn định do ứng dụng tạo (UUID)."
+      },
+      {
+        "name": "code",
+        "type": "varchar(40)",
+        "null": false,
+        "pk": false,
+        "ref": null,
+        "note": "Mã doanh nghiệp duy nhất"
+      },
+      {
+        "name": "name",
+        "type": "varchar(200)",
+        "null": false,
+        "pk": false,
+        "ref": null,
+        "note": "Tên doanh nghiệp"
+      },
+      {
+        "name": "timezone",
+        "type": "varchar(80)",
+        "null": false,
+        "pk": false,
+        "ref": null,
+        "note": "Múi giờ IANA, mặc định cấu hình Asia/Ho_Chi_Minh"
+      },
+      {
+        "name": "currency",
+        "type": "char(3)",
+        "null": false,
+        "pk": false,
+        "ref": null,
+        "note": "Tiền tệ tham chiếu VND"
+      }
+    ],
+    "unique": [
+      "code"
+    ],
+    "checks": []
+  },
+  {
+    "name": "app_user",
+    "group": "iam",
+    "purpose": "Tài khoản định danh, không xóa sau khi có nghiệp vụ.",
+    "cols": [
+      {
+        "name": "id",
+        "type": "uuid",
+        "null": false,
+        "pk": true,
+        "ref": null,
+        "note": "Định danh ổn định do ứng dụng tạo (UUID)."
+      },
+      {
+        "name": "username",
+        "type": "varchar(100)",
+        "null": false,
+        "pk": false,
+        "ref": null,
+        "note": "Tên đăng nhập chuẩn hóa chữ thường"
+      },
+      {
+        "name": "display_name",
+        "type": "varchar(200)",
+        "null": false,
+        "pk": false,
+        "ref": null,
+        "note": "Tên hiển thị"
+      },
+      {
+        "name": "password_hash",
+        "type": "text",
+        "null": false,
+        "pk": false,
+        "ref": null,
+        "note": "Hash mật khẩu; không lưu plaintext"
+      },
+      {
+        "name": "is_active",
+        "type": "boolean",
+        "null": false,
+        "pk": false,
+        "ref": null,
+        "note": "Khóa user được kiểm tra trên mỗi lệnh"
+      },
+      {
+        "name": "auth_version",
+        "type": "integer",
+        "null": false,
+        "pk": false,
+        "ref": null,
+        "note": "Tăng khi thu hồi toàn bộ phiên hoặc thay đổi bảo mật"
+      },
+      {
+        "name": "created_at",
+        "type": "timestamptz",
+        "null": false,
+        "pk": false,
+        "ref": null,
+        "note": "Thời điểm tạo"
+      }
+    ],
+    "unique": [
+      "username"
+    ],
+    "checks": [
+      "auth_version >= 0"
+    ]
+  },
+  {
+    "name": "role",
+    "group": "iam",
+    "purpose": "Vai trò cấu hình được; không hardcode tên role trong domain.",
+    "cols": [
+      {
+        "name": "id",
+        "type": "uuid",
+        "null": false,
+        "pk": true,
+        "ref": null,
+        "note": "Định danh ổn định do ứng dụng tạo (UUID)."
+      },
+      {
+        "name": "code",
+        "type": "varchar(60)",
+        "null": false,
+        "pk": false,
+        "ref": null,
+        "note": "Mã vai trò"
+      },
+      {
+        "name": "name",
+        "type": "varchar(160)",
+        "null": false,
+        "pk": false,
+        "ref": null,
+        "note": "Tên vai trò"
+      },
+      {
+        "name": "is_active",
+        "type": "boolean",
+        "null": false,
+        "pk": false,
+        "ref": null,
+        "note": "Còn hiệu lực"
+      }
+    ],
+    "unique": [
+      "code"
+    ],
+    "checks": []
+  },
+  {
+    "name": "permission",
+    "group": "iam",
+    "purpose": "Danh mục quyền action.resource ổn định, được seed bằng migration.",
+    "cols": [
+      {
+        "name": "id",
+        "type": "uuid",
+        "null": false,
+        "pk": true,
+        "ref": null,
+        "note": "Định danh ổn định do ứng dụng tạo (UUID)."
+      },
+      {
+        "name": "code",
+        "type": "varchar(100)",
+        "null": false,
+        "pk": false,
+        "ref": null,
+        "note": "Mã quyền theo file permissions.csv"
+      },
+      {
+        "name": "scope_kind",
+        "type": "varchar(20)",
+        "null": false,
+        "pk": false,
+        "ref": null,
+        "note": "WAREHOUSE hoặc GLOBAL"
+      },
+      {
+        "name": "description",
+        "type": "text",
+        "null": false,
+        "pk": false,
+        "ref": null,
+        "note": "Hành động được cấp"
+      }
+    ],
+    "unique": [
+      "code"
+    ],
+    "checks": [
+      "scope_kind IN ('WAREHOUSE','GLOBAL')"
+    ]
+  },
+  {
+    "name": "role_permission",
+    "group": "iam",
+    "purpose": "Quyền allow của một vai trò; thiếu grant là deny.",
+    "cols": [
+      {
+        "name": "id",
+        "type": "uuid",
+        "null": false,
+        "pk": true,
+        "ref": null,
+        "note": "Định danh ổn định do ứng dụng tạo (UUID)."
+      },
+      {
+        "name": "role_id",
+        "type": "uuid",
+        "null": false,
+        "pk": false,
+        "ref": "role.id",
+        "note": "Vai trò"
+      },
+      {
+        "name": "permission_id",
+        "type": "uuid",
+        "null": false,
+        "pk": false,
+        "ref": "permission.id",
+        "note": "Quyền"
+      }
+    ],
+    "unique": [
+      "role_id,permission_id"
+    ],
+    "checks": []
+  },
+  {
+    "name": "user_role_grant",
+    "group": "iam",
+    "purpose": "Cấp vai trò và scope trên cùng bản ghi để không nhân chéo quyền các kho.",
+    "cols": [
+      {
+        "name": "id",
+        "type": "uuid",
+        "null": false,
+        "pk": true,
+        "ref": null,
+        "note": "Định danh ổn định do ứng dụng tạo (UUID)."
+      },
+      {
+        "name": "user_id",
+        "type": "uuid",
+        "null": false,
+        "pk": false,
+        "ref": "app_user.id",
+        "note": "Tài khoản được cấp"
+      },
+      {
+        "name": "role_id",
+        "type": "uuid",
+        "null": false,
+        "pk": false,
+        "ref": "role.id",
+        "note": "Vai trò được cấp"
+      },
+      {
+        "name": "scope_kind",
+        "type": "varchar(20)",
+        "null": false,
+        "pk": false,
+        "ref": null,
+        "note": "GLOBAL, WAREHOUSE hoặc ALL_WAREHOUSES"
+      },
+      {
+        "name": "warehouse_id",
+        "type": "uuid",
+        "null": true,
+        "pk": false,
+        "ref": "warehouse.id",
+        "note": "Chỉ có khi scope WAREHOUSE"
+      },
+      {
+        "name": "valid_from",
+        "type": "timestamptz",
+        "null": false,
+        "pk": false,
+        "ref": null,
+        "note": "Bắt đầu hiệu lực"
+      },
+      {
+        "name": "valid_until",
+        "type": "timestamptz",
+        "null": true,
+        "pk": false,
+        "ref": null,
+        "note": "Hết hạn tùy chọn"
+      },
+      {
+        "name": "granted_by",
+        "type": "uuid",
+        "null": false,
+        "pk": false,
+        "ref": "app_user.id",
+        "note": "Người cấp"
+      },
+      {
+        "name": "revoked_at",
+        "type": "timestamptz",
+        "null": true,
+        "pk": false,
+        "ref": null,
+        "note": "Thu hồi, không xóa lịch sử"
+      }
+    ],
+    "unique": [],
+    "checks": [
+      "scope_kind IN ('GLOBAL','WAREHOUSE','ALL_WAREHOUSES')",
+      "(scope_kind = 'WAREHOUSE') = (warehouse_id IS NOT NULL)",
+      "valid_until IS NULL OR valid_until > valid_from"
+    ]
+  },
+  {
+    "name": "auth_session",
+    "group": "iam",
+    "purpose": "Refresh token chỉ lưu hash; kiểm tra user/auth_version khi sử dụng.",
+    "cols": [
+      {
+        "name": "id",
+        "type": "uuid",
+        "null": false,
+        "pk": true,
+        "ref": null,
+        "note": "Định danh ổn định do ứng dụng tạo (UUID)."
+      },
+      {
+        "name": "user_id",
+        "type": "uuid",
+        "null": false,
+        "pk": false,
+        "ref": "app_user.id",
+        "note": "Chủ phiên"
+      },
+      {
+        "name": "refresh_hash",
+        "type": "text",
+        "null": false,
+        "pk": false,
+        "ref": null,
+        "note": "Hash token xoay vòng"
+      },
+      {
+        "name": "device_id",
+        "type": "uuid",
+        "null": false,
+        "pk": false,
+        "ref": null,
+        "note": "ID cài đặt desktop"
+      },
+      {
+        "name": "auth_version",
+        "type": "integer",
+        "null": false,
+        "pk": false,
+        "ref": null,
+        "note": "Phiên bản xác thực lúc phát hành"
+      },
+      {
+        "name": "expires_at",
+        "type": "timestamptz",
+        "null": false,
+        "pk": false,
+        "ref": null,
+        "note": "Hạn phiên"
+      },
+      {
+        "name": "revoked_at",
+        "type": "timestamptz",
+        "null": true,
+        "pk": false,
+        "ref": null,
+        "note": "Thời điểm thu hồi"
+      }
+    ],
+    "unique": [
+      "refresh_hash"
+    ],
+    "checks": []
+  },
+  {
+    "name": "mfa_factor",
+    "group": "iam",
+    "purpose": "MFA cho vai trò đặc quyền. Khóa mã hóa nằm ngoài DB.",
+    "cols": [
+      {
+        "name": "id",
+        "type": "uuid",
+        "null": false,
+        "pk": true,
+        "ref": null,
+        "note": "Định danh ổn định do ứng dụng tạo (UUID)."
+      },
+      {
+        "name": "user_id",
+        "type": "uuid",
+        "null": false,
+        "pk": false,
+        "ref": "app_user.id",
+        "note": "Chủ yếu tố"
+      },
+      {
+        "name": "kind",
+        "type": "varchar(30)",
+        "null": false,
+        "pk": false,
+        "ref": null,
+        "note": "TOTP hoặc WEBAUTHN khi triển khai"
+      },
+      {
+        "name": "credential_ciphertext",
+        "type": "text",
+        "null": false,
+        "pk": false,
+        "ref": null,
+        "note": "Bí mật mã hóa hoặc public credential theo loại"
+      },
+      {
+        "name": "verified_at",
+        "type": "timestamptz",
+        "null": true,
+        "pk": false,
+        "ref": null,
+        "note": "Đã xác minh"
+      },
+      {
+        "name": "revoked_at",
+        "type": "timestamptz",
+        "null": true,
+        "pk": false,
+        "ref": null,
+        "note": "Thu hồi"
+      }
+    ],
+    "unique": [],
+    "checks": []
+  },
+  {
+    "name": "warehouse",
+    "group": "master",
+    "purpose": "Kho vật lý; scope phân quyền chính.",
+    "cols": [
+      {
+        "name": "id",
+        "type": "uuid",
+        "null": false,
+        "pk": true,
+        "ref": null,
+        "note": "Định danh ổn định do ứng dụng tạo (UUID)."
+      },
+      {
+        "name": "code",
+        "type": "varchar(40)",
+        "null": false,
+        "pk": false,
+        "ref": null,
+        "note": "Mã kho"
+      },
+      {
+        "name": "name",
+        "type": "varchar(160)",
+        "null": false,
+        "pk": false,
+        "ref": null,
+        "note": "Tên kho"
+      },
+      {
+        "name": "address",
+        "type": "text",
+        "null": true,
+        "pk": false,
+        "ref": null,
+        "note": "Địa chỉ"
+      },
+      {
+        "name": "is_active",
+        "type": "boolean",
+        "null": false,
+        "pk": false,
+        "ref": null,
+        "note": "Cho dùng mới"
+      }
+    ],
+    "unique": [
+      "code"
+    ],
+    "checks": []
+  },
+  {
+    "name": "location",
+    "group": "master",
+    "purpose": "Cây kho và các vị trí ảo; transit được tách theo lệnh chuyển.",
+    "cols": [
+      {
+        "name": "id",
+        "type": "uuid",
+        "null": false,
+        "pk": true,
+        "ref": null,
+        "note": "Định danh ổn định do ứng dụng tạo (UUID)."
+      },
+      {
+        "name": "warehouse_id",
+        "type": "uuid",
+        "null": true,
+        "pk": false,
+        "ref": "warehouse.id",
+        "note": "Kho sở hữu; rỗng cho EXTERNAL/TRANSIT/LOSS/OPENING"
+      },
+      {
+        "name": "parent_id",
+        "type": "uuid",
+        "null": true,
+        "pk": false,
+        "ref": "location.id",
+        "note": "Cha trong cùng kho, service chặn chu kỳ"
+      },
+      {
+        "name": "code",
+        "type": "varchar(80)",
+        "null": false,
+        "pk": false,
+        "ref": null,
+        "note": "Mã vị trí duy nhất toàn hệ thống"
+      },
+      {
+        "name": "name",
+        "type": "varchar(160)",
+        "null": false,
+        "pk": false,
+        "ref": null,
+        "note": "Tên vị trí"
+      },
+      {
+        "name": "kind",
+        "type": "varchar(20)",
+        "null": false,
+        "pk": false,
+        "ref": null,
+        "note": "GROUP, STORAGE, RECEIVING, QUARANTINE, SHIPPING, TRANSIT, EXTERNAL, LOSS, OPENING"
+      },
+      {
+        "name": "is_active",
+        "type": "boolean",
+        "null": false,
+        "pk": false,
+        "ref": null,
+        "note": "Cho dùng mới"
+      }
+    ],
+    "unique": [
+      "code"
+    ],
+    "checks": [
+      "kind IN ('GROUP','STORAGE','RECEIVING','QUARANTINE','SHIPPING','TRANSIT','EXTERNAL','LOSS','OPENING')",
+      "(kind IN ('GROUP','STORAGE','RECEIVING','QUARANTINE','SHIPPING')) = (warehouse_id IS NOT NULL)",
+      "parent_id IS NULL OR parent_id <> id"
+    ]
+  },
+  {
+    "name": "uom",
+    "group": "master",
+    "purpose": "Đơn vị cơ sở và đơn vị đóng gói.",
+    "cols": [
+      {
+        "name": "id",
+        "type": "uuid",
+        "null": false,
+        "pk": true,
+        "ref": null,
+        "note": "Định danh ổn định do ứng dụng tạo (UUID)."
+      },
+      {
+        "name": "code",
+        "type": "varchar(30)",
+        "null": false,
+        "pk": false,
+        "ref": null,
+        "note": "Mã đơn vị"
+      },
+      {
+        "name": "name",
+        "type": "varchar(80)",
+        "null": false,
+        "pk": false,
+        "ref": null,
+        "note": "Tên đơn vị"
+      },
+      {
+        "name": "decimal_places",
+        "type": "integer",
+        "null": false,
+        "pk": false,
+        "ref": null,
+        "note": "Số lẻ tối đa cho phép từ 0 tới 6"
+      }
+    ],
+    "unique": [
+      "code"
+    ],
+    "checks": [
+      "decimal_places BETWEEN 0 AND 6"
+    ]
+  },
+  {
+    "name": "product_category",
+    "group": "master",
+    "purpose": "Cây nhóm hàng; kiểm tra chu kỳ tại service.",
+    "cols": [
+      {
+        "name": "id",
+        "type": "uuid",
+        "null": false,
+        "pk": true,
+        "ref": null,
+        "note": "Định danh ổn định do ứng dụng tạo (UUID)."
+      },
+      {
+        "name": "code",
+        "type": "varchar(40)",
+        "null": false,
+        "pk": false,
+        "ref": null,
+        "note": "Mã nhóm"
+      },
+      {
+        "name": "name",
+        "type": "varchar(160)",
+        "null": false,
+        "pk": false,
+        "ref": null,
+        "note": "Tên nhóm"
+      },
+      {
+        "name": "parent_id",
+        "type": "uuid",
+        "null": true,
+        "pk": false,
+        "ref": "product_category.id",
+        "note": "Nhóm cha"
+      }
+    ],
+    "unique": [
+      "code"
+    ],
+    "checks": [
+      "parent_id IS NULL OR parent_id <> id"
+    ]
+  },
+  {
+    "name": "product",
+    "group": "master",
+    "purpose": "SKU; tracking/base UOM khóa sau phát sinh.",
+    "cols": [
+      {
+        "name": "id",
+        "type": "uuid",
+        "null": false,
+        "pk": true,
+        "ref": null,
+        "note": "Định danh ổn định do ứng dụng tạo (UUID)."
+      },
+      {
+        "name": "sku",
+        "type": "varchar(80)",
+        "null": false,
+        "pk": false,
+        "ref": null,
+        "note": "Mã SKU duy nhất"
+      },
+      {
+        "name": "name",
+        "type": "varchar(240)",
+        "null": false,
+        "pk": false,
+        "ref": null,
+        "note": "Tên hàng"
+      },
+      {
+        "name": "category_id",
+        "type": "uuid",
+        "null": true,
+        "pk": false,
+        "ref": "product_category.id",
+        "note": "Nhóm hàng"
+      },
+      {
+        "name": "base_uom_id",
+        "type": "uuid",
+        "null": false,
+        "pk": false,
+        "ref": "uom.id",
+        "note": "Đơn vị sổ kho"
+      },
+      {
+        "name": "tracking",
+        "type": "varchar(10)",
+        "null": false,
+        "pk": false,
+        "ref": null,
+        "note": "NONE, LOT hoặc SERIAL"
+      },
+      {
+        "name": "expiry_required",
+        "type": "boolean",
+        "null": false,
+        "pk": false,
+        "ref": null,
+        "note": "Chỉ bật cho LOT trong bản cơ sở"
+      },
+      {
+        "name": "is_active",
+        "type": "boolean",
+        "null": false,
+        "pk": false,
+        "ref": null,
+        "note": "Ngừng dùng vẫn giữ lịch sử"
+      },
+      {
+        "name": "version",
+        "type": "integer",
+        "null": false,
+        "pk": false,
+        "ref": null,
+        "note": "Optimistic concurrency"
+      },
+      {
+        "name": "attributes",
+        "type": "jsonb",
+        "null": false,
+        "pk": false,
+        "ref": null,
+        "note": "Trường bổ sung đã khai báo, không chứa lượng/quyền/trạng thái lõi"
+      }
+    ],
+    "unique": [
+      "sku"
+    ],
+    "checks": [
+      "tracking IN ('NONE','LOT','SERIAL')",
+      "NOT expiry_required OR tracking = 'LOT'",
+      "version > 0"
+    ]
+  },
+  {
+    "name": "product_uom",
+    "group": "master",
+    "purpose": "Quy đổi cố định có phiên bản; dòng cũ không đổi tỷ lệ.",
+    "cols": [
+      {
+        "name": "id",
+        "type": "uuid",
+        "null": false,
+        "pk": true,
+        "ref": null,
+        "note": "Định danh ổn định do ứng dụng tạo (UUID)."
+      },
+      {
+        "name": "product_id",
+        "type": "uuid",
+        "null": false,
+        "pk": false,
+        "ref": "product.id",
+        "note": "SKU"
+      },
+      {
+        "name": "uom_id",
+        "type": "uuid",
+        "null": false,
+        "pk": false,
+        "ref": "uom.id",
+        "note": "Đơn vị"
+      },
+      {
+        "name": "factor",
+        "type": "numeric(20,8)",
+        "null": false,
+        "pk": false,
+        "ref": null,
+        "note": "Một đơn vị nhập bằng bao nhiêu đơn vị cơ sở"
+      },
+      {
+        "name": "revision",
+        "type": "integer",
+        "null": false,
+        "pk": false,
+        "ref": null,
+        "note": "Phiên bản quy đổi"
+      },
+      {
+        "name": "is_active",
+        "type": "boolean",
+        "null": false,
+        "pk": false,
+        "ref": null,
+        "note": "Chỉ một phiên bản hoạt động mỗi SKU/đơn vị (partial unique SQL)"
+      }
+    ],
+    "unique": [
+      "product_id,uom_id,revision"
+    ],
+    "checks": [
+      "factor > 0",
+      "revision > 0"
+    ]
+  },
+  {
+    "name": "barcode",
+    "group": "master",
+    "purpose": "Barcode chuẩn hóa, duy nhất cả khi ngừng dùng để tránh tái gán nhầm.",
+    "cols": [
+      {
+        "name": "id",
+        "type": "uuid",
+        "null": false,
+        "pk": true,
+        "ref": null,
+        "note": "Định danh ổn định do ứng dụng tạo (UUID)."
+      },
+      {
+        "name": "code",
+        "type": "varchar(160)",
+        "null": false,
+        "pk": false,
+        "ref": null,
+        "note": "Giữ số 0 đầu, không tự đổi sang số"
+      },
+      {
+        "name": "product_uom_id",
+        "type": "uuid",
+        "null": false,
+        "pk": false,
+        "ref": "product_uom.id",
+        "note": "SKU và quy cách quét"
+      },
+      {
+        "name": "is_active",
+        "type": "boolean",
+        "null": false,
+        "pk": false,
+        "ref": null,
+        "note": "Được dùng để quét mới"
+      }
+    ],
+    "unique": [
+      "code"
+    ],
+    "checks": []
+  },
+  {
+    "name": "partner",
+    "group": "master",
+    "purpose": "Khách hàng và nhà cung cấp chung danh mục.",
+    "cols": [
+      {
+        "name": "id",
+        "type": "uuid",
+        "null": false,
+        "pk": true,
+        "ref": null,
+        "note": "Định danh ổn định do ứng dụng tạo (UUID)."
+      },
+      {
+        "name": "code",
+        "type": "varchar(60)",
+        "null": false,
+        "pk": false,
+        "ref": null,
+        "note": "Mã đối tác"
+      },
+      {
+        "name": "name",
+        "type": "varchar(240)",
+        "null": false,
+        "pk": false,
+        "ref": null,
+        "note": "Tên đối tác"
+      },
+      {
+        "name": "is_customer",
+        "type": "boolean",
+        "null": false,
+        "pk": false,
+        "ref": null,
+        "note": "Là khách hàng"
+      },
+      {
+        "name": "is_supplier",
+        "type": "boolean",
+        "null": false,
+        "pk": false,
+        "ref": null,
+        "note": "Là nhà cung cấp"
+      },
+      {
+        "name": "tax_code",
+        "type": "varchar(40)",
+        "null": true,
+        "pk": false,
+        "ref": null,
+        "note": "Thông tin tham chiếu"
+      },
+      {
+        "name": "address",
+        "type": "text",
+        "null": true,
+        "pk": false,
+        "ref": null,
+        "note": "Địa chỉ"
+      },
+      {
+        "name": "is_active",
+        "type": "boolean",
+        "null": false,
+        "pk": false,
+        "ref": null,
+        "note": "Còn hoạt động"
+      }
+    ],
+    "unique": [
+      "code"
+    ],
+    "checks": [
+      "is_customer OR is_supplier"
+    ]
+  },
+  {
+    "name": "lot",
+    "group": "inventory",
+    "purpose": "Lô thuộc SKU; thay hạn dùng phải audit và kiểm tra giữ chỗ.",
+    "cols": [
+      {
+        "name": "id",
+        "type": "uuid",
+        "null": false,
+        "pk": true,
+        "ref": null,
+        "note": "Định danh ổn định do ứng dụng tạo (UUID)."
+      },
+      {
+        "name": "product_id",
+        "type": "uuid",
+        "null": false,
+        "pk": false,
+        "ref": "product.id",
+        "note": "SKU theo lô"
+      },
+      {
+        "name": "code",
+        "type": "varchar(100)",
+        "null": false,
+        "pk": false,
+        "ref": null,
+        "note": "Mã lô theo SKU"
+      },
+      {
+        "name": "manufactured_on",
+        "type": "date",
+        "null": true,
+        "pk": false,
+        "ref": null,
+        "note": "Ngày sản xuất"
+      },
+      {
+        "name": "expires_on",
+        "type": "date",
+        "null": true,
+        "pk": false,
+        "ref": null,
+        "note": "Ngày hết hạn; hết hạn từ đầu ngày tiếp theo theo timezone doanh nghiệp"
+      },
+      {
+        "name": "version",
+        "type": "integer",
+        "null": false,
+        "pk": false,
+        "ref": null,
+        "note": "Chống sửa đè"
+      }
+    ],
+    "unique": [
+      "product_id,code"
+    ],
+    "checks": [
+      "expires_on IS NULL OR manufactured_on IS NULL OR expires_on >= manufactured_on"
+    ]
+  },
+  {
+    "name": "serial",
+    "group": "inventory",
+    "purpose": "Serial duy nhất theo SKU trong toàn vòng đời, có thể nhập lại khi trả hàng.",
+    "cols": [
+      {
+        "name": "id",
+        "type": "uuid",
+        "null": false,
+        "pk": true,
+        "ref": null,
+        "note": "Định danh ổn định do ứng dụng tạo (UUID)."
+      },
+      {
+        "name": "product_id",
+        "type": "uuid",
+        "null": false,
+        "pk": false,
+        "ref": "product.id",
+        "note": "SKU theo serial"
+      },
+      {
+        "name": "code",
+        "type": "varchar(160)",
+        "null": false,
+        "pk": false,
+        "ref": null,
+        "note": "Số serial"
+      }
+    ],
+    "unique": [
+      "product_id,code"
+    ],
+    "checks": []
+  },
+  {
+    "name": "stock_item",
+    "group": "inventory",
+    "purpose": "Chiều nhận dạng chuẩn hóa, tránh NULL gây trùng khóa số dư.",
+    "cols": [
+      {
+        "name": "id",
+        "type": "uuid",
+        "null": false,
+        "pk": true,
+        "ref": null,
+        "note": "Định danh ổn định do ứng dụng tạo (UUID)."
+      },
+      {
+        "name": "product_id",
+        "type": "uuid",
+        "null": false,
+        "pk": false,
+        "ref": "product.id",
+        "note": "SKU"
+      },
+      {
+        "name": "lot_id",
+        "type": "uuid",
+        "null": true,
+        "pk": false,
+        "ref": "lot.id",
+        "note": "Lô hoặc rỗng"
+      },
+      {
+        "name": "serial_id",
+        "type": "uuid",
+        "null": true,
+        "pk": false,
+        "ref": "serial.id",
+        "note": "Serial hoặc rỗng"
+      }
+    ],
+    "unique": [],
+    "checks": [
+      "NOT (lot_id IS NOT NULL AND serial_id IS NOT NULL)"
+    ]
+  },
+  {
+    "name": "reference_price",
+    "group": "master",
+    "purpose": "Giá quản trị có hiệu lực từ ngày, không phải giá vốn kế toán.",
+    "cols": [
+      {
+        "name": "id",
+        "type": "uuid",
+        "null": false,
+        "pk": true,
+        "ref": null,
+        "note": "Định danh ổn định do ứng dụng tạo (UUID)."
+      },
+      {
+        "name": "product_id",
+        "type": "uuid",
+        "null": false,
+        "pk": false,
+        "ref": "product.id",
+        "note": "SKU"
+      },
+      {
+        "name": "effective_on",
+        "type": "date",
+        "null": false,
+        "pk": false,
+        "ref": null,
+        "note": "Áp dụng từ ngày, đến trước bản tiếp theo"
+      },
+      {
+        "name": "amount",
+        "type": "numeric(20,4)",
+        "null": false,
+        "pk": false,
+        "ref": null,
+        "note": "Giá cho một đơn vị cơ sở"
+      },
+      {
+        "name": "currency",
+        "type": "char(3)",
+        "null": false,
+        "pk": false,
+        "ref": null,
+        "note": "VND ở bản cơ sở"
+      },
+      {
+        "name": "source",
+        "type": "text",
+        "null": false,
+        "pk": false,
+        "ref": null,
+        "note": "Nguồn tham chiếu"
+      },
+      {
+        "name": "created_by",
+        "type": "uuid",
+        "null": false,
+        "pk": false,
+        "ref": "app_user.id",
+        "note": "Người cập nhật"
+      }
+    ],
+    "unique": [
+      "product_id,effective_on"
+    ],
+    "checks": [
+      "amount >= 0"
+    ]
+  },
+  {
+    "name": "document",
+    "group": "documents",
+    "purpose": "Header chung; loại phiếu quy định state machine và validator riêng.",
+    "cols": [
+      {
+        "name": "id",
+        "type": "uuid",
+        "null": false,
+        "pk": true,
+        "ref": null,
+        "note": "Định danh ổn định do ứng dụng tạo (UUID)."
+      },
+      {
+        "name": "number",
+        "type": "varchar(80)",
+        "null": false,
+        "pk": false,
+        "ref": null,
+        "note": "Mã phiếu duy nhất do sequence service cấp"
+      },
+      {
+        "name": "kind",
+        "type": "varchar(30)",
+        "null": false,
+        "pk": false,
+        "ref": null,
+        "note": "PO, SO, RECEIPT, ISSUE, TRANSFER, CUSTOMER_RETURN, SUPPLIER_RETURN, INTERNAL_MOVE, ADJUSTMENT, OPENING, REVERSAL"
+      },
+      {
+        "name": "status",
+        "type": "varchar(20)",
+        "null": false,
+        "pk": false,
+        "ref": null,
+        "note": "DRAFT, SUBMITTED, APPROVED, REJECTED, PARTIAL, COMPLETED, CANCELLED"
+      },
+      {
+        "name": "warehouse_id",
+        "type": "uuid",
+        "null": false,
+        "pk": false,
+        "ref": "warehouse.id",
+        "note": "Kho tác nghiệp chính; với transfer là nguồn"
+      },
+      {
+        "name": "destination_warehouse_id",
+        "type": "uuid",
+        "null": true,
+        "pk": false,
+        "ref": "warehouse.id",
+        "note": "Kho đích chuyển"
+      },
+      {
+        "name": "transit_location_id",
+        "type": "uuid",
+        "null": true,
+        "pk": false,
+        "ref": "location.id",
+        "note": "Vị trí TRANSIT riêng một phiếu chuyển"
+      },
+      {
+        "name": "partner_id",
+        "type": "uuid",
+        "null": true,
+        "pk": false,
+        "ref": "partner.id",
+        "note": "Đối tác theo loại"
+      },
+      {
+        "name": "business_date",
+        "type": "date",
+        "null": false,
+        "pk": false,
+        "ref": null,
+        "note": "Ngày nghiệp vụ"
+      },
+      {
+        "name": "created_by",
+        "type": "uuid",
+        "null": false,
+        "pk": false,
+        "ref": "app_user.id",
+        "note": "Người tạo"
+      },
+      {
+        "name": "created_at",
+        "type": "timestamptz",
+        "null": false,
+        "pk": false,
+        "ref": null,
+        "note": "Thời điểm tạo"
+      },
+      {
+        "name": "version",
+        "type": "integer",
+        "null": false,
+        "pk": false,
+        "ref": null,
+        "note": "Tăng mọi thay đổi nghiệp vụ"
+      },
+      {
+        "name": "reason",
+        "type": "text",
+        "null": true,
+        "pk": false,
+        "ref": null,
+        "note": "Lý do hủy/điều chỉnh/ngoại lệ"
+      },
+      {
+        "name": "attributes",
+        "type": "jsonb",
+        "null": false,
+        "pk": false,
+        "ref": null,
+        "note": "Thuộc tính mở rộng đã validate"
+      }
+    ],
+    "unique": [
+      "number"
+    ],
+    "checks": [
+      "kind IN ('PO','SO','RECEIPT','ISSUE','TRANSFER','CUSTOMER_RETURN','SUPPLIER_RETURN','INTERNAL_MOVE','ADJUSTMENT','OPENING','REVERSAL')",
+      "status IN ('DRAFT','SUBMITTED','APPROVED','REJECTED','PARTIAL','COMPLETED','CANCELLED')",
+      "version > 0",
+      "(kind = 'TRANSFER') = (destination_warehouse_id IS NOT NULL AND transit_location_id IS NOT NULL)",
+      "destination_warehouse_id IS NULL OR destination_warehouse_id <> warehouse_id"
+    ]
+  },
+  {
+    "name": "document_line",
+    "group": "documents",
+    "purpose": "Dòng yêu cầu hoặc dòng phiếu thực hiện; liên kết nguồn hỗ trợ từng phần.",
+    "cols": [
+      {
+        "name": "id",
+        "type": "uuid",
+        "null": false,
+        "pk": true,
+        "ref": null,
+        "note": "Định danh ổn định do ứng dụng tạo (UUID)."
+      },
+      {
+        "name": "document_id",
+        "type": "uuid",
+        "null": false,
+        "pk": false,
+        "ref": "document.id",
+        "note": "Phiếu cha"
+      },
+      {
+        "name": "line_no",
+        "type": "integer",
+        "null": false,
+        "pk": false,
+        "ref": null,
+        "note": "Số dòng trong phiếu"
+      },
+      {
+        "name": "product_id",
+        "type": "uuid",
+        "null": false,
+        "pk": false,
+        "ref": "product.id",
+        "note": "SKU"
+      },
+      {
+        "name": "uom_id",
+        "type": "uuid",
+        "null": false,
+        "pk": false,
+        "ref": "uom.id",
+        "note": "Đơn vị nhập"
+      },
+      {
+        "name": "quantity",
+        "type": "numeric(20,6)",
+        "null": false,
+        "pk": false,
+        "ref": null,
+        "note": "Lượng yêu cầu, dương"
+      },
+      {
+        "name": "factor_snapshot",
+        "type": "numeric(20,8)",
+        "null": false,
+        "pk": false,
+        "ref": null,
+        "note": "Tỷ lệ quy đổi lúc lập/duyệt"
+      },
+      {
+        "name": "base_quantity",
+        "type": "numeric(20,6)",
+        "null": false,
+        "pk": false,
+        "ref": null,
+        "note": "Lượng cơ sở sau validation độ chính xác"
+      },
+      {
+        "name": "source_line_id",
+        "type": "uuid",
+        "null": true,
+        "pk": false,
+        "ref": "document_line.id",
+        "note": "Dòng PO/SO hoặc dòng xuất/nhập gốc cho hàng trả"
+      },
+      {
+        "name": "reference_unit_price",
+        "type": "numeric(20,4)",
+        "null": true,
+        "pk": false,
+        "ref": null,
+        "note": "Giá tham chiếu tại thời điểm lập; quyền giá riêng"
+      }
+    ],
+    "unique": [
+      "document_id,line_no"
+    ],
+    "checks": [
+      "quantity > 0",
+      "factor_snapshot > 0",
+      "base_quantity > 0",
+      "line_no > 0",
+      "source_line_id IS NULL OR source_line_id <> id"
+    ]
+  },
+  {
+    "name": "document_link",
+    "group": "documents",
+    "purpose": "Quan hệ phiếu gốc, phiếu bù/đảo, biên bản thiếu.",
+    "cols": [
+      {
+        "name": "id",
+        "type": "uuid",
+        "null": false,
+        "pk": true,
+        "ref": null,
+        "note": "Định danh ổn định do ứng dụng tạo (UUID)."
+      },
+      {
+        "name": "document_id",
+        "type": "uuid",
+        "null": false,
+        "pk": false,
+        "ref": "document.id",
+        "note": "Phiếu hiện tại"
+      },
+      {
+        "name": "related_document_id",
+        "type": "uuid",
+        "null": false,
+        "pk": false,
+        "ref": "document.id",
+        "note": "Phiếu liên quan"
+      },
+      {
+        "name": "relation",
+        "type": "varchar(30)",
+        "null": false,
+        "pk": false,
+        "ref": null,
+        "note": "REVERSES, COMPENSATES, RETURN_OF, LOSS_OF, FULFILLS"
+      }
+    ],
+    "unique": [
+      "document_id,related_document_id,relation"
+    ],
+    "checks": [
+      "document_id <> related_document_id"
+    ]
+  },
+  {
+    "name": "document_assignment",
+    "group": "documents",
+    "purpose": "Phân công xử lý phiếu; scope kho vẫn phải thỏa mãn.",
+    "cols": [
+      {
+        "name": "id",
+        "type": "uuid",
+        "null": false,
+        "pk": true,
+        "ref": null,
+        "note": "Định danh ổn định do ứng dụng tạo (UUID)."
+      },
+      {
+        "name": "document_id",
+        "type": "uuid",
+        "null": false,
+        "pk": false,
+        "ref": "document.id",
+        "note": "Phiếu"
+      },
+      {
+        "name": "user_id",
+        "type": "uuid",
+        "null": false,
+        "pk": false,
+        "ref": "app_user.id",
+        "note": "Người được phân công"
+      },
+      {
+        "name": "assigned_by",
+        "type": "uuid",
+        "null": false,
+        "pk": false,
+        "ref": "app_user.id",
+        "note": "Người giao"
+      }
+    ],
+    "unique": [
+      "document_id,user_id"
+    ],
+    "checks": []
+  },
+  {
+    "name": "inventory_transaction",
+    "group": "inventory",
+    "purpose": "Một lần post nguyên tử; chỉ insert sau các kiểm tra trong transaction.",
+    "cols": [
+      {
+        "name": "id",
+        "type": "uuid",
+        "null": false,
+        "pk": true,
+        "ref": null,
+        "note": "Định danh ổn định do ứng dụng tạo (UUID)."
+      },
+      {
+        "name": "document_id",
+        "type": "uuid",
+        "null": false,
+        "pk": false,
+        "ref": "document.id",
+        "note": "Phiếu tác nghiệp"
+      },
+      {
+        "name": "execution_key",
+        "type": "uuid",
+        "null": false,
+        "pk": false,
+        "ref": null,
+        "note": "Định danh lần thực hiện từng phần, bền vững kể cả idempotency hết hạn"
+      },
+      {
+        "name": "operation",
+        "type": "varchar(30)",
+        "null": false,
+        "pk": false,
+        "ref": null,
+        "note": "RECEIVE, ISSUE, DISPATCH, ARRIVE, MOVE, ADJUST, OPEN, REVERSE"
+      },
+      {
+        "name": "business_date",
+        "type": "date",
+        "null": false,
+        "pk": false,
+        "ref": null,
+        "note": "Ngày nghiệp vụ được kiểm tra kỳ khóa"
+      },
+      {
+        "name": "posted_at",
+        "type": "timestamptz",
+        "null": false,
+        "pk": false,
+        "ref": null,
+        "note": "Thời gian server commit logic"
+      },
+      {
+        "name": "posted_by",
+        "type": "uuid",
+        "null": false,
+        "pk": false,
+        "ref": "app_user.id",
+        "note": "Người ghi sổ"
+      },
+      {
+        "name": "reverses_transaction_id",
+        "type": "uuid",
+        "null": true,
+        "pk": false,
+        "ref": "inventory_transaction.id",
+        "note": "Lần post bị đảo, chỉ cho đảo toàn lần ở cơ sở"
+      }
+    ],
+    "unique": [
+      "document_id,execution_key"
+    ],
+    "checks": [
+      "operation IN ('RECEIVE','ISSUE','DISPATCH','ARRIVE','MOVE','ADJUST','OPEN','REVERSE')"
+    ]
+  },
+  {
+    "name": "stock_move",
+    "group": "inventory",
+    "purpose": "Sổ dịch chuyển bất biến: nguồn sang đích, quantity luôn dương.",
+    "cols": [
+      {
+        "name": "id",
+        "type": "uuid",
+        "null": false,
+        "pk": true,
+        "ref": null,
+        "note": "Định danh ổn định do ứng dụng tạo (UUID)."
+      },
+      {
+        "name": "transaction_id",
+        "type": "uuid",
+        "null": false,
+        "pk": false,
+        "ref": "inventory_transaction.id",
+        "note": "Lần post"
+      },
+      {
+        "name": "line_id",
+        "type": "uuid",
+        "null": false,
+        "pk": false,
+        "ref": "document_line.id",
+        "note": "Dòng phiếu; phải thuộc document của transaction"
+      },
+      {
+        "name": "stock_item_id",
+        "type": "uuid",
+        "null": false,
+        "pk": false,
+        "ref": "stock_item.id",
+        "note": "SKU/lô/serial"
+      },
+      {
+        "name": "source_location_id",
+        "type": "uuid",
+        "null": false,
+        "pk": false,
+        "ref": "location.id",
+        "note": "Vị trí nguồn"
+      },
+      {
+        "name": "destination_location_id",
+        "type": "uuid",
+        "null": false,
+        "pk": false,
+        "ref": "location.id",
+        "note": "Vị trí đích"
+      },
+      {
+        "name": "quantity_base",
+        "type": "numeric(20,6)",
+        "null": false,
+        "pk": false,
+        "ref": null,
+        "note": "Lượng theo đơn vị cơ sở"
+      },
+      {
+        "name": "base_uom_id",
+        "type": "uuid",
+        "null": false,
+        "pk": false,
+        "ref": "uom.id",
+        "note": "Đơn vị cơ sở snapshot"
+      },
+      {
+        "name": "reverses_move_id",
+        "type": "uuid",
+        "null": true,
+        "pk": false,
+        "ref": "stock_move.id",
+        "note": "Dòng đảo tương ứng"
+      }
+    ],
+    "unique": [],
+    "checks": [
+      "quantity_base > 0",
+      "source_location_id <> destination_location_id"
+    ]
+  },
+  {
+    "name": "stock_balance",
+    "group": "inventory",
+    "purpose": "Cache sổ kho cho vị trí giữ hàng; không chứa EXTERNAL/LOSS/OPENING/GROUP.",
+    "cols": [
+      {
+        "name": "id",
+        "type": "uuid",
+        "null": false,
+        "pk": true,
+        "ref": null,
+        "note": "Định danh ổn định do ứng dụng tạo (UUID)."
+      },
+      {
+        "name": "stock_item_id",
+        "type": "uuid",
+        "null": false,
+        "pk": false,
+        "ref": "stock_item.id",
+        "note": "Nhận dạng hàng"
+      },
+      {
+        "name": "location_id",
+        "type": "uuid",
+        "null": false,
+        "pk": false,
+        "ref": "location.id",
+        "note": "Vị trí giữ hàng kể cả TRANSIT"
+      },
+      {
+        "name": "on_hand",
+        "type": "numeric(20,6)",
+        "null": false,
+        "pk": false,
+        "ref": null,
+        "note": "Tồn vật lý tại vị trí"
+      },
+      {
+        "name": "reserved",
+        "type": "numeric(20,6)",
+        "null": false,
+        "pk": false,
+        "ref": null,
+        "note": "Tổng lượng giữ còn mở tại vị trí"
+      },
+      {
+        "name": "version",
+        "type": "bigint",
+        "null": false,
+        "pk": false,
+        "ref": null,
+        "note": "Tăng khi thay đổi"
+      }
+    ],
+    "unique": [
+      "stock_item_id,location_id"
+    ],
+    "checks": [
+      "on_hand >= 0",
+      "reserved >= 0",
+      "reserved <= on_hand",
+      "version >= 0"
+    ]
+  },
+  {
+    "name": "serial_position",
+    "group": "inventory",
+    "purpose": "Projection một vị trí hiện hữu cho mỗi serial đang trong doanh nghiệp.",
+    "cols": [
+      {
+        "name": "id",
+        "type": "uuid",
+        "null": false,
+        "pk": true,
+        "ref": null,
+        "note": "Định danh ổn định do ứng dụng tạo (UUID)."
+      },
+      {
+        "name": "serial_id",
+        "type": "uuid",
+        "null": false,
+        "pk": false,
+        "ref": "serial.id",
+        "note": "Serial, unique"
+      },
+      {
+        "name": "location_id",
+        "type": "uuid",
+        "null": false,
+        "pk": false,
+        "ref": "location.id",
+        "note": "Vị trí giữ hàng hoặc transit"
+      },
+      {
+        "name": "last_move_id",
+        "type": "uuid",
+        "null": false,
+        "pk": false,
+        "ref": "stock_move.id",
+        "note": "Phát sinh xác lập trạng thái"
+      }
+    ],
+    "unique": [
+      "serial_id"
+    ],
+    "checks": []
+  },
+  {
+    "name": "reservation",
+    "group": "fulfillment",
+    "purpose": "Giữ cho dòng xuất/chuyển/trả NCC; amount = consumed + released + remaining.",
+    "cols": [
+      {
+        "name": "id",
+        "type": "uuid",
+        "null": false,
+        "pk": true,
+        "ref": null,
+        "note": "Định danh ổn định do ứng dụng tạo (UUID)."
+      },
+      {
+        "name": "line_id",
+        "type": "uuid",
+        "null": false,
+        "pk": false,
+        "ref": "document_line.id",
+        "note": "Dòng nhu cầu"
+      },
+      {
+        "name": "stock_item_id",
+        "type": "uuid",
+        "null": false,
+        "pk": false,
+        "ref": "stock_item.id",
+        "note": "Hàng giữ"
+      },
+      {
+        "name": "location_id",
+        "type": "uuid",
+        "null": false,
+        "pk": false,
+        "ref": "location.id",
+        "note": "Vị trí nguồn"
+      },
+      {
+        "name": "quantity",
+        "type": "numeric(20,6)",
+        "null": false,
+        "pk": false,
+        "ref": null,
+        "note": "Lượng đã giữ ban đầu"
+      },
+      {
+        "name": "consumed",
+        "type": "numeric(20,6)",
+        "null": false,
+        "pk": false,
+        "ref": null,
+        "note": "Lượng đã xuất từ giữ chỗ"
+      },
+      {
+        "name": "released",
+        "type": "numeric(20,6)",
+        "null": false,
+        "pk": false,
+        "ref": null,
+        "note": "Lượng đã giải phóng"
+      },
+      {
+        "name": "expires_at",
+        "type": "timestamptz",
+        "null": true,
+        "pk": false,
+        "ref": null,
+        "note": "Hạn giữ nếu chính sách cho phép"
+      },
+      {
+        "name": "created_by",
+        "type": "uuid",
+        "null": false,
+        "pk": false,
+        "ref": "app_user.id",
+        "note": "Người tạo"
+      }
+    ],
+    "unique": [],
+    "checks": [
+      "quantity > 0",
+      "consumed >= 0",
+      "released >= 0",
+      "consumed + released <= quantity"
+    ]
+  },
+  {
+    "name": "pick_task",
+    "group": "fulfillment",
+    "purpose": "Theo dõi soạn hàng; hoàn thành pick chưa làm giảm tồn.",
+    "cols": [
+      {
+        "name": "id",
+        "type": "uuid",
+        "null": false,
+        "pk": true,
+        "ref": null,
+        "note": "Định danh ổn định do ứng dụng tạo (UUID)."
+      },
+      {
+        "name": "reservation_id",
+        "type": "uuid",
+        "null": false,
+        "pk": false,
+        "ref": "reservation.id",
+        "note": "Giữ chỗ nguồn"
+      },
+      {
+        "name": "assigned_to",
+        "type": "uuid",
+        "null": false,
+        "pk": false,
+        "ref": "app_user.id",
+        "note": "Người soạn"
+      },
+      {
+        "name": "picked_quantity",
+        "type": "numeric(20,6)",
+        "null": false,
+        "pk": false,
+        "ref": null,
+        "note": "Lượng đã soạn trong đơn vị cơ sở"
+      },
+      {
+        "name": "status",
+        "type": "varchar(20)",
+        "null": false,
+        "pk": false,
+        "ref": null,
+        "note": "OPEN, PICKING, DONE, CANCELLED"
+      },
+      {
+        "name": "version",
+        "type": "integer",
+        "null": false,
+        "pk": false,
+        "ref": null,
+        "note": "Chống ghi đè"
+      }
+    ],
+    "unique": [],
+    "checks": [
+      "picked_quantity >= 0",
+      "status IN ('OPEN','PICKING','DONE','CANCELLED')"
+    ]
+  },
+  {
+    "name": "reservation_consumption",
+    "group": "fulfillment",
+    "purpose": "Liên kết lượng giữ đã tiêu thụ với dòng sổ để đối soát.",
+    "cols": [
+      {
+        "name": "id",
+        "type": "uuid",
+        "null": false,
+        "pk": true,
+        "ref": null,
+        "note": "Định danh ổn định do ứng dụng tạo (UUID)."
+      },
+      {
+        "name": "reservation_id",
+        "type": "uuid",
+        "null": false,
+        "pk": false,
+        "ref": "reservation.id",
+        "note": "Giữ chỗ"
+      },
+      {
+        "name": "move_id",
+        "type": "uuid",
+        "null": false,
+        "pk": false,
+        "ref": "stock_move.id",
+        "note": "Phát sinh xuất"
+      },
+      {
+        "name": "quantity",
+        "type": "numeric(20,6)",
+        "null": false,
+        "pk": false,
+        "ref": null,
+        "note": "Lượng tiêu thụ"
+      }
+    ],
+    "unique": [
+      "reservation_id,move_id"
+    ],
+    "checks": [
+      "quantity > 0"
+    ]
+  },
+  {
+    "name": "package",
+    "group": "fulfillment",
+    "purpose": "Kiện thuộc phiếu xuất, chỉ là thông tin đóng gói.",
+    "cols": [
+      {
+        "name": "id",
+        "type": "uuid",
+        "null": false,
+        "pk": true,
+        "ref": null,
+        "note": "Định danh ổn định do ứng dụng tạo (UUID)."
+      },
+      {
+        "name": "document_id",
+        "type": "uuid",
+        "null": false,
+        "pk": false,
+        "ref": "document.id",
+        "note": "Phiếu xuất"
+      },
+      {
+        "name": "code",
+        "type": "varchar(100)",
+        "null": false,
+        "pk": false,
+        "ref": null,
+        "note": "Mã kiện"
+      }
+    ],
+    "unique": [
+      "document_id,code"
+    ],
+    "checks": []
+  },
+  {
+    "name": "package_line",
+    "group": "fulfillment",
+    "purpose": "Hàng trong kiện; không thay stock ledger.",
+    "cols": [
+      {
+        "name": "id",
+        "type": "uuid",
+        "null": false,
+        "pk": true,
+        "ref": null,
+        "note": "Định danh ổn định do ứng dụng tạo (UUID)."
+      },
+      {
+        "name": "package_id",
+        "type": "uuid",
+        "null": false,
+        "pk": false,
+        "ref": "package.id",
+        "note": "Kiện"
+      },
+      {
+        "name": "document_line_id",
+        "type": "uuid",
+        "null": false,
+        "pk": false,
+        "ref": "document_line.id",
+        "note": "Dòng xuất"
+      },
+      {
+        "name": "stock_item_id",
+        "type": "uuid",
+        "null": false,
+        "pk": false,
+        "ref": "stock_item.id",
+        "note": "Lô/serial đóng gói"
+      },
+      {
+        "name": "quantity",
+        "type": "numeric(20,6)",
+        "null": false,
+        "pk": false,
+        "ref": null,
+        "note": "Lượng cơ sở"
+      }
+    ],
+    "unique": [],
+    "checks": [
+      "quantity > 0"
+    ]
+  },
+  {
+    "name": "quality_decision",
+    "group": "fulfillment",
+    "purpose": "Quyết định đạt/không đạt cho hàng chờ kiểm tra.",
+    "cols": [
+      {
+        "name": "id",
+        "type": "uuid",
+        "null": false,
+        "pk": true,
+        "ref": null,
+        "note": "Định danh ổn định do ứng dụng tạo (UUID)."
+      },
+      {
+        "name": "receipt_move_id",
+        "type": "uuid",
+        "null": false,
+        "pk": false,
+        "ref": "stock_move.id",
+        "note": "Phát sinh nhận vào khu chờ"
+      },
+      {
+        "name": "quantity",
+        "type": "numeric(20,6)",
+        "null": false,
+        "pk": false,
+        "ref": null,
+        "note": "Lượng được đánh giá; cộng không vượt lần nhận"
+      },
+      {
+        "name": "result",
+        "type": "varchar(20)",
+        "null": false,
+        "pk": false,
+        "ref": null,
+        "note": "ACCEPT, REJECT"
+      },
+      {
+        "name": "reason",
+        "type": "text",
+        "null": false,
+        "pk": false,
+        "ref": null,
+        "note": "Lý do"
+      },
+      {
+        "name": "decided_by",
+        "type": "uuid",
+        "null": false,
+        "pk": false,
+        "ref": "app_user.id",
+        "note": "Người kiểm tra"
+      },
+      {
+        "name": "decided_at",
+        "type": "timestamptz",
+        "null": false,
+        "pk": false,
+        "ref": null,
+        "note": "Thời điểm"
+      },
+      {
+        "name": "followup_document_id",
+        "type": "uuid",
+        "null": true,
+        "pk": false,
+        "ref": "document.id",
+        "note": "Phiếu cất/chuyển/trả xử lý quyết định"
+      }
+    ],
+    "unique": [],
+    "checks": [
+      "quantity > 0",
+      "result IN ('ACCEPT','REJECT')"
+    ]
+  },
+  {
+    "name": "approval_policy",
+    "group": "approval",
+    "purpose": "Một policy hoạt động mỗi loại phiếu; tối đa hai bước ở cơ sở.",
+    "cols": [
+      {
+        "name": "id",
+        "type": "uuid",
+        "null": false,
+        "pk": true,
+        "ref": null,
+        "note": "Định danh ổn định do ứng dụng tạo (UUID)."
+      },
+      {
+        "name": "document_kind",
+        "type": "varchar(30)",
+        "null": false,
+        "pk": false,
+        "ref": null,
+        "note": "Loại phiếu"
+      },
+      {
+        "name": "revision",
+        "type": "integer",
+        "null": false,
+        "pk": false,
+        "ref": null,
+        "note": "Phiên bản policy"
+      },
+      {
+        "name": "is_active",
+        "type": "boolean",
+        "null": false,
+        "pk": false,
+        "ref": null,
+        "note": "Đang áp dụng"
+      }
+    ],
+    "unique": [
+      "document_kind,revision"
+    ],
+    "checks": []
+  },
+  {
+    "name": "approval_policy_step",
+    "group": "approval",
+    "purpose": "Người duyệt theo role trong scope của phiếu; không tự duyệt.",
+    "cols": [
+      {
+        "name": "id",
+        "type": "uuid",
+        "null": false,
+        "pk": true,
+        "ref": null,
+        "note": "Định danh ổn định do ứng dụng tạo (UUID)."
+      },
+      {
+        "name": "policy_id",
+        "type": "uuid",
+        "null": false,
+        "pk": false,
+        "ref": "approval_policy.id",
+        "note": "Policy"
+      },
+      {
+        "name": "step_no",
+        "type": "integer",
+        "null": false,
+        "pk": false,
+        "ref": null,
+        "note": "Bước 1 hoặc 2"
+      },
+      {
+        "name": "role_id",
+        "type": "uuid",
+        "null": false,
+        "pk": false,
+        "ref": "role.id",
+        "note": "Vai trò cần có"
+      }
+    ],
+    "unique": [
+      "policy_id,step_no"
+    ],
+    "checks": [
+      "step_no BETWEEN 1 AND 2"
+    ]
+  },
+  {
+    "name": "approval_request",
+    "group": "approval",
+    "purpose": "Snapshot policy + document version, sửa phiếu làm mất hiệu lực duyệt.",
+    "cols": [
+      {
+        "name": "id",
+        "type": "uuid",
+        "null": false,
+        "pk": true,
+        "ref": null,
+        "note": "Định danh ổn định do ứng dụng tạo (UUID)."
+      },
+      {
+        "name": "document_id",
+        "type": "uuid",
+        "null": false,
+        "pk": false,
+        "ref": "document.id",
+        "note": "Phiếu"
+      },
+      {
+        "name": "document_version",
+        "type": "integer",
+        "null": false,
+        "pk": false,
+        "ref": null,
+        "note": "Phiên bản đã submit"
+      },
+      {
+        "name": "policy_id",
+        "type": "uuid",
+        "null": false,
+        "pk": false,
+        "ref": "approval_policy.id",
+        "note": "Policy đã chọn"
+      },
+      {
+        "name": "requested_by",
+        "type": "uuid",
+        "null": false,
+        "pk": false,
+        "ref": "app_user.id",
+        "note": "Người gửi"
+      },
+      {
+        "name": "status",
+        "type": "varchar(20)",
+        "null": false,
+        "pk": false,
+        "ref": null,
+        "note": "PENDING, APPROVED, REJECTED, INVALIDATED"
+      },
+      {
+        "name": "created_at",
+        "type": "timestamptz",
+        "null": false,
+        "pk": false,
+        "ref": null,
+        "note": "Lúc gửi"
+      }
+    ],
+    "unique": [
+      "document_id,document_version"
+    ],
+    "checks": [
+      "status IN ('PENDING','APPROVED','REJECTED','INVALIDATED')"
+    ]
+  },
+  {
+    "name": "approval_step",
+    "group": "approval",
+    "purpose": "Snapshot role từng bước, một quyết định duy nhất mỗi bước.",
+    "cols": [
+      {
+        "name": "id",
+        "type": "uuid",
+        "null": false,
+        "pk": true,
+        "ref": null,
+        "note": "Định danh ổn định do ứng dụng tạo (UUID)."
+      },
+      {
+        "name": "request_id",
+        "type": "uuid",
+        "null": false,
+        "pk": false,
+        "ref": "approval_request.id",
+        "note": "Lần gửi duyệt"
+      },
+      {
+        "name": "step_no",
+        "type": "integer",
+        "null": false,
+        "pk": false,
+        "ref": null,
+        "note": "Thứ tự"
+      },
+      {
+        "name": "required_role_id",
+        "type": "uuid",
+        "null": false,
+        "pk": false,
+        "ref": "role.id",
+        "note": "Role snapshot"
+      },
+      {
+        "name": "status",
+        "type": "varchar(20)",
+        "null": false,
+        "pk": false,
+        "ref": null,
+        "note": "PENDING, APPROVED, REJECTED"
+      },
+      {
+        "name": "decided_by",
+        "type": "uuid",
+        "null": true,
+        "pk": false,
+        "ref": "app_user.id",
+        "note": "Người quyết định"
+      },
+      {
+        "name": "decided_at",
+        "type": "timestamptz",
+        "null": true,
+        "pk": false,
+        "ref": null,
+        "note": "Thời điểm quyết định"
+      },
+      {
+        "name": "comment",
+        "type": "text",
+        "null": true,
+        "pk": false,
+        "ref": null,
+        "note": "Bắt buộc khi từ chối"
+      }
+    ],
+    "unique": [
+      "request_id,step_no"
+    ],
+    "checks": [
+      "step_no BETWEEN 1 AND 2",
+      "status IN ('PENDING','APPROVED','REJECTED')"
+    ]
+  },
+  {
+    "name": "stock_period",
+    "group": "counting",
+    "purpose": "Kỳ nghiệp vụ theo kho; service kiểm tra overlap và khóa row khi post.",
+    "cols": [
+      {
+        "name": "id",
+        "type": "uuid",
+        "null": false,
+        "pk": true,
+        "ref": null,
+        "note": "Định danh ổn định do ứng dụng tạo (UUID)."
+      },
+      {
+        "name": "warehouse_id",
+        "type": "uuid",
+        "null": false,
+        "pk": false,
+        "ref": "warehouse.id",
+        "note": "Kho"
+      },
+      {
+        "name": "starts_on",
+        "type": "date",
+        "null": false,
+        "pk": false,
+        "ref": null,
+        "note": "Ngày đầu"
+      },
+      {
+        "name": "ends_on",
+        "type": "date",
+        "null": false,
+        "pk": false,
+        "ref": null,
+        "note": "Ngày cuối bao gồm"
+      },
+      {
+        "name": "status",
+        "type": "varchar(10)",
+        "null": false,
+        "pk": false,
+        "ref": null,
+        "note": "OPEN, CLOSED"
+      },
+      {
+        "name": "closed_by",
+        "type": "uuid",
+        "null": true,
+        "pk": false,
+        "ref": "app_user.id",
+        "note": "Người khóa"
+      },
+      {
+        "name": "closed_at",
+        "type": "timestamptz",
+        "null": true,
+        "pk": false,
+        "ref": null,
+        "note": "Thời điểm khóa"
+      }
+    ],
+    "unique": [
+      "warehouse_id,starts_on"
+    ],
+    "checks": [
+      "ends_on >= starts_on",
+      "status IN ('OPEN','CLOSED')"
+    ]
+  },
+  {
+    "name": "count_session",
+    "group": "counting",
+    "purpose": "Kiểm kê có khóa vị trí và đếm mù; điều chỉnh qua document.",
+    "cols": [
+      {
+        "name": "id",
+        "type": "uuid",
+        "null": false,
+        "pk": true,
+        "ref": null,
+        "note": "Định danh ổn định do ứng dụng tạo (UUID)."
+      },
+      {
+        "name": "warehouse_id",
+        "type": "uuid",
+        "null": false,
+        "pk": false,
+        "ref": "warehouse.id",
+        "note": "Kho"
+      },
+      {
+        "name": "number",
+        "type": "varchar(80)",
+        "null": false,
+        "pk": false,
+        "ref": null,
+        "note": "Mã phiên"
+      },
+      {
+        "name": "status",
+        "type": "varchar(20)",
+        "null": false,
+        "pk": false,
+        "ref": null,
+        "note": "DRAFT, FROZEN, COUNTED, SUBMITTED, POSTED, CANCELLED"
+      },
+      {
+        "name": "created_by",
+        "type": "uuid",
+        "null": false,
+        "pk": false,
+        "ref": "app_user.id",
+        "note": "Người lập"
+      },
+      {
+        "name": "frozen_at",
+        "type": "timestamptz",
+        "null": true,
+        "pk": false,
+        "ref": null,
+        "note": "Mốc chụp số dư"
+      },
+      {
+        "name": "adjustment_document_id",
+        "type": "uuid",
+        "null": true,
+        "pk": false,
+        "ref": "document.id",
+        "note": "Phiếu ADJUSTMENT sau duyệt"
+      },
+      {
+        "name": "version",
+        "type": "integer",
+        "null": false,
+        "pk": false,
+        "ref": null,
+        "note": "Chống xung đột"
+      }
+    ],
+    "unique": [
+      "number"
+    ],
+    "checks": [
+      "status IN ('DRAFT','FROZEN','COUNTED','SUBMITTED','POSTED','CANCELLED')"
+    ]
+  },
+  {
+    "name": "count_location_lock",
+    "group": "counting",
+    "purpose": "Khóa nghiệp vụ, vẫn khóa row location ở mọi luồng ghi để tránh race.",
+    "cols": [
+      {
+        "name": "id",
+        "type": "uuid",
+        "null": false,
+        "pk": true,
+        "ref": null,
+        "note": "Định danh ổn định do ứng dụng tạo (UUID)."
+      },
+      {
+        "name": "session_id",
+        "type": "uuid",
+        "null": false,
+        "pk": false,
+        "ref": "count_session.id",
+        "note": "Phiên kiểm kê"
+      },
+      {
+        "name": "location_id",
+        "type": "uuid",
+        "null": false,
+        "pk": false,
+        "ref": "location.id",
+        "note": "Vị trí đếm"
+      },
+      {
+        "name": "locked_at",
+        "type": "timestamptz",
+        "null": false,
+        "pk": false,
+        "ref": null,
+        "note": "Thời điểm khóa"
+      },
+      {
+        "name": "released_at",
+        "type": "timestamptz",
+        "null": true,
+        "pk": false,
+        "ref": null,
+        "note": "Mở khóa khi hoàn tất/hủy có kiểm soát"
+      }
+    ],
+    "unique": [
+      "session_id,location_id"
+    ],
+    "checks": []
+  },
+  {
+    "name": "count_assignment",
+    "group": "counting",
+    "purpose": "Giao người đếm cho từng vị trí trong phiên.",
+    "cols": [
+      {
+        "name": "id",
+        "type": "uuid",
+        "null": false,
+        "pk": true,
+        "ref": null,
+        "note": "Định danh ổn định do ứng dụng tạo (UUID)."
+      },
+      {
+        "name": "session_id",
+        "type": "uuid",
+        "null": false,
+        "pk": false,
+        "ref": "count_session.id",
+        "note": "Phiên kiểm kê"
+      },
+      {
+        "name": "location_id",
+        "type": "uuid",
+        "null": false,
+        "pk": false,
+        "ref": "location.id",
+        "note": "Vị trí được giao"
+      },
+      {
+        "name": "user_id",
+        "type": "uuid",
+        "null": false,
+        "pk": false,
+        "ref": "app_user.id",
+        "note": "Người đếm"
+      },
+      {
+        "name": "assigned_by",
+        "type": "uuid",
+        "null": false,
+        "pk": false,
+        "ref": "app_user.id",
+        "note": "Người giao"
+      }
+    ],
+    "unique": [
+      "session_id,location_id,user_id"
+    ],
+    "checks": []
+  },
+  {
+    "name": "count_line",
+    "group": "counting",
+    "purpose": "Một nhận dạng hàng/vị trí trong snapshot, bao gồm hàng phát hiện mới.",
+    "cols": [
+      {
+        "name": "id",
+        "type": "uuid",
+        "null": false,
+        "pk": true,
+        "ref": null,
+        "note": "Định danh ổn định do ứng dụng tạo (UUID)."
+      },
+      {
+        "name": "session_id",
+        "type": "uuid",
+        "null": false,
+        "pk": false,
+        "ref": "count_session.id",
+        "note": "Phiên"
+      },
+      {
+        "name": "stock_item_id",
+        "type": "uuid",
+        "null": false,
+        "pk": false,
+        "ref": "stock_item.id",
+        "note": "Hàng"
+      },
+      {
+        "name": "location_id",
+        "type": "uuid",
+        "null": false,
+        "pk": false,
+        "ref": "location.id",
+        "note": "Vị trí"
+      },
+      {
+        "name": "snapshot_quantity",
+        "type": "numeric(20,6)",
+        "null": false,
+        "pk": false,
+        "ref": null,
+        "note": "Lượng hệ thống lúc freeze, chỉ người có quyền được xem"
+      },
+      {
+        "name": "approved_quantity",
+        "type": "numeric(20,6)",
+        "null": true,
+        "pk": false,
+        "ref": null,
+        "note": "Số đếm được chọn để trình duyệt"
+      }
+    ],
+    "unique": [
+      "session_id,stock_item_id,location_id"
+    ],
+    "checks": [
+      "snapshot_quantity >= 0",
+      "approved_quantity IS NULL OR approved_quantity >= 0"
+    ]
+  },
+  {
+    "name": "count_observation",
+    "group": "counting",
+    "purpose": "Lịch sử các lần đếm, không ghi đè lần đầu.",
+    "cols": [
+      {
+        "name": "id",
+        "type": "uuid",
+        "null": false,
+        "pk": true,
+        "ref": null,
+        "note": "Định danh ổn định do ứng dụng tạo (UUID)."
+      },
+      {
+        "name": "count_line_id",
+        "type": "uuid",
+        "null": false,
+        "pk": false,
+        "ref": "count_line.id",
+        "note": "Dòng kiểm kê"
+      },
+      {
+        "name": "round_no",
+        "type": "integer",
+        "null": false,
+        "pk": false,
+        "ref": null,
+        "note": "Lần đếm"
+      },
+      {
+        "name": "quantity",
+        "type": "numeric(20,6)",
+        "null": false,
+        "pk": false,
+        "ref": null,
+        "note": "Số đếm"
+      },
+      {
+        "name": "counted_by",
+        "type": "uuid",
+        "null": false,
+        "pk": false,
+        "ref": "app_user.id",
+        "note": "Người đếm"
+      },
+      {
+        "name": "counted_at",
+        "type": "timestamptz",
+        "null": false,
+        "pk": false,
+        "ref": null,
+        "note": "Thời điểm"
+      },
+      {
+        "name": "scan_event_key",
+        "type": "uuid",
+        "null": true,
+        "pk": false,
+        "ref": null,
+        "note": "Chống lặp sự kiện từ client"
+      }
+    ],
+    "unique": [
+      "count_line_id,round_no"
+    ],
+    "checks": [
+      "round_no > 0",
+      "quantity >= 0"
+    ]
+  },
+  {
+    "name": "idempotency_record",
+    "group": "operations",
+    "purpose": "Kết quả lệnh theo user + key; payload hash phải khớp.",
+    "cols": [
+      {
+        "name": "id",
+        "type": "uuid",
+        "null": false,
+        "pk": true,
+        "ref": null,
+        "note": "Định danh ổn định do ứng dụng tạo (UUID)."
+      },
+      {
+        "name": "actor_id",
+        "type": "uuid",
+        "null": false,
+        "pk": false,
+        "ref": "app_user.id",
+        "note": "Người gọi"
+      },
+      {
+        "name": "key",
+        "type": "uuid",
+        "null": false,
+        "pk": false,
+        "ref": null,
+        "note": "Khóa lệnh"
+      },
+      {
+        "name": "command",
+        "type": "varchar(100)",
+        "null": false,
+        "pk": false,
+        "ref": null,
+        "note": "Loại lệnh và resource trong hash"
+      },
+      {
+        "name": "request_hash",
+        "type": "char(64)",
+        "null": false,
+        "pk": false,
+        "ref": null,
+        "note": "SHA256 canonical request gồm version/resource/body"
+      },
+      {
+        "name": "response",
+        "type": "jsonb",
+        "null": false,
+        "pk": false,
+        "ref": null,
+        "note": "Kết quả không chứa bí mật"
+      },
+      {
+        "name": "http_status",
+        "type": "integer",
+        "null": false,
+        "pk": false,
+        "ref": null,
+        "note": "Trạng thái đã commit"
+      },
+      {
+        "name": "completed_at",
+        "type": "timestamptz",
+        "null": false,
+        "pk": false,
+        "ref": null,
+        "note": "Thời điểm"
+      },
+      {
+        "name": "expires_at",
+        "type": "timestamptz",
+        "null": false,
+        "pk": false,
+        "ref": null,
+        "note": "Hạn giữ chi tiết response; không xóa key/hash hoặc cho tái dùng key"
+      }
+    ],
+    "unique": [
+      "actor_id,key"
+    ],
+    "checks": []
+  },
+  {
+    "name": "outbox_event",
+    "group": "operations",
+    "purpose": "Sự kiện lưu cùng giao dịch nghiệp vụ; consumer xử lý ít nhất một lần.",
+    "cols": [
+      {
+        "name": "id",
+        "type": "uuid",
+        "null": false,
+        "pk": true,
+        "ref": null,
+        "note": "Định danh ổn định do ứng dụng tạo (UUID)."
+      },
+      {
+        "name": "event_type",
+        "type": "varchar(100)",
+        "null": false,
+        "pk": false,
+        "ref": null,
+        "note": "Tên có phiên bản"
+      },
+      {
+        "name": "aggregate_id",
+        "type": "uuid",
+        "null": false,
+        "pk": false,
+        "ref": null,
+        "note": "ID aggregate, tham chiếu logic kiểm tra ở service"
+      },
+      {
+        "name": "payload",
+        "type": "jsonb",
+        "null": false,
+        "pk": false,
+        "ref": null,
+        "note": "Payload tối thiểu"
+      },
+      {
+        "name": "occurred_at",
+        "type": "timestamptz",
+        "null": false,
+        "pk": false,
+        "ref": null,
+        "note": "Thời điểm"
+      },
+      {
+        "name": "available_at",
+        "type": "timestamptz",
+        "null": false,
+        "pk": false,
+        "ref": null,
+        "note": "Lần retry sớm nhất"
+      },
+      {
+        "name": "attempts",
+        "type": "integer",
+        "null": false,
+        "pk": false,
+        "ref": null,
+        "note": "Số lần thử"
+      },
+      {
+        "name": "processed_at",
+        "type": "timestamptz",
+        "null": true,
+        "pk": false,
+        "ref": null,
+        "note": "Đã phát/xử lý"
+      },
+      {
+        "name": "last_error",
+        "type": "text",
+        "null": true,
+        "pk": false,
+        "ref": null,
+        "note": "Lỗi đã lọc bí mật"
+      }
+    ],
+    "unique": [],
+    "checks": [
+      "attempts >= 0"
+    ]
+  },
+  {
+    "name": "consumer_receipt",
+    "group": "operations",
+    "purpose": "Dedup theo consumer; side effect ngoài DB cần idempotency ở đích.",
+    "cols": [
+      {
+        "name": "id",
+        "type": "uuid",
+        "null": false,
+        "pk": true,
+        "ref": null,
+        "note": "Định danh ổn định do ứng dụng tạo (UUID)."
+      },
+      {
+        "name": "event_id",
+        "type": "uuid",
+        "null": false,
+        "pk": false,
+        "ref": "outbox_event.id",
+        "note": "Sự kiện"
+      },
+      {
+        "name": "consumer",
+        "type": "varchar(100)",
+        "null": false,
+        "pk": false,
+        "ref": null,
+        "note": "Consumer ổn định"
+      },
+      {
+        "name": "processed_at",
+        "type": "timestamptz",
+        "null": false,
+        "pk": false,
+        "ref": null,
+        "note": "Đã hoàn tất"
+      }
+    ],
+    "unique": [
+      "event_id,consumer"
+    ],
+    "checks": []
+  },
+  {
+    "name": "audit_event",
+    "group": "operations",
+    "purpose": "Append-only tại quyền ứng dụng, không hứa chống DB superuser.",
+    "cols": [
+      {
+        "name": "id",
+        "type": "uuid",
+        "null": false,
+        "pk": true,
+        "ref": null,
+        "note": "Định danh ổn định do ứng dụng tạo (UUID)."
+      },
+      {
+        "name": "actor_id",
+        "type": "uuid",
+        "null": true,
+        "pk": false,
+        "ref": "app_user.id",
+        "note": "User hoặc tác vụ hệ thống"
+      },
+      {
+        "name": "warehouse_id",
+        "type": "uuid",
+        "null": true,
+        "pk": false,
+        "ref": "warehouse.id",
+        "note": "Scope kho nếu có"
+      },
+      {
+        "name": "action",
+        "type": "varchar(100)",
+        "null": false,
+        "pk": false,
+        "ref": null,
+        "note": "Hành động"
+      },
+      {
+        "name": "entity_type",
+        "type": "varchar(80)",
+        "null": false,
+        "pk": false,
+        "ref": null,
+        "note": "Loại thực thể"
+      },
+      {
+        "name": "entity_id",
+        "type": "uuid",
+        "null": true,
+        "pk": false,
+        "ref": null,
+        "note": "Tham chiếu logic"
+      },
+      {
+        "name": "request_id",
+        "type": "uuid",
+        "null": false,
+        "pk": false,
+        "ref": null,
+        "note": "Đối chiếu log"
+      },
+      {
+        "name": "occurred_at",
+        "type": "timestamptz",
+        "null": false,
+        "pk": false,
+        "ref": null,
+        "note": "Thời điểm server"
+      },
+      {
+        "name": "before_data",
+        "type": "jsonb",
+        "null": true,
+        "pk": false,
+        "ref": null,
+        "note": "Dữ liệu trước đã loại bỏ bí mật"
+      },
+      {
+        "name": "after_data",
+        "type": "jsonb",
+        "null": true,
+        "pk": false,
+        "ref": null,
+        "note": "Dữ liệu sau đã loại bỏ bí mật"
+      },
+      {
+        "name": "reason",
+        "type": "text",
+        "null": true,
+        "pk": false,
+        "ref": null,
+        "note": "Lý do"
+      }
+    ],
+    "unique": [],
+    "checks": []
+  },
+  {
+    "name": "stored_file",
+    "group": "operations",
+    "purpose": "Metadata tệp; key dùng storage adapter, không là đường dẫn tùy ý của client.",
+    "cols": [
+      {
+        "name": "id",
+        "type": "uuid",
+        "null": false,
+        "pk": true,
+        "ref": null,
+        "note": "Định danh ổn định do ứng dụng tạo (UUID)."
+      },
+      {
+        "name": "storage_key",
+        "type": "text",
+        "null": false,
+        "pk": false,
+        "ref": null,
+        "note": "Khóa lưu trữ do server tạo"
+      },
+      {
+        "name": "original_name",
+        "type": "varchar(240)",
+        "null": false,
+        "pk": false,
+        "ref": null,
+        "note": "Tên gốc đã làm sạch"
+      },
+      {
+        "name": "mime_type",
+        "type": "varchar(100)",
+        "null": false,
+        "pk": false,
+        "ref": null,
+        "note": "MIME được kiểm tra"
+      },
+      {
+        "name": "sha256",
+        "type": "char(64)",
+        "null": false,
+        "pk": false,
+        "ref": null,
+        "note": "Checksum"
+      },
+      {
+        "name": "size_bytes",
+        "type": "bigint",
+        "null": false,
+        "pk": false,
+        "ref": null,
+        "note": "Kích thước"
+      },
+      {
+        "name": "uploaded_by",
+        "type": "uuid",
+        "null": false,
+        "pk": false,
+        "ref": "app_user.id",
+        "note": "Người tải lên"
+      },
+      {
+        "name": "created_at",
+        "type": "timestamptz",
+        "null": false,
+        "pk": false,
+        "ref": null,
+        "note": "Thời điểm"
+      }
+    ],
+    "unique": [
+      "storage_key"
+    ],
+    "checks": [
+      "size_bytes >= 0"
+    ]
+  },
+  {
+    "name": "document_attachment",
+    "group": "documents",
+    "purpose": "Tệp kế thừa quyền của phiếu; URL tải không công khai.",
+    "cols": [
+      {
+        "name": "id",
+        "type": "uuid",
+        "null": false,
+        "pk": true,
+        "ref": null,
+        "note": "Định danh ổn định do ứng dụng tạo (UUID)."
+      },
+      {
+        "name": "document_id",
+        "type": "uuid",
+        "null": false,
+        "pk": false,
+        "ref": "document.id",
+        "note": "Phiếu"
+      },
+      {
+        "name": "file_id",
+        "type": "uuid",
+        "null": false,
+        "pk": false,
+        "ref": "stored_file.id",
+        "note": "Tệp"
+      }
+    ],
+    "unique": [
+      "document_id,file_id"
+    ],
+    "checks": []
+  },
+  {
+    "name": "product_image",
+    "group": "master",
+    "purpose": "Ảnh sản phẩm kế thừa quyền danh mục.",
+    "cols": [
+      {
+        "name": "id",
+        "type": "uuid",
+        "null": false,
+        "pk": true,
+        "ref": null,
+        "note": "Định danh ổn định do ứng dụng tạo (UUID)."
+      },
+      {
+        "name": "product_id",
+        "type": "uuid",
+        "null": false,
+        "pk": false,
+        "ref": "product.id",
+        "note": "SKU"
+      },
+      {
+        "name": "file_id",
+        "type": "uuid",
+        "null": false,
+        "pk": false,
+        "ref": "stored_file.id",
+        "note": "Tệp ảnh"
+      },
+      {
+        "name": "sort_order",
+        "type": "integer",
+        "null": false,
+        "pk": false,
+        "ref": null,
+        "note": "Thứ tự"
+      }
+    ],
+    "unique": [
+      "product_id,file_id"
+    ],
+    "checks": []
+  },
+  {
+    "name": "import_job",
+    "group": "operations",
+    "purpose": "Validate/staging rồi commit có quyền; file hash cố định sau dry-run.",
+    "cols": [
+      {
+        "name": "id",
+        "type": "uuid",
+        "null": false,
+        "pk": true,
+        "ref": null,
+        "note": "Định danh ổn định do ứng dụng tạo (UUID)."
+      },
+      {
+        "name": "kind",
+        "type": "varchar(60)",
+        "null": false,
+        "pk": false,
+        "ref": null,
+        "note": "Loại mẫu"
+      },
+      {
+        "name": "file_id",
+        "type": "uuid",
+        "null": false,
+        "pk": false,
+        "ref": "stored_file.id",
+        "note": "Nguồn"
+      },
+      {
+        "name": "requested_by",
+        "type": "uuid",
+        "null": false,
+        "pk": false,
+        "ref": "app_user.id",
+        "note": "Người nạp"
+      },
+      {
+        "name": "status",
+        "type": "varchar(20)",
+        "null": false,
+        "pk": false,
+        "ref": null,
+        "note": "UPLOADED, VALIDATING, INVALID, VALIDATED, COMMITTING, COMPLETED, FAILED"
+      },
+      {
+        "name": "file_hash",
+        "type": "char(64)",
+        "null": false,
+        "pk": false,
+        "ref": null,
+        "note": "Hash bytes đã duyệt"
+      },
+      {
+        "name": "mapping_version",
+        "type": "varchar(30)",
+        "null": false,
+        "pk": false,
+        "ref": null,
+        "note": "Phiên bản template"
+      },
+      {
+        "name": "operation_key",
+        "type": "uuid",
+        "null": false,
+        "pk": false,
+        "ref": null,
+        "note": "Dedup commit import"
+      },
+      {
+        "name": "created_at",
+        "type": "timestamptz",
+        "null": false,
+        "pk": false,
+        "ref": null,
+        "note": "Thời điểm"
+      }
+    ],
+    "unique": [
+      "operation_key"
+    ],
+    "checks": []
+  },
+  {
+    "name": "import_row",
+    "group": "operations",
+    "purpose": "Kết quả theo dòng; staging không là dữ liệu nghiệp vụ.",
+    "cols": [
+      {
+        "name": "id",
+        "type": "uuid",
+        "null": false,
+        "pk": true,
+        "ref": null,
+        "note": "Định danh ổn định do ứng dụng tạo (UUID)."
+      },
+      {
+        "name": "job_id",
+        "type": "uuid",
+        "null": false,
+        "pk": false,
+        "ref": "import_job.id",
+        "note": "Job"
+      },
+      {
+        "name": "row_no",
+        "type": "integer",
+        "null": false,
+        "pk": false,
+        "ref": null,
+        "note": "Dòng Excel/CSV gốc"
+      },
+      {
+        "name": "payload",
+        "type": "jsonb",
+        "null": false,
+        "pk": false,
+        "ref": null,
+        "note": "Dữ liệu chuẩn hóa"
+      },
+      {
+        "name": "errors",
+        "type": "jsonb",
+        "null": false,
+        "pk": false,
+        "ref": null,
+        "note": "Mã lỗi và field"
+      },
+      {
+        "name": "target_id",
+        "type": "uuid",
+        "null": true,
+        "pk": false,
+        "ref": null,
+        "note": "ID sinh sau commit, tham chiếu logic"
+      },
+      {
+        "name": "status",
+        "type": "varchar(20)",
+        "null": false,
+        "pk": false,
+        "ref": null,
+        "note": "PENDING, INVALID, VALID, COMMITTED"
+      }
+    ],
+    "unique": [
+      "job_id,row_no"
+    ],
+    "checks": []
+  },
+  {
+    "name": "export_job",
+    "group": "operations",
+    "purpose": "Kiểm tra quyền khi tạo và tải file, kể cả quyền đã bị thu hồi.",
+    "cols": [
+      {
+        "name": "id",
+        "type": "uuid",
+        "null": false,
+        "pk": true,
+        "ref": null,
+        "note": "Định danh ổn định do ứng dụng tạo (UUID)."
+      },
+      {
+        "name": "requested_by",
+        "type": "uuid",
+        "null": false,
+        "pk": false,
+        "ref": "app_user.id",
+        "note": "Chủ job"
+      },
+      {
+        "name": "report_code",
+        "type": "varchar(40)",
+        "null": false,
+        "pk": false,
+        "ref": null,
+        "note": "R01..R08 hoặc mẫu in"
+      },
+      {
+        "name": "filters",
+        "type": "jsonb",
+        "null": false,
+        "pk": false,
+        "ref": null,
+        "note": "Kho/ngày/điều kiện đã validate"
+      },
+      {
+        "name": "status",
+        "type": "varchar(20)",
+        "null": false,
+        "pk": false,
+        "ref": null,
+        "note": "QUEUED, RUNNING, COMPLETED, FAILED, EXPIRED"
+      },
+      {
+        "name": "file_id",
+        "type": "uuid",
+        "null": true,
+        "pk": false,
+        "ref": "stored_file.id",
+        "note": "Kết quả"
+      },
+      {
+        "name": "created_at",
+        "type": "timestamptz",
+        "null": false,
+        "pk": false,
+        "ref": null,
+        "note": "Thời điểm"
+      },
+      {
+        "name": "expires_at",
+        "type": "timestamptz",
+        "null": false,
+        "pk": false,
+        "ref": null,
+        "note": "Hạn tải"
+      }
+    ],
+    "unique": [],
+    "checks": []
+  },
+  {
+    "name": "custom_field_definition",
+    "group": "extension",
+    "purpose": "Điểm mở rộng có kiểu; không dùng EAV cho tồn kho và quyền.",
+    "cols": [
+      {
+        "name": "id",
+        "type": "uuid",
+        "null": false,
+        "pk": true,
+        "ref": null,
+        "note": "Định danh ổn định do ứng dụng tạo (UUID)."
+      },
+      {
+        "name": "entity_type",
+        "type": "varchar(40)",
+        "null": false,
+        "pk": false,
+        "ref": null,
+        "note": "product hoặc document"
+      },
+      {
+        "name": "code",
+        "type": "varchar(60)",
+        "null": false,
+        "pk": false,
+        "ref": null,
+        "note": "Mã trường"
+      },
+      {
+        "name": "value_type",
+        "type": "varchar(20)",
+        "null": false,
+        "pk": false,
+        "ref": null,
+        "note": "string, decimal, date, boolean, enum"
+      },
+      {
+        "name": "required",
+        "type": "boolean",
+        "null": false,
+        "pk": false,
+        "ref": null,
+        "note": "Bắt buộc cho bản ghi mới"
+      },
+      {
+        "name": "validation",
+        "type": "jsonb",
+        "null": false,
+        "pk": false,
+        "ref": null,
+        "note": "Giới hạn/enum/độ dài"
+      },
+      {
+        "name": "is_active",
+        "type": "boolean",
+        "null": false,
+        "pk": false,
+        "ref": null,
+        "note": "Còn hiệu lực"
+      }
+    ],
+    "unique": [
+      "entity_type,code"
+    ],
+    "checks": []
+  },
+  {
+    "name": "client_release",
+    "group": "extension",
+    "purpose": "Thông tin tương thích, không tự cài khi có lệnh từ DB.",
+    "cols": [
+      {
+        "name": "id",
+        "type": "uuid",
+        "null": false,
+        "pk": true,
+        "ref": null,
+        "note": "Định danh ổn định do ứng dụng tạo (UUID)."
+      },
+      {
+        "name": "version",
+        "type": "varchar(40)",
+        "null": false,
+        "pk": false,
+        "ref": null,
+        "note": "Phiên bản client"
+      },
+      {
+        "name": "os",
+        "type": "varchar(20)",
+        "null": false,
+        "pk": false,
+        "ref": null,
+        "note": "WINDOWS, LINUX, MACOS"
+      },
+      {
+        "name": "architecture",
+        "type": "varchar(20)",
+        "null": false,
+        "pk": false,
+        "ref": null,
+        "note": "x86_64 hoặc arm64"
+      },
+      {
+        "name": "api_major",
+        "type": "integer",
+        "null": false,
+        "pk": false,
+        "ref": null,
+        "note": "API tương thích"
+      },
+      {
+        "name": "sha256",
+        "type": "char(64)",
+        "null": false,
+        "pk": false,
+        "ref": null,
+        "note": "Checksum artifact"
+      },
+      {
+        "name": "download_uri",
+        "type": "text",
+        "null": false,
+        "pk": false,
+        "ref": null,
+        "note": "Địa chỉ nội bộ qua TLS"
+      },
+      {
+        "name": "is_minimum",
+        "type": "boolean",
+        "null": false,
+        "pk": false,
+        "ref": null,
+        "note": "Bản tối thiểu theo OS/arch, service kiểm tra chỉ một"
+      }
+    ],
+    "unique": [
+      "version,os,architecture"
+    ],
+    "checks": []
+  }
+]

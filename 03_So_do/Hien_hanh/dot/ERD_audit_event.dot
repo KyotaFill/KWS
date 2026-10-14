@@ -1,0 +1,11 @@
+digraph KWS {
+graph [rankdir=LR, bgcolor="white", nodesep=.5, ranksep=.9, pad=.3];
+node [shape=plain, fontname="DejaVu Sans", fontsize=12];
+edge [fontname="DejaVu Sans", fontsize=10, color="#334155", fontcolor="#334155", arrowsize=.8];
+label=<<TABLE BORDER="0" CELLBORDER="0" CELLPADDING="3"><TR><TD><FONT POINT-SIZE="20">ERD · audit_event</FONT></TD></TR></TABLE>>; labelloc=t; fontname="DejaVu Sans"; fontsize=16;
+"audit_event" [label=<<TABLE BORDER="1" CELLBORDER="1" CELLSPACING="0" CELLPADDING="7" COLOR="#526f83"><TR><TD BGCOLOR="#b7dff2"><B>audit_event</B></TD></TR><TR><TD ALIGN="LEFT" BALIGN="LEFT">PK id : uuid<BR ALIGN="LEFT"/>FK actor_id : uuid ?<BR ALIGN="LEFT"/>FK warehouse_id : uuid ?<BR ALIGN="LEFT"/>action : character varying(100)<BR ALIGN="LEFT"/>entity_type : character varying(80)<BR ALIGN="LEFT"/>entity_id : uuid ?<BR ALIGN="LEFT"/>request_id : uuid<BR ALIGN="LEFT"/>occurred_at : timestamp with time zone<BR ALIGN="LEFT"/>before_data : jsonb ?<BR ALIGN="LEFT"/>after_data : jsonb ?<BR ALIGN="LEFT"/>reason : text ?</TD></TR></TABLE>>];
+"app_user" [label=<<TABLE BORDER="1" CELLBORDER="1" CELLSPACING="0" CELLPADDING="7" COLOR="#526f83"><TR><TD BGCOLOR="#b7dff2"><B>app_user</B></TD></TR><TR><TD ALIGN="LEFT" BALIGN="LEFT">id : uuid</TD></TR></TABLE>>];
+"warehouse" [label=<<TABLE BORDER="1" CELLBORDER="1" CELLSPACING="0" CELLPADDING="7" COLOR="#526f83"><TR><TD BGCOLOR="#b7dff2"><B>warehouse</B></TD></TR><TR><TD ALIGN="LEFT" BALIGN="LEFT">id : uuid</TD></TR></TABLE>>];
+"audit_event" -> "app_user" [label="actor_id → id", dir="both", arrowtail="crowodot", arrowhead="teeodot", taillabel="0..*", headlabel="0..1", labeldistance="2", style="dashed"];
+"audit_event" -> "warehouse" [label="warehouse_id → id", dir="both", arrowtail="crowodot", arrowhead="teeodot", taillabel="0..*", headlabel="0..1", labeldistance="2", style="dashed"];
+}

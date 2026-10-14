@@ -1,0 +1,5191 @@
+{
+  "date": "2026-10-14",
+  "method": "Latest result per currently collected test, using a full suite and targeted reruns. UUIDs randomly generated in parameter IDs are normalized for matching. This is a merged result, not a single uninterrupted run.",
+  "environment": {
+    "os": "Linux x86_64",
+    "python": "3.12.3",
+    "postgres": "16.15 (Ubuntu 16.15-0ubuntu0.24.04.1)",
+    "nginx": "1.24.0"
+  },
+  "application": {
+    "passed": 733,
+    "failed": 0,
+    "skipped": 0
+  },
+  "deployment": {
+    "passed": 29,
+    "failed": 0,
+    "skipped": 0
+  },
+  "runs": [
+    {
+      "name": "kws-final",
+      "junit_sha256": "5ed221307b049eb27033ac7a8cf02079202d9bc5148a70bf181c696d4db3ff64",
+      "counts": {
+        "passed": 729,
+        "failed": 4,
+        "skipped": 0
+      }
+    },
+    {
+      "name": "kws-corrected",
+      "junit_sha256": "16ee9ad4bfe5a248712e63b8e4aafaacec4f85a4e3e5b5d30e311afab6eabd05",
+      "counts": {
+        "passed": 44,
+        "failed": 1,
+        "skipped": 0
+      }
+    },
+    {
+      "name": "kws-load-final",
+      "junit_sha256": "7961198fa0a0a393d34fa92a7cacb72fa625f301a9d41a9ea2a3beaa413fa9b4",
+      "counts": {
+        "passed": 1,
+        "failed": 0,
+        "skipped": 0
+      }
+    },
+    {
+      "name": "kws-brand-final",
+      "junit_sha256": "f01c895aea2c6997167a14514687ae38c044db24520c1bfe975969af4b96b992",
+      "counts": {
+        "passed": 8,
+        "failed": 0,
+        "skipped": 0
+      }
+    }
+  ],
+  "cases": [
+    {
+      "nodeid": "tests/concurrency/test_b24_process_races.py::test_every_posting_multiprocess_same_execution_once[receipt-0]",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/concurrency/test_b24_process_races.py::test_every_posting_multiprocess_same_execution_once[receipt-1]",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/concurrency/test_b24_process_races.py::test_every_posting_multiprocess_same_execution_once[opening-0]",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/concurrency/test_b24_process_races.py::test_every_posting_multiprocess_same_execution_once[opening-1]",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/concurrency/test_b24_process_races.py::test_every_posting_multiprocess_same_execution_once[issue-0]",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/concurrency/test_b24_process_races.py::test_every_posting_multiprocess_same_execution_once[issue-1]",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/concurrency/test_b24_process_races.py::test_competing_business_transitions[0-approval]",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/concurrency/test_b24_process_races.py::test_competing_business_transitions[0-reserve]",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/concurrency/test_b24_process_races.py::test_competing_business_transitions[0-cancel_post]",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/concurrency/test_b24_process_races.py::test_competing_business_transitions[0-period_post]",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/concurrency/test_b24_process_races.py::test_competing_business_transitions[1-approval]",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/concurrency/test_b24_process_races.py::test_competing_business_transitions[1-reserve]",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/concurrency/test_b24_process_races.py::test_competing_business_transitions[1-cancel_post]",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/concurrency/test_b24_process_races.py::test_competing_business_transitions[1-period_post]",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/concurrency/test_b24_process_races.py::test_same_serial_cannot_exist_in_two_warehouses[0]",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/concurrency/test_b24_process_races.py::test_same_serial_cannot_exist_in_two_warehouses[1]",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_admin_desktop.py::test_admin_tk_http_users_grants_sod_and_revocation",
+      "integration": true,
+      "gui": true,
+      "status": "passed",
+      "run": "kws-corrected"
+    },
+    {
+      "nodeid": "tests/foundation/test_admin_desktop.py::test_admin_approval_shows_live_server_changes[warehouse]",
+      "integration": true,
+      "gui": true,
+      "status": "passed",
+      "run": "kws-corrected"
+    },
+    {
+      "nodeid": "tests/foundation/test_admin_desktop.py::test_admin_approval_shows_live_server_changes[role]",
+      "integration": true,
+      "gui": true,
+      "status": "passed",
+      "run": "kws-corrected"
+    },
+    {
+      "nodeid": "tests/foundation/test_admin_desktop.py::test_admin_approval_shows_live_server_changes[requester]",
+      "integration": true,
+      "gui": true,
+      "status": "passed",
+      "run": "kws-corrected"
+    },
+    {
+      "nodeid": "tests/foundation/test_admin_desktop.py::test_admin_external_revocation_clears_session_and_permission_loss_disables_ui",
+      "integration": true,
+      "gui": true,
+      "status": "passed",
+      "run": "kws-corrected"
+    },
+    {
+      "nodeid": "tests/foundation/test_admin_desktop.py::test_admin_real_pagination_more_than_two_hundred_rows_and_logout",
+      "integration": true,
+      "gui": true,
+      "status": "passed",
+      "run": "kws-corrected"
+    },
+    {
+      "nodeid": "tests/foundation/test_admin_desktop.py::test_admin_widgets_require_each_permission_and_mfa[permissions0-True]",
+      "integration": false,
+      "gui": true,
+      "status": "passed",
+      "run": "kws-corrected"
+    },
+    {
+      "nodeid": "tests/foundation/test_admin_desktop.py::test_admin_widgets_require_each_permission_and_mfa[permissions1-True]",
+      "integration": false,
+      "gui": true,
+      "status": "passed",
+      "run": "kws-corrected"
+    },
+    {
+      "nodeid": "tests/foundation/test_admin_desktop.py::test_admin_widgets_require_each_permission_and_mfa[permissions2-True]",
+      "integration": false,
+      "gui": true,
+      "status": "passed",
+      "run": "kws-corrected"
+    },
+    {
+      "nodeid": "tests/foundation/test_admin_desktop.py::test_admin_widgets_require_each_permission_and_mfa[permissions3-False]",
+      "integration": false,
+      "gui": true,
+      "status": "passed",
+      "run": "kws-corrected"
+    },
+    {
+      "nodeid": "tests/foundation/test_admin_desktop.py::test_admin_invalidation_discards_pending_session_snapshot",
+      "integration": false,
+      "gui": true,
+      "status": "passed",
+      "run": "kws-corrected"
+    },
+    {
+      "nodeid": "tests/foundation/test_admin_desktop.py::test_admin_900_by_690_navigation_layout_timeout_secret_and_cleanup",
+      "integration": false,
+      "gui": true,
+      "status": "passed",
+      "run": "kws-corrected"
+    },
+    {
+      "nodeid": "tests/foundation/test_admin_desktop.py::test_identity_http_response_waits_for_commit[False]",
+      "integration": true,
+      "gui": true,
+      "status": "passed",
+      "run": "kws-corrected"
+    },
+    {
+      "nodeid": "tests/foundation/test_admin_desktop.py::test_identity_http_response_waits_for_commit[True]",
+      "integration": true,
+      "gui": true,
+      "status": "passed",
+      "run": "kws-corrected"
+    },
+    {
+      "nodeid": "tests/foundation/test_admin_presenter.py::test_permissions_and_mfa_gate_each_resource[permissions0-True-users-False]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_admin_presenter.py::test_permissions_and_mfa_gate_each_resource[permissions1-True-users-False]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_admin_presenter.py::test_permissions_and_mfa_gate_each_resource[permissions2-True-roles-False]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_admin_presenter.py::test_permissions_and_mfa_gate_each_resource[permissions3-False-users-False]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_admin_presenter.py::test_permissions_and_mfa_gate_each_resource[permissions4-False-grant-requests-False]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_admin_presenter.py::test_permissions_and_mfa_gate_each_resource[permissions5-True-users-True]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_admin_presenter.py::test_permissions_and_mfa_gate_each_resource[permissions6-True-roles-True]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_admin_presenter.py::test_paging_uses_username_or_uuid_and_checks_the_page_after_exact_limit[users-user-099]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_admin_presenter.py::test_paging_uses_username_or_uuid_and_checks_the_page_after_exact_limit[grants-588aaf36-a858-4171-958b-bd92a5927f15]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_admin_presenter.py::test_paging_uses_username_or_uuid_and_checks_the_page_after_exact_limit[grant-requests-285caca3-e61a-4a55-9c6e-a23a58d377a7]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_admin_presenter.py::test_timeout_does_not_replay_or_keep_secret_and_requires_explicit_reconciliation",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_admin_presenter.py::test_busy_guard_and_ui_thread_only_drop_response_after_reset",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_admin_presenter.py::test_cancel_between_permission_check_and_write_sends_no_command",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_admin_presenter.py::test_expired_permission_is_checked_before_command_and_clears_data",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_admin_presenter.py::test_server_business_errors_are_preserved_without_replay[SELF_APPROVAL]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_admin_presenter.py::test_server_business_errors_are_preserved_without_replay[INVALID_SCOPE]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_admin_presenter.py::test_server_business_errors_are_preserved_without_replay[NOT_FOUND]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_admin_presenter.py::test_self_revoke_and_external_invalidation_clear_data",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_admin_presenter.py::test_new_login_before_result_drain_drops_old_data",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_admin_presenter.py::test_uuid_scope_and_timezone_validation_prevents_http[body0]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_admin_presenter.py::test_uuid_scope_and_timezone_validation_prevents_http[body1]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_admin_presenter.py::test_uuid_scope_and_timezone_validation_prevents_http[body2]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_admin_presenter.py::test_uuid_scope_and_timezone_validation_prevents_http[body3]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_admin_presenter.py::test_invalid_password_validation_never_exposes_secret",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_admin_presenter.py::test_role_only_admin_can_request_each_scope_without_warehouse_or_user_lookup[GLOBAL]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_admin_presenter.py::test_role_only_admin_can_request_each_scope_without_warehouse_or_user_lookup[WAREHOUSE]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_admin_presenter.py::test_role_only_admin_can_request_each_scope_without_warehouse_or_user_lookup[ALL_WAREHOUSES]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_admin_presenter.py::test_invalid_success_response_is_safe_and_write_result_is_uncertain[load]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_admin_presenter.py::test_invalid_success_response_is_safe_and_write_result_is_uncertain[create_user]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_admin_presenter.py::test_close_while_worker_running_keeps_future_free_of_tk_and_does_not_render",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_admin_workspace.py::test_workspace_navigation_theme_resize_and_signout_preserve_business_state",
+      "integration": false,
+      "gui": true,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_admin_workspace.py::test_new_product_fields_stay_reachable_by_keyboard_at_small_size",
+      "integration": false,
+      "gui": true,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_admin_workspace.py::test_catalog_navigation_preserves_edits_and_does_not_repeat_load",
+      "integration": false,
+      "gui": true,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_api_contracts.py::test_health_does_not_need_database",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_api_contracts.py::test_errors_conform_to_design_and_never_echo_input",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_api_contracts.py::test_invalid_quantities_are_rejected[80]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_api_contracts.py::test_invalid_quantities_are_rejected[1.2]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_api_contracts.py::test_invalid_quantities_are_rejected[0]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_api_contracts.py::test_invalid_quantities_are_rejected[0.000000]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_api_contracts.py::test_invalid_quantities_are_rejected[-1]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_api_contracts.py::test_invalid_quantities_are_rejected[1e3]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_api_contracts.py::test_invalid_quantities_are_rejected[NaN]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_api_contracts.py::test_invalid_quantities_are_rejected[1.0000001]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_api_contracts.py::test_invalid_quantities_are_rejected[100000000000000]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_api_contracts.py::test_invalid_quantities_are_rejected[01]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_api_contracts.py::test_quantities_remain_strings[80]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_api_contracts.py::test_quantities_remain_strings[0.000001]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_api_contracts.py::test_quantities_remain_strings[99999999999999.999999]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_api_contracts.py::test_quantities_remain_strings[10.500000]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_api_contracts.py::test_settings_require_postgres_and_hide_credentials",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_api_contracts.py::test_domain_and_contracts_have_no_ui_or_persistence_imports",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_api_contracts.py::test_business_timezone_works_without_os_timezone_database",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_api_contracts.py::test_desktop_only_uses_api_and_local_storage",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_api_contracts.py::test_readiness_contract_rejects_incompatible_history[checksum]",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_api_contracts.py::test_readiness_contract_rejects_incompatible_history[unknown]",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_api_contracts.py::test_readiness_contract_rejects_incompatible_history[gap]",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_api_contracts.py::test_real_api_permission_version_idempotency_and_unknown_operation_contract",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_approval_presenter.py::test_old_warehouse_and_session_reads_never_touch_current_view[OrderPresenter]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_approval_presenter.py::test_old_warehouse_and_session_reads_never_touch_current_view[ApprovalPresenter]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_approval_presenter.py::test_stale_decision_requires_read_and_never_automatically_retries",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_approval_presenter.py::test_approval_explanation_distinguishes_warehouse_grant_and_sod",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_auth_navigation.py::test_project_footer_opens_kws_repository",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-brand-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_auth_navigation.py::test_theme_switch_click_keyboard_animation_and_close",
+      "integration": false,
+      "gui": true,
+      "status": "passed",
+      "run": "kws-brand-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_auth_navigation.py::test_menu_flat_until_selected_hover_reverts_and_rejected_navigation_keeps_selection",
+      "integration": false,
+      "gui": true,
+      "status": "passed",
+      "run": "kws-brand-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_auth_navigation.py::test_google_loopback_rejects_wrong_state_then_exchanges_once_and_clears_secrets",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-brand-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_auth_navigation.py::test_google_cancel_is_prompt_and_does_not_exchange",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-brand-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_avatar.py::test_avatar_is_bounded_square_png_and_repeatable[PNG]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_avatar.py::test_avatar_is_bounded_square_png_and_repeatable[JPEG]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_avatar.py::test_avatar_is_bounded_square_png_and_repeatable[WEBP]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_avatar.py::test_avatar_drops_metadata_and_rejects_untrusted_files",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_avatar.py::test_avatar_checks_orientation_and_rejects_animation",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_avatar.py::test_avatar_contract_distinguishes_untouched_and_removed",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_avatar.py::test_avatar_upload_persistence_isolation_retry_remove_and_conflict",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_avatar.py::test_image_failure_does_not_sign_out",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_compact_layout.py::test_scroll_panel_fills_short_page_and_keeps_long_form_reachable",
+      "integration": false,
+      "gui": true,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_compact_layout.py::test_inbound_tables_fill_page_and_action_buttons_are_distinct",
+      "integration": false,
+      "gui": true,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_compact_layout.py::test_notebook_selection_keeps_tab_dimensions_in_both_themes",
+      "integration": false,
+      "gui": true,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_compact_layout.py::test_action_layout_and_feedback_remain_accessible_after_resize",
+      "integration": false,
+      "gui": true,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_compact_layout.py::test_unified_combobox_keeps_native_arrow_interaction",
+      "integration": false,
+      "gui": true,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_compact_layout.py::test_scanner_and_document_share_one_status_button",
+      "integration": false,
+      "gui": true,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_compact_layout.py::test_preview_opens_only_on_request",
+      "integration": false,
+      "gui": true,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_data_table.py::test_wrapped_cells_fit_without_changing_values[0]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_data_table.py::test_wrapped_cells_fit_without_changing_values[1]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_data_table.py::test_wrapped_cells_fit_without_changing_values[6]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_data_table.py::test_wrapped_cells_fit_without_changing_values[7]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_data_table.py::test_wrapped_cells_fit_without_changing_values[20]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_data_table.py::test_wrapped_cells_fit_without_changing_values[45]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_data_table.py::test_wrapped_cells_fit_without_changing_values[100]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_data_table.py::test_wrapped_cells_fit_without_changing_values[500]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_data_table.py::test_column_alignment_keeps_codes_separate_from_amounts",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_data_table.py::test_all_business_tables_use_shared_component",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_data_table.py::test_grid_keeps_selection_scrolling_theme_and_tree_column",
+      "integration": false,
+      "gui": true,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_desktop.py::test_insecure_or_invalid_lan_url_is_rejected[http://192.168.1.10/api/v1]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_desktop.py::test_insecure_or_invalid_lan_url_is_rejected[ftp://localhost/api/v1]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_desktop.py::test_insecure_or_invalid_lan_url_is_rejected[https://u:secret@host/api/v1]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_desktop.py::test_insecure_or_invalid_lan_url_is_rejected[https://host/api/v1?token=secret]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_desktop.py::test_insecure_or_invalid_lan_url_is_rejected[https://host/wrong]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_desktop.py::test_api_client_preserves_prefix_and_contract_error",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_desktop.py::test_api_client_handles_timeout_without_retry",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_desktop.py::test_presenter_nonblocking_ignores_old_result_and_updates_on_main_thread",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_desktop.py::test_local_crash_preserves_payload_key_and_isolates_user_server_device",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_desktop.py::test_local_store_rejects_credentials",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_desktop.py::test_tk_shell_opens_calls_api_and_closes",
+      "integration": false,
+      "gui": true,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_desktop_lifecycle.py::test_shutdown_waits_for_inflight_request_and_queued_journal_close",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_desktop_lifecycle.py::test_cancel_exit_preserves_window_and_resumes_poll",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_desktop_lifecycle.py::test_close_wait_keeps_window_alive_until_workers_finish",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_desktop_lifecycle.py::test_restart_happens_only_after_cleanup_and_lock_release[False]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_desktop_lifecycle.py::test_restart_happens_only_after_cleanup_and_lock_release[True]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_desktop_lifecycle.py::test_restart_uses_current_interpreter_or_packaged_app[False]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_desktop_lifecycle.py::test_restart_uses_current_interpreter_or_packaged_app[True]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_desktop_lifecycle.py::test_shell_reload_waits_responsively_and_stops_every_worker",
+      "integration": false,
+      "gui": true,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_document_pages.py::test_navigation_changes_geometry_only_and_preserves_pending_draft",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_document_pages.py::test_open_requires_selection_and_does_not_open_from_blank_area",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_document_pages.py::test_reset_during_constructor_does_not_require_pages",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_document_pages.py::test_all_document_views_separate_list_and_detail_without_losing_input",
+      "integration": false,
+      "gui": true,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_document_reviews.py::test_scoped_search_is_literal_and_keyset_paged",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_document_reviews.py::test_candidates_scope_paging_expiry_and_revocation",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_document_reviews.py::test_approval_snapshots_compare_submission_versions_and_never_expose_price",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_document_reviews.py::test_receipt_review_preserves_source_and_tracking_plan",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_document_reviews.py::test_legacy_approval_without_snapshot_is_explicitly_unavailable",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_documents_desktop.py::test_tk_assignment_revocation_search_paging_and_snapshot_navigation",
+      "integration": true,
+      "gui": true,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_documents_desktop.py::test_tk_inbox_sod_warehouse_grant_stale_decision_and_receipt",
+      "integration": true,
+      "gui": true,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_documents_desktop.py::test_tk_partial_close_cancel_and_unknown_survive_navigation",
+      "integration": true,
+      "gui": true,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_documents_desktop.py::test_closed_shell_can_be_collected_on_worker",
+      "integration": true,
+      "gui": true,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_iam_lifecycle.py::test_change_password_requires_fresh_totp_and_revokes_sessions_challenges",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_iam_lifecycle.py::test_sensitive_failures_persist_and_are_shared_across_actions",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_iam_lifecycle.py::test_successful_sensitive_operations_also_throttle",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_iam_lifecycle.py::test_recovery_rotation_single_use_and_no_admin_mfa_bypass",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_iam_lifecycle.py::test_recovery_guessing_limit_survives_new_password_challenges",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_iam_lifecycle.py::test_reset_mfa_reauth_and_old_factor_are_invalidated",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_iam_lifecycle.py::test_password_reset_admin_control_expiry_replay_and_target_mfa_retained",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_iam_lifecycle.py::test_new_reset_supersedes_old_and_revoked_admin_cannot_issue",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_iam_lifecycle.py::test_credential_races_use_two_postgres_sessions_and_one_commit[recovery]",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_iam_lifecycle.py::test_credential_races_use_two_postgres_sessions_and_one_commit[password]",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_iam_lifecycle.py::test_credential_races_use_two_postgres_sessions_and_one_commit[reset-token]",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_iam_lifecycle.py::test_audit_failure_rolls_back_password_revocation_and_totp_counter",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_iam_lifecycle.py::test_audit_session_lookup_scope_allowlist_and_revocation",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_iam_lifecycle.py::test_upgrade_preserves_user_session_factor_and_new_secret_tables[10]",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_iam_lifecycle.py::test_upgrade_preserves_user_session_factor_and_new_secret_tables[16]",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_iam_lifecycle.py::test_upgrade_preserves_user_session_factor_and_new_secret_tables[17]",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_iam_lifecycle.py::test_password_reset_digest_and_validation_do_not_leak",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_iam_lifecycle.py::test_grant_history_keeps_request_approval_and_revocation_reasons",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_iam_lifecycle_desktop.py::test_sensitive_timeout_drops_tokens_no_replay_or_traceback_cache[change_password]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-corrected"
+    },
+    {
+      "nodeid": "tests/foundation/test_iam_lifecycle_desktop.py::test_sensitive_timeout_drops_tokens_no_replay_or_traceback_cache[reset_password]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-corrected"
+    },
+    {
+      "nodeid": "tests/foundation/test_iam_lifecycle_desktop.py::test_sensitive_timeout_drops_tokens_no_replay_or_traceback_cache[reset_mfa]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-corrected"
+    },
+    {
+      "nodeid": "tests/foundation/test_iam_lifecycle_desktop.py::test_sensitive_timeout_drops_tokens_no_replay_or_traceback_cache[recover_mfa]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-corrected"
+    },
+    {
+      "nodeid": "tests/foundation/test_iam_lifecycle_desktop.py::test_sensitive_timeout_drops_tokens_no_replay_or_traceback_cache[recovery_codes]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-corrected"
+    },
+    {
+      "nodeid": "tests/foundation/test_iam_lifecycle_desktop.py::test_sensitive_response_from_previous_session_is_discarded",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-corrected"
+    },
+    {
+      "nodeid": "tests/foundation/test_iam_lifecycle_desktop.py::test_b04_gui_lookup_reset_history_and_password_change_real_http",
+      "integration": true,
+      "gui": true,
+      "status": "passed",
+      "run": "kws-corrected"
+    },
+    {
+      "nodeid": "tests/foundation/test_iam_lifecycle_desktop.py::test_b04_gui_recovery_codes_and_new_enrollment_real_http",
+      "integration": true,
+      "gui": true,
+      "status": "passed",
+      "run": "kws-corrected"
+    },
+    {
+      "nodeid": "tests/foundation/test_iam_lifecycle_desktop.py::test_security_dialog_widgets_clear_and_close_on_main_thread",
+      "integration": false,
+      "gui": true,
+      "status": "passed",
+      "run": "kws-corrected"
+    },
+    {
+      "nodeid": "tests/foundation/test_iam_lifecycle_desktop.py::test_admin_reset_timeout_invalidates_session_without_replay",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-corrected"
+    },
+    {
+      "nodeid": "tests/foundation/test_identity.py::test_login_logout_expiry_and_no_secret_leaks",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-corrected"
+    },
+    {
+      "nodeid": "tests/foundation/test_identity.py::test_login_rate_limit_persists_and_unknown_user_is_generic",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-corrected"
+    },
+    {
+      "nodeid": "tests/foundation/test_identity.py::test_refresh_rotation_replay_revokes_family_and_device_is_checked",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-corrected"
+    },
+    {
+      "nodeid": "tests/foundation/test_identity.py::test_concurrent_refresh_cannot_leave_replayed_session_valid",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-corrected"
+    },
+    {
+      "nodeid": "tests/foundation/test_identity.py::test_mfa_enrollment_login_replay_and_secret_encryption",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-corrected"
+    },
+    {
+      "nodeid": "tests/foundation/test_identity.py::test_mfa_challenges_expire_and_rate_limit_survives_new_challenge",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-corrected"
+    },
+    {
+      "nodeid": "tests/foundation/test_identity.py::test_lock_or_revoke_has_immediate_effect_on_open_session",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-corrected"
+    },
+    {
+      "nodeid": "tests/foundation/test_identity.py::test_scope_is_not_cross_product_and_price_is_hidden_at_api",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-corrected"
+    },
+    {
+      "nodeid": "tests/foundation/test_identity.py::test_restricted_document_visibility_and_global_scope",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-corrected"
+    },
+    {
+      "nodeid": "tests/foundation/test_identity.py::test_expired_future_and_all_warehouse_grants",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-corrected"
+    },
+    {
+      "nodeid": "tests/foundation/test_identity.py::test_sysadmin_requires_mfa_and_never_implicitly_gets_stock",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-corrected"
+    },
+    {
+      "nodeid": "tests/foundation/test_identity.py::test_two_person_grant_approval_and_revoke",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-corrected"
+    },
+    {
+      "nodeid": "tests/foundation/test_identity.py::test_bootstrap_limited_to_initial_two_admins",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-corrected"
+    },
+    {
+      "nodeid": "tests/foundation/test_identity.py::test_approval_substitution_still_rejects_self_approval",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-corrected"
+    },
+    {
+      "nodeid": "tests/foundation/test_identity.py::test_unknown_permission_denied_and_inactive_role_removes_access",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-corrected"
+    },
+    {
+      "nodeid": "tests/foundation/test_identity.py::test_concurrent_mfa_challenge_can_only_be_used_once",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-corrected"
+    },
+    {
+      "nodeid": "tests/foundation/test_identity.py::test_desktop_login_mfa_and_revocation_over_real_http",
+      "integration": true,
+      "gui": true,
+      "status": "passed",
+      "run": "kws-corrected"
+    },
+    {
+      "nodeid": "tests/foundation/test_identity_client.py::test_client_refreshes_once_for_get_and_keeps_rotated_tokens_only_in_ram",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_identity_client.py::test_refresh_timeout_drops_uncertain_tokens_without_retry",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_identity_client.py::test_logout_network_error_still_drops_local_credentials",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_identity_client.py::test_profile_detects_old_server_without_sending_unsupported_avatar[False-True]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_identity_client.py::test_profile_detects_old_server_without_sending_unsupported_avatar[False-False]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_identity_client.py::test_profile_detects_old_server_without_sending_unsupported_avatar[True-True]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_image_picker.py::test_native_selection_preserves_spaces_and_cancel_does_not_fallback",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_image_picker.py::test_closing_profile_stops_picker_without_selection",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_image_picker.py::test_default_folder_prefers_pictures_then_downloads",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_issue_presenter.py::test_issue_retry_preserves_body_key_and_user_partition",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_issue_presenter.py::test_issue_discards_response_from_old_user_warehouse_or_session[user]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_issue_presenter.py::test_issue_discards_response_from_old_user_warehouse_or_session[warehouse]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_issue_presenter.py::test_issue_discards_response_from_old_user_warehouse_or_session[generation]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_issue_presenter.py::test_issue_discards_response_from_old_user_warehouse_or_session[close]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_issue_presenter.py::test_issue_lookup_not_found_is_unknown_and_does_not_repost",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_issue_presenter.py::test_issue_invalid_post_ack_does_not_clear_pending_command",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_issues.py::test_issue_partial_complete_replay_execution_and_operation",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_issues.py::test_two_pg_sessions_request_seven_from_ten_only_one_can_reserve_and_post",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_issues.py::test_reserve_replay_source_demand_and_other_documents_hold_are_protected",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_issues.py::test_release_revise_edit_and_close_preserve_history",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_issues.py::test_cancel_and_post_race_is_atomic",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_issues.py::test_expired_reservation_stays_reserved_until_release_and_release_race",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_issues.py::test_failpoint_rollback_all_effects_then_retry_same_key[inventory_transaction]",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_issues.py::test_failpoint_rollback_all_effects_then_retry_same_key[stock_move]",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_issues.py::test_failpoint_rollback_all_effects_then_retry_same_key[stock_balance]",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_issues.py::test_failpoint_rollback_all_effects_then_retry_same_key[reservation SET consumed]",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_issues.py::test_failpoint_rollback_all_effects_then_retry_same_key[reservation_consumption]",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_issues.py::test_failpoint_rollback_all_effects_then_retry_same_key[audit_event]",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_issues.py::test_failpoint_rollback_all_effects_then_retry_same_key[outbox_event]",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_issues.py::test_failpoint_rollback_all_effects_then_retry_same_key[idempotency_record]",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_issues.py::test_permissions_assignment_revocation_and_stale_approval",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_issues.py::test_approve_edit_race_and_snapshot_tampering",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_issues.py::test_post_rechecks_period_activity_and_count_lock[period]",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_issues.py::test_post_rechecks_period_activity_and_count_lock[location]",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_issues.py::test_post_rechecks_period_activity_and_count_lock[product]",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_issues.py::test_post_rechecks_period_activity_and_count_lock[frozen]",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_issues.py::test_fefo_proposal_requires_exact_confirmation_and_revalidates_expiry",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_issues.py::test_serial_allocation_quantity_position_and_consumption",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_issues.py::test_two_sessions_replay_same_execution_without_second_move[False]",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_issues.py::test_two_sessions_replay_same_execution_without_second_move[True]",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_issues.py::test_consigned_stock_cannot_satisfy_company_demand",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_issues.py::test_issue_upgrade_from_010_preserves_legacy_documents_and_policy[False]",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_issues.py::test_issue_upgrade_from_010_preserves_legacy_documents_and_policy[True]",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_issues.py::test_issue_self_approval_lifecycle_ack_and_scope",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_issues.py::test_issue_refuses_to_bypass_active_picking_and_releases_only_after_cancel",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_issues.py::test_reserve_rechecks_changed_fefo_and_cancel_blocks_new_source_child",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_issues.py::test_issue_gui_real_api_partial_and_lost_ack_lookup",
+      "integration": true,
+      "gui": true,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_job_history.py::test_export_history_keyset_filters_actor_and_live_permissions",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_job_history.py::test_export_history_expiry_cleanup_keeps_only_authorization_metadata",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_job_history.py::test_export_history_price_revocation_hides_active_and_expired",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_job_history_panel.py::test_changed_filters_restart_paging_and_expired_jobs_cannot_open",
+      "integration": false,
+      "gui": true,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_kws.py::test_edition_removed_routes_are_not_registered",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-brand-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_kws.py::test_brand_and_state_are_independent",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-brand-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_kws.py::test_actual_kws_screens",
+      "integration": true,
+      "gui": true,
+      "status": "passed",
+      "run": "kws-brand-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_master_data.py::test_master_permissions_are_live_and_global_not_inferred_from_warehouse",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_master_data.py::test_catalog_crud_pagination_search_and_no_stock_effect",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_master_data.py::test_idempotency_stale_version_mismatch_and_revoked_replay",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_master_data.py::test_parallel_same_key_creates_one_row_audit_outbox",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_master_data.py::test_duplicate_and_validation_return_safe_field_errors",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_master_data.py::test_catalog_rollback_includes_audit_outbox_and_replay_record",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_master_data.py::test_category_cycle_is_rejected_even_under_competing_edits",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_master_data.py::test_location_tree_cross_warehouse_cycles_and_configuration_scope",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_master_data.py::test_tracking_and_base_uom_lock_after_reference_and_expiry_optional",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_master_data.py::test_conversion_revisions_preserve_history_and_retire_old_barcodes",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_master_data.py::test_conversion_decimal_contract_and_serial_integer_rules",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_master_data.py::test_price_append_and_scope_never_leak_through_product_or_replay",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_master_data.py::test_partner_minimal_dto_and_no_hard_delete",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_master_desktop.py::test_master_presenter_preserves_unknown_write_and_key_until_explicit_retry",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_master_desktop.py::test_master_presenter_keeps_form_on_field_error_and_drops_old_session_response",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_master_desktop.py::test_identity_client_never_sends_old_catalog_command_as_new_user",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_master_desktop.py::test_desktop_catalog_creates_edits_filters_and_clears_on_logout",
+      "integration": true,
+      "gui": true,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_modern_identity.py::test_verified_contact_proof_required_single_use_and_secret_encrypted[email-operator@example.test]",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_modern_identity.py::test_verified_contact_proof_required_single_use_and_secret_encrypted[sms-+84912345678]",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_modern_identity.py::test_email_login_only_verified_and_keeps_totp",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_modern_identity.py::test_forgot_generic_reset_single_use_preserves_mfa_revokes_sessions[email-operator@example.test]",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_modern_identity.py::test_forgot_generic_reset_single_use_preserves_mfa_revokes_sessions[sms-+84912345678]",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_modern_identity.py::test_forgot_expiry_throttle_and_account_hint",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_modern_identity.py::test_concurrent_reset_consumes_only_once",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_modern_identity.py::test_delivery_leases_cleanup_obsolete_and_redacts_transport_failure",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_modern_identity.py::test_google_pkce_explicit_link_and_login_never_bypasses_mfa",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_modern_identity.py::test_provider_disabled_and_link_requires_current_totp",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_modern_identity.py::test_signed_google_token_issuer_audience_expiry_nonce_verified_email[change0]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_modern_identity.py::test_signed_google_token_issuer_audience_expiry_nonce_verified_email[change1]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_modern_identity.py::test_signed_google_token_issuer_audience_expiry_nonce_verified_email[change2]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_modern_identity.py::test_signed_google_token_issuer_audience_expiry_nonce_verified_email[change3]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_modern_identity.py::test_signed_google_token_issuer_audience_expiry_nonce_verified_email[change4]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_modern_identity.py::test_signed_google_token_issuer_audience_expiry_nonce_verified_email[change5]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_modern_identity.py::test_signed_google_token_issuer_audience_expiry_nonce_verified_email[change6]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_modern_identity.py::test_signed_google_token_issuer_audience_expiry_nonce_verified_email[change7]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_modern_identity.py::test_contact_normalization[email-User@Example.com-user@example.com]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_modern_identity.py::test_contact_normalization[sms-0912 345 678-+84912345678]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_modern_identity.py::test_invalid_contact_rejected[email-user\\n@example.com]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_modern_identity.py::test_invalid_contact_rejected[email-not-email]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_modern_identity.py::test_invalid_contact_rejected[sms-abc]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_modern_identity.py::test_invalid_contact_rejected[sms-+123]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_opening_desktop.py::test_opening_gui_lifecycle_stale_sod_timeout_ack_and_reconciliation",
+      "integration": true,
+      "gui": true,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_opening_desktop.py::test_opening_gui_limits_duplicate_batch_and_serial_scope",
+      "integration": true,
+      "gui": true,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_opening_desktop.py::test_opening_gui_lost_create_response_lookup_and_retry_same_batch",
+      "integration": true,
+      "gui": true,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_opening_desktop.py::test_opening_gui_lot_and_uncommitted_post_lookup_then_exact_retry",
+      "integration": true,
+      "gui": true,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_opening_desktop.py::test_opening_auto_load_reads_existing_document_and_preserves_draft",
+      "integration": true,
+      "gui": true,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_opening_presenter.py::test_unknown_requires_lookup_then_exact_explicit_retry[False]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_opening_presenter.py::test_unknown_requires_lookup_then_exact_explicit_retry[True]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_opening_presenter.py::test_lookup_committed_marks_saved_without_reposting",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_opening_presenter.py::test_pending_old_scope_never_updates_view_or_loses_retry_intent[user]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_opening_presenter.py::test_pending_old_scope_never_updates_view_or_loses_retry_intent[warehouse]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_opening_presenter.py::test_pending_old_scope_never_updates_view_or_loses_retry_intent[generation]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_opening_presenter.py::test_pending_old_scope_never_updates_view_or_loses_retry_intent[close]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_opening_presenter.py::test_stale_refreshes_version_and_does_not_retry_stale_command",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_opening_presenter.py::test_revoked_permission_during_lookup_preserves_unknown",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_opening_presenter.py::test_client_validation_rejects_bad_opening_before_http[201]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_opening_presenter.py::test_client_validation_rejects_bad_opening_before_http[duplicate]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_opening_presenter.py::test_client_validation_rejects_bad_opening_before_http[serial_qty]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_opening_presenter.py::test_client_validation_rejects_bad_opening_before_http[tracking]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_opening_presenter.py::test_client_validation_rejects_bad_opening_before_http[precision]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_opening_presenter.py::test_client_validation_rejects_bad_opening_before_http[expiry]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_opening_presenter.py::test_client_validation_rejects_bad_opening_before_http[owner]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_opening_presenter.py::test_exact_decimal_and_tracking_codes_survive_validation",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_opening_presenter.py::test_invalid_post_ack_stays_unknown[transaction]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_opening_presenter.py::test_invalid_post_ack_stays_unknown[warehouse]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_opening_presenter.py::test_invalid_post_ack_stays_unknown[document]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_opening_presenter.py::test_invalid_post_ack_stays_unknown[kind]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_opening_presenter.py::test_invalid_post_ack_stays_unknown[status]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_openings.py::test_opening_lifecycle_replay_ack_and_reconciliation",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_openings.py::test_opening_permissions_scope_sod_and_revoke_on_replay",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_openings.py::test_opening_two_steps_role_order_policy_snapshot_and_sod",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_openings.py::test_opening_edit_reject_revise_cancel_batch_and_stale_version",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_openings.py::test_opening_snapshot_tampering[decide]",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_openings.py::test_opening_snapshot_tampering[post]",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_openings.py::test_opening_post_revalidates_constraints[period]",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_openings.py::test_opening_post_revalidates_constraints[frozen]",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_openings.py::test_opening_post_revalidates_constraints[precision]",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_openings.py::test_opening_post_revalidates_constraints[inactive]",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_openings.py::test_opening_post_revalidates_constraints[source]",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_openings.py::test_opening_post_revalidates_constraints[version]",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_openings.py::test_opening_failpoints_rollback_all_and_same_key_retry[stock_move]",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_openings.py::test_opening_failpoints_rollback_all_and_same_key_retry[stock_balance]",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_openings.py::test_opening_failpoints_rollback_all_and_same_key_retry[audit_event]",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_openings.py::test_opening_failpoints_rollback_all_and_same_key_retry[outbox_event]",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_openings.py::test_opening_concurrent_posts_one_effect[same_key]",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_openings.py::test_opening_concurrent_posts_one_effect[same_execution]",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_openings.py::test_opening_concurrent_posts_one_effect[different_execution]",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_openings.py::test_opening_concurrent_posts_one_effect[different_document]",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_openings.py::test_opening_serial_warranty_has_no_fabricated_supplier_evidence",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_openings.py::test_opening_lot_expiry_and_quarantine",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_openings.py::test_opening_cross_warehouse_tracking_concurrency[LOT]",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_openings.py::test_opening_cross_warehouse_tracking_concurrency[SERIAL]",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_openings.py::test_opening_existing_lot_metadata_conflict_rolls_back",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_openings.py::test_opening_invalid_plan_never_creates_document[owner]",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_openings.py::test_opening_invalid_plan_never_creates_document[none_lot]",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_openings.py::test_opening_invalid_plan_never_creates_document[serial_qty]",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_openings.py::test_opening_invalid_plan_never_creates_document[duplicate_serial]",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_openings.py::test_opening_invalid_plan_never_creates_document[group]",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_openings.py::test_opening_invalid_plan_never_creates_document[cross_location]",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_openings.py::test_opening_invalid_plan_never_creates_document[scale]",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_openings.py::test_opening_invalid_plan_never_creates_document[float]",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_openings.py::test_opening_and_receipt_race_in_different_periods",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_openings.py::test_opening_decisions_race_and_revoked_draft_replay",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_openings.py::test_opening_upgrade_from_009_preserves_custom_policy_and_legacy_data[False]",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_openings.py::test_opening_upgrade_from_009_preserves_custom_policy_and_legacy_data[True]",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_order_presenter.py::test_order_retry_keeps_payload_key_and_is_partitioned_by_user",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_order_presenter.py::test_order_old_session_response_is_discarded_and_stale_version_is_not_retried",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_order_presenter.py::test_missing_global_catalogue_grant_does_not_hide_orders",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_orders.py::test_order_lifecycle_snapshot_and_no_inventory_effects[purchase-orders]",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_orders.py::test_order_lifecycle_snapshot_and_no_inventory_effects[sales-orders]",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_orders.py::test_self_approval_and_submitter_sod_even_with_manager_role",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_orders.py::test_assignment_read_filter_and_edit_ownership",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_orders.py::test_reject_resubmit_and_cancel_history",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_orders.py::test_two_decisions_or_two_edits_only_one_commits",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_orders.py::test_idempotency_duplicate_create_decision_and_permission_revocation",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_orders.py::test_order_validation_decimal_source_and_warehouse_scopes",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_orders.py::test_list_keyset_state_filter_and_wrong_kind",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_orders.py::test_approval_snapshot_tampering_and_immutable_decision",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_orders.py::test_transaction_failure_after_outbox_rolls_back_order_and_approval",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_orders.py::test_partial_quantity_close_preserves_posted_history_and_blocks_cancel",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_orders.py::test_reversal_is_removed_once_from_remaining_and_open_reservation_blocks_close[False]",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_orders.py::test_reversal_is_removed_once_from_remaining_and_open_reservation_blocks_close[True]",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_orders.py::test_two_step_policy_preserves_snapshot_and_enforces_different_approvers",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_orders.py::test_order_desktop_create_stale_form_submit_approve_and_logout",
+      "integration": true,
+      "gui": true,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_orders.py::test_edit_does_not_erase_legacy_price_fields_and_snapshot_covers_attributes",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_outbox.py::test_registry_requires_explicit_version_unique_subscription_and_callable",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_outbox.py::test_retry_and_batch_bounds",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_outbox.py::test_invalid_worker_settings[settings0]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_outbox.py::test_invalid_worker_settings[settings1]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_outbox.py::test_invalid_worker_settings[settings2]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_outbox.py::test_invalid_worker_settings[settings3]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_outbox.py::test_invalid_worker_settings[settings4]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_outbox.py::test_invalid_worker_settings[settings5]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_outbox.py::test_invalid_worker_settings[settings6]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_outbox.py::test_factory_empty_unknown_invalid_and_configuration_logs_are_redacted",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_outbox.py::test_batch_excludes_previous_events_and_stops_before_next_claim",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_outbox.py::test_signal_handler_sets_stop_and_restores_previous_handlers",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_outbox.py::test_idle_loop_uses_interruptible_wait",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_outbox.py::test_due_processed_unknown_and_exhausted_events_are_not_claimed",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_outbox.py::test_unknown_event_can_be_processed_after_registering_its_version",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_outbox.py::test_two_workers_skip_locked_row_and_commit_one_effect_each",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_outbox.py::test_batch_limit_commits_individual_events",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_outbox.py::test_failure_rolls_back_all_consumers_and_preserves_original_audit_outbox",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_outbox.py::test_sql_error_rollback_savepoint_retry_budget_and_capped_backoff",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_outbox.py::test_noop_return_does_not_acknowledge_or_keep_effect",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_outbox.py::test_crash_between_effect_receipt_and_ack_rolls_back_then_restarts[receipt]",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_outbox.py::test_crash_between_effect_receipt_and_ack_rolls_back_then_restarts[ack]",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_outbox.py::test_crash_between_effect_receipt_and_ack_rolls_back_then_restarts[after_ack]",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_outbox.py::test_lock_survives_handler_savepoint_rollback_until_retry_is_committed",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_outbox.py::test_committed_receipt_skips_existing_effect_but_waits_for_all_consumers",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_outbox.py::test_consumers_receive_independent_payloads",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_outbox.py::test_cli_once_limits_batch_and_reports_failure_without_secrets",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_outbox.py::test_sigterm_finishes_current_transaction_without_claiming_next",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_outbox.py::test_sigkill_rolls_back_effect_and_restart_delivers_once",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_outbox.py::test_sigterm_interrupts_idle_poll_wait",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_outbox.py::test_database_failure_disposes_engine_and_redacts_logs",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_pagination.py::test_cursor_history_commits_only_success_and_supports_back_then_forward",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_pagination.py::test_catalog_totals_follow_filter_cursor_and_permissions",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_pagination.py::test_identity_page_matches_legacy_and_checks_mfa_and_live_permissions",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_pagination.py::test_pagination_footer_controls_and_preserves_current_page_on_error",
+      "integration": false,
+      "gui": true,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_password_recovery_view.py::test_recovery_is_a_page_with_theme_back_navigation_and_secret_cleanup",
+      "integration": false,
+      "gui": true,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_password_recovery_view.py::test_recovery_validates_sends_once_and_keeps_reset_errors_inline",
+      "integration": false,
+      "gui": true,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_password_recovery_view.py::test_mfa_qr_is_scannable_and_cleared_on_expiry_or_logout[False]",
+      "integration": false,
+      "gui": true,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_password_recovery_view.py::test_mfa_qr_is_scannable_and_cleared_on_expiry_or_logout[True]",
+      "integration": false,
+      "gui": true,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_postgres.py::test_migrations_seed_schema_smoke_and_reconciliation",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_postgres.py::test_concurrent_migration_runners_serialize",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_postgres.py::test_upgrade_from_foundation_preserves_existing_data",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_postgres.py::test_migration_failure_rolls_back_schema_and_history",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_postgres.py::test_master_upgrade_preserves_catalog_and_adds_versions",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_postgres.py::test_ownership_upgrade_preserves_legacy_ledger_without_assuming_company[5]",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_postgres.py::test_ownership_upgrade_preserves_legacy_ledger_without_assuming_company[10]",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_postgres.py::test_ownership_upgrade_preserves_legacy_ledger_without_assuming_company[13]",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_postgres.py::test_ownership_upgrade_preserves_legacy_ledger_without_assuming_company[14]",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_postgres.py::test_ownership_upgrade_preserves_legacy_ledger_without_assuming_company[15]",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_postgres.py::test_ownership_upgrade_preserves_legacy_ledger_without_assuming_company[16]",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_postgres.py::test_ownership_upgrade_preserves_legacy_ledger_without_assuming_company[17]",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_postgres.py::test_ownership_upgrade_preserves_legacy_ledger_without_assuming_company[22]",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_postgres.py::test_changed_or_unknown_migrations_are_refused",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_postgres.py::test_existing_unmanaged_schema_is_not_overwritten",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_postgres.py::test_readiness_changes_only_after_explicit_migration",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_postgres.py::test_command_retry_concurrency_payload_and_authorization",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_postgres.py::test_failure_rolls_back_effect_audit_outbox_and_operation",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_postgres.py::test_uncommitted_uow_and_stale_version_leave_no_effect",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_postgres.py::test_foreign_key_failure_cannot_leave_idempotency_result",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_postgres.py::test_desktop_reads_readiness_from_real_http_and_postgres",
+      "integration": true,
+      "gui": true,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_postgres.py::test_order_upgrade_preserves_existing_policy_and_legacy_approval",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_print_render_scanner.py::test_pdf_vietnamese_repeated_headers_pagination_deterministic[A4-RECEIPT]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_print_render_scanner.py::test_pdf_vietnamese_repeated_headers_pagination_deterministic[A4-ISSUE]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_print_render_scanner.py::test_pdf_vietnamese_repeated_headers_pagination_deterministic[A4-TRANSFER]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_print_render_scanner.py::test_pdf_vietnamese_repeated_headers_pagination_deterministic[A4-COUNT]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_print_render_scanner.py::test_pdf_vietnamese_repeated_headers_pagination_deterministic[A5-RECEIPT]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_print_render_scanner.py::test_pdf_vietnamese_repeated_headers_pagination_deterministic[A5-ISSUE]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_print_render_scanner.py::test_pdf_vietnamese_repeated_headers_pagination_deterministic[A5-TRANSFER]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_print_render_scanner.py::test_pdf_vietnamese_repeated_headers_pagination_deterministic[A5-COUNT]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_print_render_scanner.py::test_rendered_barcodes_decode_actual_pixels[PRODUCT_LABEL-SKU-ABC-001-100x50]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_print_render_scanner.py::test_rendered_barcodes_decode_actual_pixels[PRODUCT_LABEL-SKU-ABC-001-80x40]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_print_render_scanner.py::test_rendered_barcodes_decode_actual_pixels[LOCATION_LABEL-KHU-A-R01-100x50]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_print_render_scanner.py::test_rendered_barcodes_decode_actual_pixels[LOCATION_LABEL-KHU-A-R01-80x40]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_print_render_scanner.py::test_rendered_barcodes_decode_actual_pixels[PRODUCT_LABEL-SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS-100x50]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_print_render_scanner.py::test_rendered_barcodes_decode_actual_pixels[PRODUCT_LABEL-SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS-80x40]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_print_render_scanner.py::test_pdf_file_size_bound_and_markup_escaped",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_print_render_scanner.py::test_hid_focus_terminators_timeout_debounce_and_manual_rescan",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_print_render_scanner.py::test_spool_unavailable_timeout_never_claims_printed[error0-FAILED]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_print_render_scanner.py::test_spool_unavailable_timeout_never_claims_printed[error1-UNKNOWN]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_printing.py::test_print_snapshot_spool_reprint_no_stock_and_same_key",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_printing.py::test_print_live_revocation_price_expiry_snapshot_immutable",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_printing.py::test_issuer_is_server_owned_snapshot_survives_configuration_change",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_printing.py::test_print_wrong_warehouse_stale_render_failure_retry",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_printing.py::test_print_race_claim_one_attempt",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_printing.py::test_scanner_exact_quantity_and_stale_no_stock",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_printing.py::test_print_price_is_opt_in_revoke_blocks_files_and_replay",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_printing.py::test_print_expiry_retention_and_immutable_snapshot",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_printing.py::test_print_atomic_rollback_after_outbox_and_revoke_during_render",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_printing.py::test_print_duplicate_outbox_and_workers_only_one_publication",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_printing.py::test_serial_hid_quantity_and_rendered_label_scope",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_printing.py::test_barcode_uom_factor_and_deactivation",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_printing_desktop.py::test_print_desktop_real_http_preview_save_and_session_fence",
+      "integration": true,
+      "gui": true,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_printing_desktop.py::test_print_lost_spool_ack_recovery_never_calls_device",
+      "integration": true,
+      "gui": true,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_printing_desktop.py::test_issue_hid_widget_real_http_selects_line_without_post",
+      "integration": true,
+      "gui": true,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_profile.py::test_profile_requires_mfa_is_self_only_and_retry_safe",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_profile.py::test_concurrent_profile_updates_do_not_overwrite",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_profile_ui.py::test_profile_menu_save_permissions_and_logout",
+      "integration": true,
+      "gui": true,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_receipt_recovery.py::test_device_identity_is_stable_and_corruption_is_not_replaced",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_receipt_recovery.py::test_partition_has_one_owner_and_lock_released_on_close",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_receipt_recovery.py::test_future_schema_is_preserved_and_migration_failure_rolls_back",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_receipt_recovery.py::test_v1_journal_upgrades_without_changing_command_or_keys",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_receipt_recovery.py::test_process_death_after_sending_checkpoint_preserves_command_and_releases_lock",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_receipt_recovery.py::test_commit_response_lost_restart_lookup_does_not_repost",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_receipt_recovery.py::test_not_found_does_not_clear_pending_and_explicit_retry_preserves_request",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_receipt_recovery.py::test_ambiguous_or_authorization_error_keeps_original_request[FORBIDDEN]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_receipt_recovery.py::test_ambiguous_or_authorization_error_keeps_original_request[UNAUTHENTICATED]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_receipt_recovery.py::test_ambiguous_or_authorization_error_keeps_original_request[NOT_FOUND]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_receipt_recovery.py::test_ambiguous_or_authorization_error_keeps_original_request[IDEMPOTENCY_MISMATCH]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_receipt_recovery.py::test_ambiguous_or_authorization_error_keeps_original_request[EXECUTION_MISMATCH]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_receipt_recovery.py::test_ambiguous_or_authorization_error_keeps_original_request[DATABASE_BUSY]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_receipt_recovery.py::test_stale_version_is_a_persisted_conflict_not_a_false_commit",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_receipt_recovery.py::test_storage_failure_prevents_send_or_preserves_unknown_ack[prepare]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_receipt_recovery.py::test_storage_failure_prevents_send_or_preserves_unknown_ack[sending]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_receipt_recovery.py::test_storage_failure_prevents_send_or_preserves_unknown_ack[ack]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_receipt_recovery.py::test_wrong_lookup_ack_never_marks_committed[id]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_receipt_recovery.py::test_wrong_lookup_ack_never_marks_committed[version]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_receipt_recovery.py::test_wrong_lookup_ack_never_marks_committed[operation_status]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_receipt_recovery.py::test_corrupt_payload_or_unsupported_endpoint_cannot_be_replayed",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_receipt_recovery.py::test_corrupt_context_blocks_recovery_without_erasing_the_request",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_receipt_recovery.py::test_presenter_restart_loads_journal_without_post_and_uses_current_user",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_receipt_recovery.py::test_presenter_session_change_discards_old_result_but_keeps_durable_command",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_receipt_recovery.py::test_presenter_storage_unavailable_blocks_post",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_receipt_recovery.py::test_presenter_close_during_http_keeps_the_confirmed_result",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_receipts.py::test_period_bootstrap_is_initial_only_and_audited",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_receipts.py::test_receipt_partial_complete_replay_lookup_and_ledger",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_receipts.py::test_receipt_visibility_own_assignment_and_replay_revocation",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_receipts.py::test_receipt_approval_snapshot_stale_version_and_rollback",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_receipts.py::test_receipt_concurrent_orders_cannot_overreceive",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_receipts.py::test_receipt_period_and_count_lock[False]",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_receipts.py::test_receipt_period_and_count_lock[True]",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_receipts.py::test_receipt_lot_expiry_metadata_and_quarantine",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_receipts.py::test_receipt_serial_identity_and_warranty_source",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_receipts.py::test_receipt_deadlock_retries_whole_transaction_with_same_key[1]",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_receipts.py::test_receipt_deadlock_retries_whole_transaction_with_same_key[3]",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_receipts.py::test_receipt_concurrent_same_execution_and_precision_limits",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_receipts.py::test_receipt_edit_revision_cancel_and_source_dependency",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_receipts.py::test_receipt_creation_and_po_cancel_share_the_source_lock",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_receipts.py::test_receipt_batch_serial_rollback_and_reconciliation",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_receipts.py::test_receipt_desktop_create_approve_and_partial_post",
+      "integration": true,
+      "gui": true,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_receipts.py::test_process_dies_after_real_server_commit_desktop_recovers_without_second_post",
+      "integration": true,
+      "gui": true,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_recovery_all.py::test_every_write_has_explicit_recovery_policy",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_recovery_all.py::test_secrets_rejected_before_any_journal_write[password]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_recovery_all.py::test_secrets_rejected_before_any_journal_write[new_password]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_recovery_all.py::test_secrets_rejected_before_any_journal_write[oldPassword]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_recovery_all.py::test_secrets_rejected_before_any_journal_write[TOTP]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_recovery_all.py::test_secrets_rejected_before_any_journal_write[mfa_secret]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_recovery_all.py::test_secrets_rejected_before_any_journal_write[recovery_code]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_recovery_all.py::test_secrets_rejected_before_any_journal_write[recoveryCodes]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_recovery_all.py::test_secrets_rejected_before_any_journal_write[reset_token]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_recovery_all.py::test_secrets_rejected_before_any_journal_write[challenge_token]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_recovery_all.py::test_secrets_rejected_before_any_journal_write[access-token]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_recovery_all.py::test_secrets_rejected_before_any_journal_write[Authorization]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_recovery_all.py::test_secrets_rejected_before_any_journal_write[credentials]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_recovery_all.py::test_upgrade_v2_backs_up_and_preserves_drafts_scans_pending",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_recovery_all.py::test_envelope_hash_partition_state_cleanup_and_lock",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_recovery_all.py::test_only_unsent_draft_can_be_edited_or_discarded",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_recovery_all.py::test_lookup_is_read_only_bound_to_payload_and_current_grants",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_recovery_all.py::test_draft_network_flapping_and_stale_conflict",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_recovery_all.py::test_process_death_then_other_process_recovers_exactly_once[prepared]",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_recovery_all.py::test_process_death_then_other_process_recovers_exactly_once[before_send]",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_recovery_all.py::test_process_death_then_other_process_recovers_exactly_once[after_commit]",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_recovery_all.py::test_process_death_then_other_process_recovers_exactly_once[before_ack]",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_recovery_all.py::test_process_death_then_other_process_recovers_exactly_once[after_ack]",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_recovery_all.py::test_invalid_ack_retains_unknown_and_other_user_cannot_recover",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_recovery_all.py::test_offline_drafts_checkpoint_before_presenter_permission_reads",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_recovery_all.py::test_receipt_post_process_death_preserves_ledger_and_execution_key[before_send]",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_recovery_all.py::test_receipt_post_process_death_preserves_ledger_and_execution_key[after_commit]",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_recovery_all.py::test_print_spool_claim_process_recovery_does_not_replay_os_io",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_recovery_all.py::test_real_tk_draft_recovery_logout_and_no_automatic_send",
+      "integration": true,
+      "gui": true,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_reports_desktop.py::test_reports_gui_real_http_pg_export_and_stale_download",
+      "integration": true,
+      "gui": true,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_reports_desktop.py::test_reports_gui_unknown_ack_retries_exact_key",
+      "integration": true,
+      "gui": true,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_reports_exports.py::test_reports_all_queries_real_pg[R01]",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_reports_exports.py::test_reports_all_queries_real_pg[R02]",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_reports_exports.py::test_reports_all_queries_real_pg[R03]",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_reports_exports.py::test_reports_all_queries_real_pg[R04]",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_reports_exports.py::test_reports_all_queries_real_pg[R06]",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_reports_exports.py::test_reports_all_queries_real_pg[R08]",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_reports_exports.py::test_exports_outbox_separate_executor_download[csv]",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_reports_exports.py::test_exports_outbox_separate_executor_download[xlsx]",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_reports_exports.py::test_reports_reservations_remaining_and_open_demand",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_reports_exports.py::test_reports_snapshot_concurrent_replay_scope_and_filter_validation",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_reports_exports.py::test_exports_prices_effective_date_and_revocation_after_file_io",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_reports_exports.py::test_exports_cancel_lease_loss_crash_retry_and_deterministic_file",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_reports_exports.py::test_exports_final_crash_session_revoke_and_exact_action_replay",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_reports_exports.py::test_exports_retention_fences_publish_removes_expired_and_keeps_tombstone",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_reports_exports.py::test_reports_upgrade_preserves_legacy_jobs_and_serial_owner[10]",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_reports_exports.py::test_reports_upgrade_preserves_legacy_jobs_and_serial_owner[20]",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_reports_exports.py::test_exports_rollback_crash_after_file_write_and_no_io_transaction",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_reports_exports.py::test_exports_current_permission_before_download_even_after_ready[report.read]",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_reports_exports.py::test_exports_current_permission_before_download_even_after_ready[report.export]",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_reports_exports.py::test_exports_current_permission_before_download_even_after_ready[ownership.read]",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_reports_exports.py::test_exports_current_permission_before_download_even_after_ready[serial.read]",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_reports_exports.py::test_reports_quota_race_and_snapshot_immutability",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_reports_files.py::test_reports_exports_formula_injection_exact_decimal_unicode_and_determinism",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_reports_files.py::test_reports_filters_reject_timezone_less_reversed_and_duplicate_locations",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_reports_files.py::test_reports_presenter_read_error_does_not_discard_uncertain_command",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_reports_files.py::test_reports_presenter_session_generation_change_clears_visible_data",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_runtime_contract.py::test_runtime_contract_matches_implementation_and_validates",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_runtime_contract.py::test_contract_inventory_matches_all_implemented_apis",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_runtime_contract.py::test_every_protected_route_rejects_missing_bearer_before_database[POST-/api/v1/auth/logout]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_runtime_contract.py::test_every_protected_route_rejects_missing_bearer_before_database[GET-/api/v1/auth/me]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_runtime_contract.py::test_every_protected_route_rejects_missing_bearer_before_database[PATCH-/api/v1/auth/profile]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_runtime_contract.py::test_every_protected_route_rejects_missing_bearer_before_database[POST-/api/v1/auth/mfa/enroll]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_runtime_contract.py::test_every_protected_route_rejects_missing_bearer_before_database[POST-/api/v1/auth/mfa/confirm]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_runtime_contract.py::test_every_protected_route_rejects_missing_bearer_before_database[GET-/api/v1/warehouses]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_runtime_contract.py::test_every_protected_route_rejects_missing_bearer_before_database[GET-/api/v1/warehouses/{warehouse_id}/permissions]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_runtime_contract.py::test_every_protected_route_rejects_missing_bearer_before_database[GET-/api/v1/documents/{document_id}]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_runtime_contract.py::test_every_protected_route_rejects_missing_bearer_before_database[GET-/api/v1/iam/page/{resource}]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_runtime_contract.py::test_every_protected_route_rejects_missing_bearer_before_database[GET-/api/v1/users]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_runtime_contract.py::test_every_protected_route_rejects_missing_bearer_before_database[POST-/api/v1/users]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_runtime_contract.py::test_every_protected_route_rejects_missing_bearer_before_database[PATCH-/api/v1/users/{user_id}/active]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_runtime_contract.py::test_every_protected_route_rejects_missing_bearer_before_database[POST-/api/v1/users/{user_id}/revoke-sessions]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_runtime_contract.py::test_every_protected_route_rejects_missing_bearer_before_database[GET-/api/v1/roles]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_runtime_contract.py::test_every_protected_route_rejects_missing_bearer_before_database[GET-/api/v1/grants]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_runtime_contract.py::test_every_protected_route_rejects_missing_bearer_before_database[POST-/api/v1/grant-requests]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_runtime_contract.py::test_every_protected_route_rejects_missing_bearer_before_database[GET-/api/v1/grant-requests]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_runtime_contract.py::test_every_protected_route_rejects_missing_bearer_before_database[POST-/api/v1/grant-requests/{grant_request_id}/approve]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_runtime_contract.py::test_every_protected_route_rejects_missing_bearer_before_database[POST-/api/v1/grants/{grant_id}/revoke]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_runtime_contract.py::test_every_protected_route_rejects_missing_bearer_before_database[POST-/api/v1/auth/password/change]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_runtime_contract.py::test_every_protected_route_rejects_missing_bearer_before_database[POST-/api/v1/users/{user_id}/password-reset]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_runtime_contract.py::test_every_protected_route_rejects_missing_bearer_before_database[POST-/api/v1/auth/mfa/reset]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_runtime_contract.py::test_every_protected_route_rejects_missing_bearer_before_database[POST-/api/v1/auth/mfa/recovery-codes]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_runtime_contract.py::test_every_protected_route_rejects_missing_bearer_before_database[GET-/api/v1/iam/lookup/users]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_runtime_contract.py::test_every_protected_route_rejects_missing_bearer_before_database[GET-/api/v1/iam/lookup/warehouses]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_runtime_contract.py::test_every_protected_route_rejects_missing_bearer_before_database[GET-/api/v1/iam/sessions]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_runtime_contract.py::test_every_protected_route_rejects_missing_bearer_before_database[GET-/api/v1/iam/events]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_runtime_contract.py::test_every_protected_route_rejects_missing_bearer_before_database[GET-/api/v1/auth/contacts]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_runtime_contract.py::test_every_protected_route_rejects_missing_bearer_before_database[POST-/api/v1/auth/contacts/start]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_runtime_contract.py::test_every_protected_route_rejects_missing_bearer_before_database[POST-/api/v1/auth/contacts/confirm]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_runtime_contract.py::test_every_protected_route_rejects_missing_bearer_before_database[GET-/api/v1/master/uoms]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_runtime_contract.py::test_every_protected_route_rejects_missing_bearer_before_database[POST-/api/v1/master/uoms]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_runtime_contract.py::test_every_protected_route_rejects_missing_bearer_before_database[GET-/api/v1/master/uoms/{entity_id}]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_runtime_contract.py::test_every_protected_route_rejects_missing_bearer_before_database[PUT-/api/v1/master/uoms/{entity_id}]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_runtime_contract.py::test_every_protected_route_rejects_missing_bearer_before_database[GET-/api/v1/master/categories]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_runtime_contract.py::test_every_protected_route_rejects_missing_bearer_before_database[POST-/api/v1/master/categories]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_runtime_contract.py::test_every_protected_route_rejects_missing_bearer_before_database[GET-/api/v1/master/categories/{entity_id}]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_runtime_contract.py::test_every_protected_route_rejects_missing_bearer_before_database[PUT-/api/v1/master/categories/{entity_id}]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_runtime_contract.py::test_every_protected_route_rejects_missing_bearer_before_database[GET-/api/v1/master/products]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_runtime_contract.py::test_every_protected_route_rejects_missing_bearer_before_database[POST-/api/v1/master/products]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_runtime_contract.py::test_every_protected_route_rejects_missing_bearer_before_database[GET-/api/v1/master/products/{entity_id}]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_runtime_contract.py::test_every_protected_route_rejects_missing_bearer_before_database[PUT-/api/v1/master/products/{entity_id}]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_runtime_contract.py::test_every_protected_route_rejects_missing_bearer_before_database[GET-/api/v1/master/partners]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_runtime_contract.py::test_every_protected_route_rejects_missing_bearer_before_database[POST-/api/v1/master/partners]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_runtime_contract.py::test_every_protected_route_rejects_missing_bearer_before_database[GET-/api/v1/master/partners/{entity_id}]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_runtime_contract.py::test_every_protected_route_rejects_missing_bearer_before_database[PUT-/api/v1/master/partners/{entity_id}]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_runtime_contract.py::test_every_protected_route_rejects_missing_bearer_before_database[GET-/api/v1/master/warehouses]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_runtime_contract.py::test_every_protected_route_rejects_missing_bearer_before_database[POST-/api/v1/master/warehouses]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_runtime_contract.py::test_every_protected_route_rejects_missing_bearer_before_database[GET-/api/v1/master/warehouses/{entity_id}]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_runtime_contract.py::test_every_protected_route_rejects_missing_bearer_before_database[PUT-/api/v1/master/warehouses/{entity_id}]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_runtime_contract.py::test_every_protected_route_rejects_missing_bearer_before_database[GET-/api/v1/master/locations]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_runtime_contract.py::test_every_protected_route_rejects_missing_bearer_before_database[POST-/api/v1/master/locations]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_runtime_contract.py::test_every_protected_route_rejects_missing_bearer_before_database[GET-/api/v1/master/locations/{entity_id}]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_runtime_contract.py::test_every_protected_route_rejects_missing_bearer_before_database[PUT-/api/v1/master/locations/{entity_id}]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_runtime_contract.py::test_every_protected_route_rejects_missing_bearer_before_database[GET-/api/v1/master/barcodes]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_runtime_contract.py::test_every_protected_route_rejects_missing_bearer_before_database[POST-/api/v1/master/barcodes]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_runtime_contract.py::test_every_protected_route_rejects_missing_bearer_before_database[GET-/api/v1/master/barcodes/{entity_id}]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_runtime_contract.py::test_every_protected_route_rejects_missing_bearer_before_database[PUT-/api/v1/master/barcodes/{entity_id}]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_runtime_contract.py::test_every_protected_route_rejects_missing_bearer_before_database[GET-/api/v1/master/product-uoms]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_runtime_contract.py::test_every_protected_route_rejects_missing_bearer_before_database[POST-/api/v1/master/product-uoms]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_runtime_contract.py::test_every_protected_route_rejects_missing_bearer_before_database[GET-/api/v1/master/products/{product_id}/prices]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_runtime_contract.py::test_every_protected_route_rejects_missing_bearer_before_database[POST-/api/v1/master/products/{product_id}/prices]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_runtime_contract.py::test_every_protected_route_rejects_missing_bearer_before_database[GET-/api/v1/master/scan]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_runtime_contract.py::test_every_protected_route_rejects_missing_bearer_before_database[GET-/api/v1/purchase-orders]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_runtime_contract.py::test_every_protected_route_rejects_missing_bearer_before_database[POST-/api/v1/purchase-orders]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_runtime_contract.py::test_every_protected_route_rejects_missing_bearer_before_database[GET-/api/v1/purchase-orders/{document_id}]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_runtime_contract.py::test_every_protected_route_rejects_missing_bearer_before_database[PUT-/api/v1/purchase-orders/{document_id}]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_runtime_contract.py::test_every_protected_route_rejects_missing_bearer_before_database[GET-/api/v1/sales-orders]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_runtime_contract.py::test_every_protected_route_rejects_missing_bearer_before_database[POST-/api/v1/sales-orders]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_runtime_contract.py::test_every_protected_route_rejects_missing_bearer_before_database[GET-/api/v1/sales-orders/{document_id}]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_runtime_contract.py::test_every_protected_route_rejects_missing_bearer_before_database[PUT-/api/v1/sales-orders/{document_id}]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_runtime_contract.py::test_every_protected_route_rejects_missing_bearer_before_database[POST-/api/v1/documents/{document_id}/submit]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_runtime_contract.py::test_every_protected_route_rejects_missing_bearer_before_database[POST-/api/v1/documents/{document_id}/revise]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_runtime_contract.py::test_every_protected_route_rejects_missing_bearer_before_database[POST-/api/v1/documents/{document_id}/cancel]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_runtime_contract.py::test_every_protected_route_rejects_missing_bearer_before_database[POST-/api/v1/documents/{document_id}/close]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_runtime_contract.py::test_every_protected_route_rejects_missing_bearer_before_database[POST-/api/v1/documents/{document_id}/assignments]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_runtime_contract.py::test_every_protected_route_rejects_missing_bearer_before_database[GET-/api/v1/approval-requests/{request_id}]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_runtime_contract.py::test_every_protected_route_rejects_missing_bearer_before_database[POST-/api/v1/approval-requests/{approval_id}/decide]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_runtime_contract.py::test_every_protected_route_rejects_missing_bearer_before_database[GET-/api/v1/documents/{document_id}/approval-snapshots]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_runtime_contract.py::test_every_protected_route_rejects_missing_bearer_before_database[GET-/api/v1/documents/{document_id}/assignment-candidates]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_runtime_contract.py::test_every_protected_route_rejects_missing_bearer_before_database[GET-/api/v1/receipts]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_runtime_contract.py::test_every_protected_route_rejects_missing_bearer_before_database[POST-/api/v1/receipts]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_runtime_contract.py::test_every_protected_route_rejects_missing_bearer_before_database[GET-/api/v1/receipts/locations]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_runtime_contract.py::test_every_protected_route_rejects_missing_bearer_before_database[GET-/api/v1/receipts/{document_id}]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_runtime_contract.py::test_every_protected_route_rejects_missing_bearer_before_database[PUT-/api/v1/receipts/{document_id}]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_runtime_contract.py::test_every_protected_route_rejects_missing_bearer_before_database[POST-/api/v1/receipts/{document_id}/post]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_runtime_contract.py::test_every_protected_route_rejects_missing_bearer_before_database[GET-/api/v1/operations/{key}]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_runtime_contract.py::test_every_protected_route_rejects_missing_bearer_before_database[GET-/api/v1/openings/owners]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_runtime_contract.py::test_every_protected_route_rejects_missing_bearer_before_database[GET-/api/v1/openings]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_runtime_contract.py::test_every_protected_route_rejects_missing_bearer_before_database[POST-/api/v1/openings]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_runtime_contract.py::test_every_protected_route_rejects_missing_bearer_before_database[GET-/api/v1/openings/operations/{key}]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_runtime_contract.py::test_every_protected_route_rejects_missing_bearer_before_database[GET-/api/v1/openings/{document_id}]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_runtime_contract.py::test_every_protected_route_rejects_missing_bearer_before_database[PUT-/api/v1/openings/{document_id}]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_runtime_contract.py::test_every_protected_route_rejects_missing_bearer_before_database[POST-/api/v1/openings/{document_id}/post]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_runtime_contract.py::test_every_protected_route_rejects_missing_bearer_before_database[GET-/api/v1/issues]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_runtime_contract.py::test_every_protected_route_rejects_missing_bearer_before_database[POST-/api/v1/issues]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_runtime_contract.py::test_every_protected_route_rejects_missing_bearer_before_database[GET-/api/v1/issues/operations/{key}]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_runtime_contract.py::test_every_protected_route_rejects_missing_bearer_before_database[GET-/api/v1/issues/{document_id}]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_runtime_contract.py::test_every_protected_route_rejects_missing_bearer_before_database[PUT-/api/v1/issues/{document_id}]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_runtime_contract.py::test_every_protected_route_rejects_missing_bearer_before_database[GET-/api/v1/issues/{document_id}/reservation-plan]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_runtime_contract.py::test_every_protected_route_rejects_missing_bearer_before_database[POST-/api/v1/issues/{document_id}/post]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_runtime_contract.py::test_every_protected_route_rejects_missing_bearer_before_database[POST-/api/v1/issues/{document_id}/reservations/reserve]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_runtime_contract.py::test_every_protected_route_rejects_missing_bearer_before_database[POST-/api/v1/issues/{document_id}/reservations/release]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_runtime_contract.py::test_every_protected_route_rejects_missing_bearer_before_database[POST-/api/v1/issues/{document_id}/reservations/expire]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_runtime_contract.py::test_every_protected_route_rejects_missing_bearer_before_database[GET-/api/v1/periods]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_runtime_contract.py::test_every_protected_route_rejects_missing_bearer_before_database[POST-/api/v1/periods]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_runtime_contract.py::test_every_protected_route_rejects_missing_bearer_before_database[GET-/api/v1/periods/operations/{key}]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_runtime_contract.py::test_every_protected_route_rejects_missing_bearer_before_database[GET-/api/v1/periods/{period_id}]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_runtime_contract.py::test_every_protected_route_rejects_missing_bearer_before_database[POST-/api/v1/periods/{period_id}/close]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_runtime_contract.py::test_every_protected_route_rejects_missing_bearer_before_database[POST-/api/v1/periods/{period_id}/confirm-reopen]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_runtime_contract.py::test_every_protected_route_rejects_missing_bearer_before_database[POST-/api/v1/periods/{period_id}/reopen]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_runtime_contract.py::test_every_protected_route_rejects_missing_bearer_before_database[GET-/api/v1/reports/lookups/{kind}]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_runtime_contract.py::test_every_protected_route_rejects_missing_bearer_before_database[POST-/api/v1/reports/{code}/snapshots]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_runtime_contract.py::test_every_protected_route_rejects_missing_bearer_before_database[GET-/api/v1/reports/snapshots/{snapshot_id}]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_runtime_contract.py::test_every_protected_route_rejects_missing_bearer_before_database[GET-/api/v1/exports]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_runtime_contract.py::test_every_protected_route_rejects_missing_bearer_before_database[POST-/api/v1/exports]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_runtime_contract.py::test_every_protected_route_rejects_missing_bearer_before_database[GET-/api/v1/exports/{job_id}]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_runtime_contract.py::test_every_protected_route_rejects_missing_bearer_before_database[POST-/api/v1/exports/{job_id}/{operation}]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_runtime_contract.py::test_every_protected_route_rejects_missing_bearer_before_database[GET-/api/v1/exports/{job_id}/download]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_runtime_contract.py::test_every_protected_route_rejects_missing_bearer_before_database[GET-/api/v1/printing/sources]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_runtime_contract.py::test_every_protected_route_rejects_missing_bearer_before_database[POST-/api/v1/printing/scan]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_runtime_contract.py::test_every_protected_route_rejects_missing_bearer_before_database[POST-/api/v1/printing]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_runtime_contract.py::test_every_protected_route_rejects_missing_bearer_before_database[GET-/api/v1/printing/{job_id}]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_runtime_contract.py::test_every_protected_route_rejects_missing_bearer_before_database[POST-/api/v1/printing/{job_id}/spool]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_runtime_contract.py::test_every_protected_route_rejects_missing_bearer_before_database[POST-/api/v1/printing/{job_id}/result]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_runtime_contract.py::test_every_protected_route_rejects_missing_bearer_before_database[GET-/api/v1/printing/{job_id}/download]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_runtime_contract.py::test_every_protected_route_rejects_missing_bearer_before_database[POST-/api/v1/printing/{job_id}/{operation}]",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_session_persistence.py::test_close_restore_mfa_refresh_rotation_and_revocation[logout]",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_session_persistence.py::test_close_restore_mfa_refresh_rotation_and_revocation[expire]",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_session_persistence.py::test_close_restore_mfa_refresh_rotation_and_revocation[revoke]",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_session_persistence.py::test_close_restore_mfa_refresh_rotation_and_revocation[password_version]",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_session_persistence.py::test_lost_refresh_is_consumed_and_never_replayed",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_session_persistence.py::test_vault_binding_disabled_marker_and_no_plaintext_fallback",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/foundation/test_session_persistence.py::test_opt_out_never_saves_credentials",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/performance/test_b24_load.py::test_15_ccu_verified_tls_real_posting_and_reconcile",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-load-final"
+    },
+    {
+      "nodeid": "tests/performance/test_b24_stress.py::test_synthetic_history_volume_and_independent_reconcile",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/security/test_b24_security.py::test_role_warehouse_owner_price_matrix[SYSADMIN]",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/security/test_b24_security.py::test_role_warehouse_owner_price_matrix[MASTER_DATA]",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/security/test_b24_security.py::test_role_warehouse_owner_price_matrix[BUYER]",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/security/test_b24_security.py::test_role_warehouse_owner_price_matrix[SELLER]",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/security/test_b24_security.py::test_role_warehouse_owner_price_matrix[RECEIVER]",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/security/test_b24_security.py::test_role_warehouse_owner_price_matrix[PICKER]",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/security/test_b24_security.py::test_role_warehouse_owner_price_matrix[WAREHOUSE_MANAGER]",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/security/test_b24_security.py::test_role_warehouse_owner_price_matrix[CONTROLLER]",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/security/test_b24_security.py::test_role_warehouse_owner_price_matrix[DIRECTOR]",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/security/test_b24_security.py::test_role_warehouse_owner_price_matrix[AUDITOR]",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/security/test_b24_security.py::test_revoke_after_export_ready_blocks_tls_download[report.read]",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/security/test_b24_security.py::test_revoke_after_export_ready_blocks_tls_download[report.export]",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/security/test_b24_security.py::test_revoke_after_export_ready_blocks_tls_download[ownership.read]",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/security/test_b24_security.py::test_revoke_after_export_ready_blocks_tls_download[serial.read]",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/security/test_b24_security.py::test_revoke_after_export_ready_blocks_tls_download[price.read]",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/security/test_b24_security.py::test_runtime_sql_constraints_and_immutable_history",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/security/test_b24_security.py::test_reconciliation_detects_software_error_with_zero_tolerance",
+      "integration": true,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/test_ci_discovery.py::test_new_module_is_collected_with_integration_marker",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/test_ci_discovery.py::test_db_fixture_cannot_be_misclassified_as_unit_even_when_deselected",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    },
+    {
+      "nodeid": "tests/test_ci_discovery.py::test_misspelled_marker_is_an_error",
+      "integration": false,
+      "gui": false,
+      "status": "passed",
+      "run": "kws-final"
+    }
+  ]
+}

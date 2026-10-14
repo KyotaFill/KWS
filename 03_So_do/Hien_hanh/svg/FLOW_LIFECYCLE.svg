@@ -1,0 +1,67 @@
+<?xml version='1.0' encoding='utf-8'?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1850" height="820" viewBox="0 0 1850 820">
+  <title>Tải lại hoặc đóng ứng dụng</title>
+  <text font-family="DejaVu Sans" font-size="26" text-anchor="start" x="40" y="45.0" fill="#17384d">Tải lại hoặc đóng ứng dụng</text>
+  <rect stroke-width="1.4" x="30" y="110" width="1790" height="595" rx="0" fill="#dceef8" stroke="#17384d" />
+  <text font-family="DejaVu Sans" font-size="15" text-anchor="middle" x="65" y="395.0" fill="#17384d">KWS</text>
+  <rect stroke-width="1.4" x="100" y="135" width="1720" height="190" rx="0" fill="white" stroke="#17384d" />
+  <text font-family="DejaVu Sans" font-size="14" text-anchor="start" x="115" y="162.0" fill="#17384d">Người dùng</text>
+  <rect stroke-width="1.4" x="100" y="325" width="1720" height="190" rx="0" fill="white" stroke="#17384d" />
+  <text font-family="DejaVu Sans" font-size="14" text-anchor="start" x="115" y="352.0" fill="#17384d">Desktop / main thread</text>
+  <rect stroke-width="1.4" x="100" y="515" width="1720" height="190" rx="0" fill="white" stroke="#17384d" />
+  <text font-family="DejaVu Sans" font-size="14" text-anchor="start" x="115" y="542.0" fill="#17384d">Worker và vòng đời tiến trình</text>
+  <polyline stroke-width="1.5" points="209.0,230.0 263.0,230.0" fill="none" stroke="#17384d" />
+  <polygon points="263.0,230.0 253.8691105968769,234.0776045305957 253.8691105968769,225.9223954694043" fill="#17384d" />
+  <polyline stroke-width="1.5" points="437.0,230.0 521.0,230.0" fill="none" stroke="#17384d" />
+  <polygon points="521.0,230.0 511.8691105968769,234.0776045305957 511.8691105968769,225.9223954694043" fill="#17384d" />
+  <polyline stroke-width="1.5" points="550.0,259.0 550.0,401.0" fill="none" stroke="#17384d" />
+  <polygon points="550.0,401.0 545.9223954694043,391.8691105968769 554.0776045305957,391.8691105968769" fill="#17384d" />
+  <text font-family="DejaVu Sans" font-size="13" text-anchor="start" x="566.0" y="309.0" fill="#17384d">Không</text>
+  <polyline stroke-width="1.5" points="579.0,230.0 621.0,230.0 621.0,420.0 663.0,420.0" fill="none" stroke="#17384d" />
+  <polygon points="663.0,420.0 653.8691105968769,424.0776045305957 653.8691105968769,415.9223954694043" fill="#17384d" />
+  <text font-family="DejaVu Sans" font-size="13" text-anchor="start" x="637.0" y="309.0" fill="#17384d">Có</text>
+  <polyline stroke-width="1.5" points="837.0,420.0 850.0,420.0 850.0,610.0 863.0,610.0" fill="none" stroke="#17384d" />
+  <polygon points="863.0,610.0 853.8691105968769,614.0776045305957 853.8691105968769,605.9223954694043" fill="#17384d" />
+  <polyline stroke-width="1.5" points="1037.0,610.0 1050.0,610.0 1050.0,420.0 1063.0,420.0" fill="none" stroke="#17384d" />
+  <polygon points="1063.0,420.0 1053.869110596877,424.0776045305957 1053.869110596877,415.9223954694043" fill="#17384d" />
+  <polyline stroke-width="1.5" points="1237.0,420.0 1279.0,420.0 1279.0,610.0 1321.0,610.0" fill="none" stroke="#17384d" />
+  <polygon points="1321.0,610.0 1311.869110596877,614.0776045305957 1311.869110596877,605.9223954694043" fill="#17384d" />
+  <polyline stroke-width="1.5" points="1350.0,581.0 1350.0,420.0 1463.0,420.0" fill="none" stroke="#17384d" />
+  <polygon points="1463.0,420.0 1453.869110596877,424.0776045305957 1453.869110596877,415.9223954694043" fill="#17384d" />
+  <text font-family="DejaVu Sans" font-size="13" text-anchor="start" x="1366.0" y="500.5" fill="#17384d">Có</text>
+  <polyline stroke-width="1.5" points="1379.0,610.0 1531.0,610.0" fill="none" stroke="#17384d" />
+  <polygon points="1531.0,610.0 1521.869110596877,614.0776045305957 1521.869110596877,605.9223954694043" fill="#17384d" />
+  <text font-family="DejaVu Sans" font-size="13" text-anchor="middle" x="1455.0" y="597.0" fill="#17384d">Không</text>
+  <polyline stroke-width="1.5" points="1637.0,420.0 1741.0,420.0" fill="none" stroke="#17384d" />
+  <polygon points="1741.0,420.0 1731.869110596877,424.0776045305957 1731.869110596877,415.9223954694043" fill="#17384d" />
+  <ellipse stroke-width="1.5" cx="190.0" cy="230.0" rx="19.0" ry="19.0" fill="#cdeaca" stroke="#17384d" />
+  <text font-family="DejaVu Sans" font-size="14" text-anchor="middle" x="190.0" y="273.0" fill="#17384d">Đóng / Tải lại</text>
+  <rect stroke-width="1.5" x="263.0" y="194.0" width="174" height="72" rx="12" fill="#fff5cc" stroke="#17384d" />
+  <text font-family="DejaVu Sans" font-size="15" text-anchor="middle" x="350.0" y="225.0" fill="#17384d">Xác nhận và lưu ý</text>
+  <text font-family="DejaVu Sans" font-size="15" text-anchor="middle" x="350.0" y="245.25" fill="#17384d">phần chưa lưu</text>
+  <polygon stroke-width="1.5" points="550.0,201.0 579.0,230.0 550.0,259.0 521.0,230.0" fill="#ffe3b0" stroke="#17384d" />
+  <text font-family="DejaVu Sans" font-size="22" text-anchor="middle" x="550.0" y="236.0" fill="#17384d">×</text>
+  <text font-family="DejaVu Sans" font-size="14" text-anchor="middle" x="550.0" y="183.0" fill="#17384d">Đồng ý?</text>
+  <ellipse stroke-width="3.5" cx="550.0" cy="420.0" rx="19.0" ry="19.0" fill="#edc5c6" stroke="#17384d" />
+  <text font-family="DejaVu Sans" font-size="14" text-anchor="middle" x="550.0" y="463.0" fill="#17384d">Tiếp tục dùng</text>
+  <rect stroke-width="1.5" x="663.0" y="384.0" width="174" height="72" rx="12" fill="#fff5cc" stroke="#17384d" />
+  <text font-family="DejaVu Sans" font-size="15" text-anchor="middle" x="750.0" y="405.0" fill="#17384d">Khóa thao tác,</text>
+  <text font-family="DejaVu Sans" font-size="15" text-anchor="middle" x="750.0" y="425.25" fill="#17384d">ngừng nhận việc</text>
+  <text font-family="DejaVu Sans" font-size="15" text-anchor="middle" x="750.0" y="445.5" fill="#17384d">mới</text>
+  <rect stroke-width="1.5" x="863.0" y="574.0" width="174" height="72" rx="12" fill="#fff5cc" stroke="#17384d" />
+  <text font-family="DejaVu Sans" font-size="15" text-anchor="middle" x="950.0" y="605.0" fill="#17384d">Chờ worker và đóng</text>
+  <text font-family="DejaVu Sans" font-size="15" text-anchor="middle" x="950.0" y="625.25" fill="#17384d">journal</text>
+  <rect stroke-width="1.5" x="1063.0" y="384.0" width="174" height="72" rx="12" fill="#fff5cc" stroke="#17384d" />
+  <text font-family="DejaVu Sans" font-size="15" text-anchor="middle" x="1150.0" y="415.0" fill="#17384d">Đóng Tk, API và nhả</text>
+  <text font-family="DejaVu Sans" font-size="15" text-anchor="middle" x="1150.0" y="435.25" fill="#17384d">khóa</text>
+  <polygon stroke-width="1.5" points="1350.0,581.0 1379.0,610.0 1350.0,639.0 1321.0,610.0" fill="#ffe3b0" stroke="#17384d" />
+  <text font-family="DejaVu Sans" font-size="22" text-anchor="middle" x="1350.0" y="616.0" fill="#17384d">×</text>
+  <text font-family="DejaVu Sans" font-size="14" text-anchor="middle" x="1350.0" y="663.0" fill="#17384d">Đã chọn Tải lại?</text>
+  <rect stroke-width="1.5" x="1463.0" y="384.0" width="174" height="72" rx="12" fill="#fff5cc" stroke="#17384d" />
+  <text font-family="DejaVu Sans" font-size="15" text-anchor="middle" x="1550.0" y="415.0" fill="#17384d">Khởi động lại bản</text>
+  <text font-family="DejaVu Sans" font-size="15" text-anchor="middle" x="1550.0" y="435.25" fill="#17384d">đang cài</text>
+  <ellipse stroke-width="3.5" cx="1550.0" cy="610.0" rx="19.0" ry="19.0" fill="#edc5c6" stroke="#17384d" />
+  <text font-family="DejaVu Sans" font-size="14" text-anchor="middle" x="1550.0" y="653.0" fill="#17384d">Đã thoát</text>
+  <ellipse stroke-width="3.5" cx="1760.0" cy="420.0" rx="19.0" ry="19.0" fill="#edc5c6" stroke="#17384d" />
+  <text font-family="DejaVu Sans" font-size="14" text-anchor="middle" x="1760.0" y="463.0" fill="#17384d">Phiên mới</text>
+</svg>

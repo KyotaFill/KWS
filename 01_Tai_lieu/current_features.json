@@ -1,0 +1,98 @@
+[
+  {
+    "group": "Không gian làm việc",
+    "key": "session_view",
+    "title": "Kho làm việc",
+    "description": "Chọn kho, quản lý phiên và bảo mật tài khoản",
+    "source": "apps/desktop/views/session.py",
+    "image": "assets/readme/session_view.png"
+  },
+  {
+    "group": "Dữ liệu",
+    "key": "master_container",
+    "title": "Danh mục sản phẩm",
+    "description": "Sản phẩm, ảnh, mô tả, đơn vị, kho và đối tác",
+    "source": "apps/desktop/views/master_data.py",
+    "image": "assets/readme/master_container.png"
+  },
+  {
+    "group": "Nhập hàng",
+    "key": "order_view",
+    "title": "Đơn mua / đơn bán",
+    "description": "Lập và theo dõi đơn hàng theo kho",
+    "source": "apps/desktop/views/orders.py",
+    "image": "assets/readme/order_view.png"
+  },
+  {
+    "group": "Nhập hàng",
+    "key": "approval_view",
+    "title": "Hộp thư phê duyệt",
+    "description": "Rà soát chứng từ và quyết định theo thẩm quyền",
+    "source": "apps/desktop/views/approvals.py",
+    "image": "assets/readme/approval_view.png"
+  },
+  {
+    "group": "Nhập hàng",
+    "key": "receipt_view",
+    "title": "Nhận hàng",
+    "description": "Ghi nhận hàng nhận và đối chiếu đơn mua",
+    "source": "apps/desktop/views/receipts.py",
+    "image": "assets/readme/receipt_view.png"
+  },
+  {
+    "group": "Nhập hàng",
+    "key": "opening_view",
+    "title": "Tồn đầu kỳ",
+    "description": "Khởi tạo tồn kho có kiểm đếm và phê duyệt",
+    "source": "apps/desktop/views/openings.py",
+    "image": "assets/readme/opening_view.png"
+  },
+  {
+    "group": "Vận hành kho",
+    "key": "issue_view",
+    "title": "Giữ hàng & xuất kho",
+    "description": "Giữ chỗ, kiểm tra khả dụng và ghi nhận xuất hàng",
+    "source": "apps/desktop/views/issues.py",
+    "image": "assets/readme/issue_view.png"
+  },
+  {
+    "group": "Kiểm soát",
+    "key": "report_view",
+    "title": "Tồn kho & báo cáo",
+    "description": "Tra cứu tồn, thẻ kho và xuất dữ liệu",
+    "source": "apps/desktop/views/reports.py",
+    "image": "assets/readme/report_view.png"
+  },
+  {
+    "group": "Công cụ & hệ thống",
+    "key": "print_view",
+    "title": "In chứng từ & tem",
+    "description": "Xem trước, tạo phiếu và nhãn hàng hóa",
+    "source": "apps/desktop/printing/view.py",
+    "image": "assets/readme/print_view.png"
+  },
+  {
+    "group": "Công cụ & hệ thống",
+    "key": "admin_view",
+    "title": "Tài khoản & phân quyền",
+    "description": "Quản lý người dùng, vai trò và phạm vi kho",
+    "source": "apps/desktop/views/admin.py",
+    "image": "assets/readme/admin_view.png"
+  },
+  {
+    "group": "Công cụ & hệ thống",
+    "key": "recovery_view",
+    "title": "Nháp & phục hồi lệnh",
+    "description": "Kiểm tra lệnh chưa rõ kết quả trước khi thao tác lại",
+    "source": "apps/desktop/views/recovery.py",
+    "image": "assets/readme/recovery_view.png"
+  },
+  {
+    "group": "Công cụ & hệ thống",
+    "key": "connection_view",
+    "title": "Kết nối máy chủ",
+    "description": "Kiểm tra kết nối và trạng thái sẵn sàng của máy chủ",
+    "source": "apps/desktop/views/shell.py",
+    "image": "assets/readme/connection_view.png"
+  }
+]
