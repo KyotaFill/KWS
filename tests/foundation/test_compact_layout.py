@@ -120,7 +120,7 @@ def test_notebook_selection_keeps_tab_dimensions_in_both_themes():
                 tabs.select(selected)
                 root.update()
                 assert bounds() == before
-            assert style.lookup("TNotebook.Tab", "background", ("selected",)) == "#005b9e"
+            assert style.lookup("TNotebook.Tab", "background", ("selected",)) == "#187445"
     finally:
         root.destroy()
         theme.close()

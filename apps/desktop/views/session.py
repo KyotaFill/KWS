@@ -60,11 +60,11 @@ class SessionView(ttk.Frame):
         style.configure("Auth.Title.TLabel", background="#ffffff", foreground="#102a43", font=("Segoe UI", 22))
         style.configure("Auth.Muted.TLabel", background="#ffffff", foreground="#53657a", font=("Segoe UI", 10))
         style.configure("Auth.TEntry", padding=9, fieldbackground="#ffffff", foreground="#102a43", font=("Segoe UI", 11))
-        style.configure("Auth.Primary.TButton", padding=(14, 10), background="#145dcc", foreground="#ffffff", font=("Segoe UI", 11, "bold"))
-        style.map("Auth.Primary.TButton", background=[("disabled", "#9aaac0"), ("active", "#104ba8")], foreground=[("disabled", "#ffffff")])
+        style.configure("Auth.Primary.TButton", padding=(14, 10), background="#187445", foreground="#ffffff", font=("Segoe UI", 11, "bold"))
+        style.map("Auth.Primary.TButton", background=[("disabled", "#9aaac0"), ("active", "#105b35")], foreground=[("disabled", "#ffffff")])
         style.configure("Auth.Secondary.TButton", padding=(10, 7), font=("Segoe UI", 10))
-        style.configure("Auth.Link.TButton", padding=(3, 5), background="#ffffff", foreground="#145dcc", borderwidth=0, font=("Segoe UI", 10))
-        style.map("Auth.Link.TButton", background=[("active", "#eef5ff")])
+        style.configure("Auth.Link.TButton", padding=(3, 5), background="#ffffff", foreground="#187445", borderwidth=0, font=("Segoe UI", 10))
+        style.map("Auth.Link.TButton", background=[("active", "#edf7ef")])
         style.configure("Auth.TCombobox", padding=7, font=("Segoe UI", 11))
         self.canvas = tk.Canvas(self, background="#ffffff", highlightthickness=0)
         scroll = self.scroll = ttk.Scrollbar(self, orient="vertical", command=self.canvas.yview)
@@ -159,7 +159,7 @@ class SessionView(ttk.Frame):
         self.status_label = ttk.Label(self.card, textvariable=self.status, style="Auth.Muted.TLabel", wraplength=420)
         self.status_label.pack(fill="x", pady=(12, 0))
         self.workspace = ttk.Frame(self.card, style="Auth.Card.TFrame")
-        ttk.Label(self.workspace, text="Kho làm việc", style="Auth.TLabel").pack(anchor="w", pady=(8, 5))
+        ttk.Label(self.workspace, text="Kho đang quản lý", style="Auth.TLabel").pack(anchor="w", pady=(8, 5))
         self.selector = ttk.Combobox(self.workspace, textvariable=self.warehouse, state="readonly", style="Auth.TCombobox")
         self.selector.pack(fill="x")
         self.selector.bind("<<ComboboxSelected>>", self.select_warehouse)
@@ -262,7 +262,7 @@ class SessionView(ttk.Frame):
 
     def render_profile_avatar(self):
         self.profile_avatar_photo = (avatar_photo(self, self.profile_avatar, 80) if self.profile_avatar
-                                     else ui_icon(self, "account", "blue", 80))
+                                     else ui_icon(self, "account", "green", 80))
         self.profile_avatar_label.configure(image=self.profile_avatar_photo)
         self.profile_remove.state(["!disabled"] if self.profile_avatar else ["disabled"])
 
@@ -364,40 +364,35 @@ class SessionView(ttk.Frame):
             label.configure(wraplength=wrap)
 
     def build_footer(self):
-        self.footer = tk.Frame(self.page, background="#1d1d1f")
+        self.footer = tk.Frame(self.page, background="#124d31")
         self.footer.pack(fill="x")
-        inner = self.footer_inner = tk.Frame(self.footer, background="#1d1d1f", padx=24, pady=48)
+        inner = self.footer_inner = tk.Frame(self.footer, background="#124d31", padx=24, pady=48)
         inner.pack(fill="x")
         self.footer_blocks = []
         self.footer_bodies = []
         for col in range(4):
-            block = tk.Frame(inner, background="#1d1d1f")
+            block = tk.Frame(inner, background="#124d31")
             block.grid(row=0, column=col, sticky="new", padx=(0, 28))
             self.footer_blocks.append(block)
-        brand = tk.Frame(self.footer_blocks[0], background="#1d1d1f")
+        brand = tk.Frame(self.footer_blocks[0], background="#124d31")
         brand.pack(anchor="w", pady=(0, 20))
-        tk.Label(brand, image=self.brand_icon, background="#1d1d1f").pack(side="left", padx=(0, 12))
-        tk.Label(brand, text="KWS\nKyotaFill", background="#1d1d1f", foreground="#ffffff",
+        tk.Label(brand, image=self.brand_icon, background="#124d31").pack(side="left", padx=(0, 12))
+        tk.Label(brand, text="KWS\nKyotaFill", background="#124d31", foreground="#ffffff",
                  justify="left", font=("Segoe UI", 15, "bold")).pack(side="left")
-        self.footer_text(0, "Quản lý hàng hóa và vận hành kho; Theo dõi nhập, xuất, tồn kho và chứng từ trong một hệ thống")
-        self.footer_link(0, "Hỗ trợ: 0329 511 628", self.request_account, accent=True, pady=(18, 6))
-        self.footer_link(0, "Zalo: 0869 233 973", self.open_project, accent=True)
-        icons = tk.Frame(self.footer_blocks[0], background="#1d1d1f")
+        self.footer_text(0, "Kiểm soát hàng hóa mỗi ngày; Nhập xuất rõ ràng, tồn kho dễ theo dõi")
+        self.footer_link(0, "Hỗ trợ sử dụng", self.request_account, accent=True, pady=(18, 6))
+        self.footer_link(0, "Tài liệu KWS", self.open_project, accent=True)
+        icons = tk.Frame(self.footer_blocks[0], background="#124d31")
         icons.pack(anchor="w", pady=(24, 0))
-        with as_file(files("apps.desktop.assets").joinpath("zalo.png")) as path:
-            with Image.open(path) as source:
-                self.footer_zalo_icon = ImageTk.PhotoImage(ImageOps.contain(source, (36, 24), Image.Resampling.LANCZOS), master=self)
         self.footer_icon_buttons = []
-        for glyph, action in ((None, self.open_project), ("phone", self.request_account), ("book-open", self.help)):
+        for glyph, action in (("book-open", self.open_project), ("phone", self.request_account), ("book-open", self.help)):
             button = RoundedButton(icons, "", action, glyph=glyph, circular=True)
-            button.set_dark(True, background="#1d1d1f")
+            button.set_dark(True, background="#124d31")
             button.configure(width=52, height=52)
-            if glyph is None:
-                button.configure(image=self.footer_zalo_icon)
             button.pack(side="left", padx=(0, 10))
             self.footer_icon_buttons.append(button)
-        for col, title in ((1, "Thông tin"), (2, "Bảo mật"), (3, "Dự án & hỗ trợ")):
-            tk.Label(self.footer_blocks[col], text=title, background="#1d1d1f", foreground="#f5f5f7",
+        for col, title in ((1, "Khám phá KWS"), (2, "An toàn tài khoản"), (3, "Dự án & hỗ trợ")):
+            tk.Label(self.footer_blocks[col], text=title, background="#124d31", foreground="#f5f5f7",
                      font=("Segoe UI", 11)).pack(anchor="w", pady=(8, 24))
         self.footer_link(1, "Giới thiệu hệ thống", lambda: self.footer_info("Giới thiệu KWS", "KWS của KyotaFill hỗ trợ quản lý nhập kho, xuất kho, tồn kho và chứng từ hàng hóa"))
         self.footer_link(1, "Hướng dẫn sử dụng", self.help)
@@ -410,9 +405,9 @@ class SessionView(ttk.Frame):
         self.footer_text(3, "KWS · KyotaFill")
         self.footer_link(3, "Mã nguồn và tài liệu", self.open_project, accent=True)
         self.footer_link(3, "Yêu cầu cấp tài khoản", self.request_account)
-        tk.Frame(inner, height=1, background="#424245").grid(row=3, column=0, columnspan=4, sticky="ew", pady=(36, 18))
+        tk.Frame(inner, height=1, background="#397559").grid(row=3, column=0, columnspan=4, sticky="ew", pady=(36, 18))
         self.footer_legal = tk.Label(inner, text="KWS · Quản lý kho",
-                 background="#1d1d1f", foreground="#a0a0a8", justify="left", font=("Segoe UI", 9))
+                 background="#124d31", foreground="#d0e5d7", justify="left", font=("Segoe UI", 9))
         self.footer_legal.grid(row=4, column=0, columnspan=4, sticky="w")
         self.footer.bind("<Configure>", self.resize_footer)
 
@@ -420,14 +415,14 @@ class SessionView(ttk.Frame):
         messagebox.showinfo(title, text, parent=self.winfo_toplevel())
 
     def footer_text(self, column, text):
-        label = tk.Label(self.footer_blocks[column], text=text, background="#1d1d1f", foreground="#b5b5bd",
+        label = tk.Label(self.footer_blocks[column], text=text, background="#124d31", foreground="#dceee2",
                          font=("Segoe UI", 10), justify="left", anchor="w", wraplength=240)
         label.pack(fill="x", anchor="w")
         self.footer_bodies.append((column, label))
 
     def footer_link(self, column, text, command, *, accent=False, pady=(0, 10)):
-        color = "#55a6ff" if accent else "#a0a0a8"
-        link = tk.Label(self.footer_blocks[column], text=text, background="#1d1d1f", foreground=color,
+        color = "#a9e8ba" if accent else "#d0e5d7"
+        link = tk.Label(self.footer_blocks[column], text=text, background="#124d31", foreground=color,
                         font=("Segoe UI", 10, "bold") if accent else ("Segoe UI", 10), anchor="w", justify="left",
                         cursor="hand2", takefocus=True, wraplength=220)
         link.pack(fill="x", pady=pady)
@@ -854,7 +849,6 @@ class SessionView(ttk.Frame):
         self.hide_codes()
         self.brand_icon = None
         self.google_icon = None
-        self.footer_zalo_icon = None
         self.hero_icon = None
         self.hero_source = None
         self.hero_sources.clear()

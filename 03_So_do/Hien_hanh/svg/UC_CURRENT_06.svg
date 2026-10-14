@@ -1,9 +1,9 @@
 <?xml version='1.0' encoding='utf-8'?>
 <svg xmlns="http://www.w3.org/2000/svg" width="1100" height="640" viewBox="0 0 1100 640">
-  <title>Use case — Công cụ &amp; hệ thống</title>
-  <text font-family="DejaVu Sans" font-size="26" text-anchor="start" x="40" y="45.0" fill="#17384d">Use case — Công cụ &amp; hệ thống</text>
+  <title>Use case — Tiện ích &amp; quản trị</title>
+  <text font-family="DejaVu Sans" font-size="26" text-anchor="start" x="40" y="45.0" fill="#17384d">Use case — Tiện ích &amp; quản trị</text>
   <rect stroke-width="1.4" x="330" y="115" width="725" height="435" rx="0" fill="#dceef8" stroke="#17384d" />
-  <text font-family="DejaVu Sans" font-size="17" text-anchor="start" x="355" y="144.0" fill="#17384d">KWS · Công cụ &amp; hệ thống</text>
+  <text font-family="DejaVu Sans" font-size="17" text-anchor="start" x="355" y="144.0" fill="#17384d">KWS · Tiện ích &amp; quản trị</text>
   <polyline stroke-width="1.5" points="195.0,310.0 455.0,195.0" fill="none" stroke="#17384d" />
   <polyline stroke-width="1.5" points="195.0,310.0 455.0,290.0" fill="none" stroke="#17384d" />
   <polyline stroke-width="1.5" points="195.0,310.0 455.0,385.0" fill="none" stroke="#17384d" />

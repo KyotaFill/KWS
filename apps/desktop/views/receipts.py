@@ -237,9 +237,9 @@ class ReceiptView(ttk.Frame):
         elif self.presenter.recovery_busy:
             message = "Đang kiểm tra/lưu yêu cầu nhận hàng…"
         elif not self.presenter.recovery_ready:
-            message = "Chưa mở được dữ liệu phục hồi; Kiểm tra tại Nháp & phục hồi lệnh trước khi ghi sổ"
+            message = "Chưa mở được dữ liệu phục hồi; Kiểm tra tại Bản nháp & khôi phục trước khi ghi sổ"
         elif self.presenter.unresolved:
-            message = "Còn lệnh chưa rõ kết quả; Mở Nháp & phục hồi lệnh để tra cứu hoặc gửi lại đúng lệnh"
+            message = "Còn lệnh chưa rõ kết quả; Mở Bản nháp & khôi phục để tra cứu hoặc gửi lại đúng lệnh"
         else:
             message = "Lệnh ghi sổ nhận hàng được lưu trên máy này để phục hồi sau khi mở lại ứng dụng"
         self.variables["recovery"].set(message)

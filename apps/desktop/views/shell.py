@@ -99,7 +99,7 @@ class DesktopShell:
         self.reload_button.grid(row=0, column=4, padx=4)
         self.header_controls.append(self.reload_button)
         self.theme_button.grid(row=0, column=5, padx=(12, 0))
-        labels = [("Kho làm việc", "session_view"), ("Danh mục", "master_container"),
+        labels = [("Kho đang quản lý", "session_view"), ("Danh mục", "master_container"),
                   ("Nhập kho", "receipt_view"), ("Xuất kho", "issue_view"), ("Tồn kho", "report_view"),
                   ("Báo cáo", "report_view"), ("Quản trị", "admin_view"), ("Hướng dẫn", None)]
         self.menu_items = [(title, (lambda key=name: self.open_section(getattr(self, key))) if name
@@ -107,7 +107,7 @@ class DesktopShell:
         menu = self.header_menu = NavigationStrip(header, self.menu_items, self.select_menu)
         menu.place(relx=.5, y=72, anchor="n", width=1100)
         header.bind("<Configure>", self.resize_header)
-        self.erp_bar = tk.Frame(root, background="#005b9e")
+        self.erp_bar = tk.Frame(root, background="#187445")
         self.group_buttons = {}
         for index, group in enumerate(dict.fromkeys(row[0] for row in SECTIONS)):
             button = ttk.Button(self.erp_bar, text=group, width=1, style="ERP.Nav.TButton", command=lambda name=group: self.open_group(name))
@@ -120,7 +120,7 @@ class DesktopShell:
         self.main_area = ttk.Frame(self.work_area, style="Page.TFrame")
         self.main_area.pack(side="right", fill="both", expand=True)
         self.page_heading = ttk.Frame(self.main_area, padding=(10, 5), style="Page.TFrame")
-        self.page_title = ttk.Label(self.page_heading, text="Danh mục sản phẩm", style="Title.TLabel")
+        self.page_title = ttk.Label(self.page_heading, text="Sản phẩm & danh mục", style="Title.TLabel")
         self.page_title.pack(side="left")
         self.page_description = ttk.Label(self.page_heading, style="Page.TLabel", wraplength=500)
         self.page_description.pack(side="left", padx=16)
@@ -175,7 +175,7 @@ class DesktopShell:
         container = self.connection_view = ttk.Frame(notebook, padding=24)
         notebook.add(container, text="Kết nối")
         ttk.Label(container, text="KWS  Quản lý kho", font=("Segoe UI", 22, "bold")).pack(anchor="w")
-        ttk.Label(container, text="Kết nối máy chủ", font=("Segoe UI", 14)).pack(anchor="w", pady=(24, 8))
+        ttk.Label(container, text="Kiểm tra kết nối", font=("Segoe UI", 14)).pack(anchor="w", pady=(24, 8))
         ttk.Label(container, text=settings.api_url, wraplength=720).pack(anchor="w")
         ttk.Label(container, textvariable=self.status, wraplength=720).pack(anchor="w", pady=16)
         actions = ttk.Frame(container)
@@ -345,13 +345,15 @@ class DesktopShell:
         self.brand.configure(background=background)
         self.brand_label.configure(image=self.light_header_icon if light else self.compact_header_icon if self.authenticated else self.header_icon,
                                    background=background)
-        self.erp_bar.configure(background="#005b9e")
+        self.erp_bar.configure(background="#187445")
+        self.account_menu.configure(background=background, foreground="#172b4d" if light else "#ffffff",
+                                    activebackground="#187445", activeforeground="#ffffff")
         for control in self.header_controls:
             control.header_surface = background
-            control.header_tone = "blue" if light else "white"
+            control.header_tone = "green" if light else "white"
             control.configure(background=background)
         self.theme_button.light_surface = light
-        self.theme_button.icons = [ui_icon(self.root, name, "blue" if light else "white") for name in ("sun", "moon")]
+        self.theme_button.icons = [ui_icon(self.root, name, "green" if light else "white") for name in ("sun", "moon")]
         self.theme_button.configure(background=background)
         self.theme_button.draw()
         self.function_search.set_dark(self.dark_mode)

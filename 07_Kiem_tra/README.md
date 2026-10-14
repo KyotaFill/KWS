@@ -32,3 +32,7 @@ python -m build --wheel --no-isolation
 Cần PostgreSQL server tools, Nginx, Tk và Xvfb. Nếu Nginx không nằm trong PATH, đặt `KWS_TEST_NGINX_BINARY`. Runner tạo database tạm và không dùng `KWS_DATABASE_URL` vận hành.
 
 Windows/macOS và bộ cài ký phát hành chưa được kiểm thử cho KWS. Chưa có phép đo so sánh dung lượng cài đặt hoặc RAM với WMS. Starlette hiện phát cảnh báo deprecation cho HTTPX trong TestClient; các ca kiểm tra vẫn thực thi đầy đủ.
+
+## Giao diện xanh lá
+
+18 ca kiểm tra liên quan đạt sau khi đổi bảng màu và nhãn điều hướng: giao diện sáng/tối, kích thước tab khi chọn, bố cục khi thu nhỏ, điều hướng và đăng nhập. Đã chụp lại 13 ảnh từ ứng dụng thật, đồng bộ README và nhãn trên sơ đồ.

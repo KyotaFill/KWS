@@ -2,79 +2,79 @@
   {
     "feature": "login",
     "file": "assets/readme/login.png",
-    "sha256": "fe475e3a026535af22b0dd159620890286df909ce8b34aeb73146f1fa1439daa",
+    "sha256": "42ce2698d31bb68d0e3150c3f20037e76699fc46f081896524ab71e7043f78cf",
     "source": "Actual KWS Tk UI with real API and disposable PostgreSQL test data"
   },
   {
     "feature": "session_view",
     "file": "assets/readme/session_view.png",
-    "sha256": "9e77a1077ba909f7ca937ca9535dde173ec7fea2ba1db4c25738901d9752835d",
+    "sha256": "66b61295949e1604544963b2f1dd30ccf35e2f24c1e6d0c26addaa3202c26be5",
     "source": "Actual KWS Tk UI with real API and disposable PostgreSQL test data"
   },
   {
     "feature": "master_container",
     "file": "assets/readme/master_container.png",
-    "sha256": "112c25a662c40b063c26f0264c2acde2123dae8eafaab840cc0bb525c445bfaf",
+    "sha256": "163e2dc2095ff8d1f2a451d16e3285dd72134f45d1acb95268657b4b9b2c046f",
     "source": "Actual KWS Tk UI with real API and disposable PostgreSQL test data"
   },
   {
     "feature": "order_view",
     "file": "assets/readme/order_view.png",
-    "sha256": "33c6e37afbf60d351415f46fd694207c559af28d7e729e32011d9cdddfca0352",
+    "sha256": "48aae6c16b2de90164f14ab3f1f6faa296cdd4566187e7e7ff146773abdb0fb9",
     "source": "Actual KWS Tk UI with real API and disposable PostgreSQL test data"
   },
   {
     "feature": "approval_view",
     "file": "assets/readme/approval_view.png",
-    "sha256": "bda62d83b53fdd5b266cb87cff2e54bfe31052e182cb516cfcb95ec1a33402cf",
+    "sha256": "983c17188ac7e39c5320bd518afce3b53a3f8590c01eea26fd16ff284e4d309e",
     "source": "Actual KWS Tk UI with real API and disposable PostgreSQL test data"
   },
   {
     "feature": "receipt_view",
     "file": "assets/readme/receipt_view.png",
-    "sha256": "483eee2575332df6cdaa3e16ebcc56e86ff871e09f3b5aa3f56cef676094bcd5",
+    "sha256": "6eeb7732452c9b785a18e051a3c9e729d35a84098a147963e87472db9860fedb",
     "source": "Actual KWS Tk UI with real API and disposable PostgreSQL test data"
   },
   {
     "feature": "opening_view",
     "file": "assets/readme/opening_view.png",
-    "sha256": "1352508a89e7174dd69dbafae5798f104102b8c83cc4494dcb0c3ef7da6be4d0",
+    "sha256": "ac820081d47ab350a838bff81ebb8afefd79b794c40197ece9bad36fd756bfbf",
     "source": "Actual KWS Tk UI with real API and disposable PostgreSQL test data"
   },
   {
     "feature": "issue_view",
     "file": "assets/readme/issue_view.png",
-    "sha256": "7ef3a79f8da360beeb54494648624b9682588e7717f63a93a24985eb9e10f9fe",
+    "sha256": "874fd68683dca020dfa5f7a7d73fd2fd1a40330d52d77086d9d5b50db64c6922",
     "source": "Actual KWS Tk UI with real API and disposable PostgreSQL test data"
   },
   {
     "feature": "report_view",
     "file": "assets/readme/report_view.png",
-    "sha256": "2d9b427e21492ec0e8835745a9e69d3a77b94fe4799dde5144812fe6311019c0",
+    "sha256": "b5cd85839e40846fbed44a848cd9685893b279010aef5042816b29587f28b981",
     "source": "Actual KWS Tk UI with real API and disposable PostgreSQL test data"
   },
   {
     "feature": "print_view",
     "file": "assets/readme/print_view.png",
-    "sha256": "e17178eb8938ba37364151592966748bafa22ac77444478c73c8359b3bd4380f",
+    "sha256": "d84579f7a9ed437092bb9f858a57a9158ddc60556d2587747da3cea6e38b484d",
     "source": "Actual KWS Tk UI with real API and disposable PostgreSQL test data"
   },
   {
     "feature": "admin_view",
     "file": "assets/readme/admin_view.png",
-    "sha256": "05cbcb264e0f180736b9092b5ebe0d09ccf4a9bdfdc7f8ea06276535015eedfe",
+    "sha256": "ed18ce488e3ccdaa68aa0ffff6693e7f341bbcf4afa24628afbd52ee2ad0ecf1",
     "source": "Actual KWS Tk UI with real API and disposable PostgreSQL test data"
   },
   {
     "feature": "recovery_view",
     "file": "assets/readme/recovery_view.png",
-    "sha256": "b60001eb41c5e848913c2856ead8fc1fe27ad7be666ff18077b8b745be3f0a48",
+    "sha256": "d87c162c9b8a07f5374c74da78d4b57a15c2a9f575aaed944d3d2f71c7973ef4",
     "source": "Actual KWS Tk UI with real API and disposable PostgreSQL test data"
   },
   {
     "feature": "connection_view",
     "file": "assets/readme/connection_view.png",
-    "sha256": "6848aba3adcb13865709d4efcdcc52c1f085db4fbc289208e2e7f4022900a82d",
+    "sha256": "4c0631e611e9bf0de14722a2a4049170d7bbc8612dca471007db64c9999ce250",
     "source": "Actual KWS Tk UI with real API and disposable PostgreSQL test data"
   }
 ]

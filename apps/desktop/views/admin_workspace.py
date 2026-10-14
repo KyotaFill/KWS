@@ -7,7 +7,7 @@ from tkinter import ttk
 from PIL import Image, ImageDraw, ImageTk
 
 # Every section points to a real existing workflow, including recovery tools.
-SECTIONS = [('Không gian làm việc', 'session_view', 'Kho làm việc', 'Chọn kho, quản lý phiên và bảo mật tài khoản'), ('Dữ liệu', 'master_container', 'Danh mục sản phẩm', 'Sản phẩm, ảnh, mô tả, đơn vị, kho và đối tác'), ('Nhập hàng', 'order_view', 'Đơn mua / đơn bán', 'Lập và theo dõi đơn hàng theo kho'), ('Nhập hàng', 'approval_view', 'Hộp thư phê duyệt', 'Rà soát chứng từ và quyết định theo thẩm quyền'), ('Nhập hàng', 'receipt_view', 'Nhận hàng', 'Ghi nhận hàng nhận và đối chiếu đơn mua'), ('Nhập hàng', 'opening_view', 'Tồn đầu kỳ', 'Khởi tạo tồn kho có kiểm đếm và phê duyệt'), ('Vận hành kho', 'issue_view', 'Giữ hàng & xuất kho', 'Giữ chỗ, kiểm tra khả dụng và ghi nhận xuất hàng'), ('Kiểm soát', 'report_view', 'Tồn kho & báo cáo', 'Tra cứu tồn, thẻ kho và xuất dữ liệu'), ('Công cụ & hệ thống', 'print_view', 'In chứng từ & tem', 'Xem trước, tạo phiếu và nhãn hàng hóa'), ('Công cụ & hệ thống', 'admin_view', 'Tài khoản & phân quyền', 'Quản lý người dùng, vai trò và phạm vi kho'), ('Công cụ & hệ thống', 'recovery_view', 'Nháp & phục hồi lệnh', 'Kiểm tra lệnh chưa rõ kết quả trước khi thao tác lại'), ('Công cụ & hệ thống', 'connection_view', 'Kết nối máy chủ', 'Kiểm tra kết nối và trạng thái sẵn sàng của máy chủ')]
+SECTIONS = [('Khu vực làm việc', 'session_view', 'Kho đang quản lý', 'Chọn kho, quản lý phiên và bảo mật tài khoản'), ('Dữ liệu', 'master_container', 'Sản phẩm & danh mục', 'Sản phẩm, ảnh, mô tả, đơn vị, kho và đối tác'), ('Nhập hàng', 'order_view', 'Đơn mua / đơn bán', 'Lập và theo dõi đơn hàng theo kho'), ('Nhập hàng', 'approval_view', 'Duyệt chứng từ', 'Rà soát chứng từ và quyết định theo thẩm quyền'), ('Nhập hàng', 'receipt_view', 'Nhận hàng', 'Ghi nhận hàng nhận và đối chiếu đơn mua'), ('Nhập hàng', 'opening_view', 'Tồn đầu kỳ', 'Khởi tạo tồn kho có kiểm đếm và phê duyệt'), ('Vận hành kho', 'issue_view', 'Giữ tồn & xuất hàng', 'Giữ chỗ, kiểm tra khả dụng và ghi nhận xuất hàng'), ('Kiểm soát', 'report_view', 'Tra cứu tồn & báo cáo', 'Tra cứu tồn, thẻ kho và xuất dữ liệu'), ('Tiện ích & quản trị', 'print_view', 'In phiếu & nhãn hàng', 'Xem trước, tạo phiếu và nhãn hàng hóa'), ('Tiện ích & quản trị', 'admin_view', 'Tài khoản & phân quyền', 'Quản lý người dùng, vai trò và phạm vi kho'), ('Tiện ích & quản trị', 'recovery_view', 'Bản nháp & khôi phục', 'Kiểm tra lệnh chưa rõ kết quả trước khi thao tác lại'), ('Tiện ích & quản trị', 'connection_view', 'Kiểm tra kết nối', 'Kiểm tra kết nối và trạng thái sẵn sàng của máy chủ')]
 
 
 class _NavigationHighlight(tk.Canvas):
@@ -64,7 +64,7 @@ class _NavigationHighlight(tk.Canvas):
             draw = ImageDraw.Draw(image)
             for x in range(image.width):
                 ratio = x / max(1, image.width - 1)
-                color = tuple(round(a + (b - a) * ratio) for a, b in zip((0, 91, 158), (55, 133, 184)))
+                color = tuple(round(a + (b - a) * ratio) for a, b in zip((24, 116, 69), (55, 145, 87)))
                 draw.line((x, 0, x, image.height), fill=(*color, 255))
             mask = Image.new("L", image.size)
             ImageDraw.Draw(mask).rounded_rectangle((0, 3, image.width - 1, image.height - 4),
@@ -94,7 +94,7 @@ class AdminNavigation(ttk.Frame):
     def __init__(self, parent, command):
         super().__init__(parent, padding=(8, 12, 6, 8), width=254)
         self.command = command
-        ttk.Label(self, text="KHÔNG GIAN QUẢN TRỊ", style="Muted.TLabel", font=("Segoe UI", 9, "bold")).pack(
+        ttk.Label(self, text="ĐIỀU HÀNH KHO", style="Muted.TLabel", font=("Segoe UI", 9, "bold")).pack(
             anchor="w", padx=8, pady=(0, 16)
         )
         self.tree = ttk.Treeview(self, show="tree", selectmode="browse", style="Nav.Treeview", takefocus=True)

@@ -53,6 +53,16 @@
         "failed": 0,
         "skipped": 0
       }
+    },
+    {
+      "name": "kws-green-final",
+      "junit_sha256": "5513e7d6a3f182bfc6074ee9bc6205263ace8922a5fe77170a4889cd0628ece8",
+      "counts": {
+        "passed": 18,
+        "failed": 0,
+        "skipped": 0
+      },
+      "scope": "Green theme, navigation, auth controls, real UI capture; light/dark and resize checks."
     }
   ],
   "cases": [
@@ -481,21 +491,21 @@
       "integration": false,
       "gui": true,
       "status": "passed",
-      "run": "kws-final"
+      "run": "kws-green-final"
     },
     {
       "nodeid": "tests/foundation/test_admin_workspace.py::test_new_product_fields_stay_reachable_by_keyboard_at_small_size",
       "integration": false,
       "gui": true,
       "status": "passed",
-      "run": "kws-final"
+      "run": "kws-green-final"
     },
     {
       "nodeid": "tests/foundation/test_admin_workspace.py::test_catalog_navigation_preserves_edits_and_does_not_repeat_load",
       "integration": false,
       "gui": true,
       "status": "passed",
-      "run": "kws-final"
+      "run": "kws-green-final"
     },
     {
       "nodeid": "tests/foundation/test_api_contracts.py::test_health_does_not_need_database",
@@ -698,35 +708,35 @@
       "integration": false,
       "gui": false,
       "status": "passed",
-      "run": "kws-brand-final"
+      "run": "kws-green-final"
     },
     {
       "nodeid": "tests/foundation/test_auth_navigation.py::test_theme_switch_click_keyboard_animation_and_close",
       "integration": false,
       "gui": true,
       "status": "passed",
-      "run": "kws-brand-final"
+      "run": "kws-green-final"
     },
     {
       "nodeid": "tests/foundation/test_auth_navigation.py::test_menu_flat_until_selected_hover_reverts_and_rejected_navigation_keeps_selection",
       "integration": false,
       "gui": true,
       "status": "passed",
-      "run": "kws-brand-final"
+      "run": "kws-green-final"
     },
     {
       "nodeid": "tests/foundation/test_auth_navigation.py::test_google_loopback_rejects_wrong_state_then_exchanges_once_and_clears_secrets",
       "integration": false,
       "gui": false,
       "status": "passed",
-      "run": "kws-brand-final"
+      "run": "kws-green-final"
     },
     {
       "nodeid": "tests/foundation/test_auth_navigation.py::test_google_cancel_is_prompt_and_does_not_exchange",
       "integration": false,
       "gui": false,
       "status": "passed",
-      "run": "kws-brand-final"
+      "run": "kws-green-final"
     },
     {
       "nodeid": "tests/foundation/test_avatar.py::test_avatar_is_bounded_square_png_and_repeatable[PNG]",
@@ -789,49 +799,49 @@
       "integration": false,
       "gui": true,
       "status": "passed",
-      "run": "kws-final"
+      "run": "kws-green-final"
     },
     {
       "nodeid": "tests/foundation/test_compact_layout.py::test_inbound_tables_fill_page_and_action_buttons_are_distinct",
       "integration": false,
       "gui": true,
       "status": "passed",
-      "run": "kws-final"
+      "run": "kws-green-final"
     },
     {
       "nodeid": "tests/foundation/test_compact_layout.py::test_notebook_selection_keeps_tab_dimensions_in_both_themes",
       "integration": false,
       "gui": true,
       "status": "passed",
-      "run": "kws-final"
+      "run": "kws-green-final"
     },
     {
       "nodeid": "tests/foundation/test_compact_layout.py::test_action_layout_and_feedback_remain_accessible_after_resize",
       "integration": false,
       "gui": true,
       "status": "passed",
-      "run": "kws-final"
+      "run": "kws-green-final"
     },
     {
       "nodeid": "tests/foundation/test_compact_layout.py::test_unified_combobox_keeps_native_arrow_interaction",
       "integration": false,
       "gui": true,
       "status": "passed",
-      "run": "kws-final"
+      "run": "kws-green-final"
     },
     {
       "nodeid": "tests/foundation/test_compact_layout.py::test_scanner_and_document_share_one_status_button",
       "integration": false,
       "gui": true,
       "status": "passed",
-      "run": "kws-final"
+      "run": "kws-green-final"
     },
     {
       "nodeid": "tests/foundation/test_compact_layout.py::test_preview_opens_only_on_request",
       "integration": false,
       "gui": true,
       "status": "passed",
-      "run": "kws-final"
+      "run": "kws-green-final"
     },
     {
       "nodeid": "tests/foundation/test_data_table.py::test_wrapped_cells_fit_without_changing_values[0]",
@@ -1811,21 +1821,21 @@
       "integration": false,
       "gui": false,
       "status": "passed",
-      "run": "kws-brand-final"
+      "run": "kws-green-final"
     },
     {
       "nodeid": "tests/foundation/test_kws.py::test_brand_and_state_are_independent",
       "integration": false,
       "gui": false,
       "status": "passed",
-      "run": "kws-brand-final"
+      "run": "kws-green-final"
     },
     {
       "nodeid": "tests/foundation/test_kws.py::test_actual_kws_screens",
       "integration": true,
       "gui": true,
       "status": "passed",
-      "run": "kws-brand-final"
+      "run": "kws-green-final"
     },
     {
       "nodeid": "tests/foundation/test_master_data.py::test_master_permissions_are_live_and_global_not_inferred_from_warehouse",

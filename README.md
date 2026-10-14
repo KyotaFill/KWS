@@ -13,6 +13,8 @@
 
 **[Tải mã nguồn ZIP](https://github.com/KyotaFill/KWS/archive/refs/heads/main.zip)** · **[Sơ đồ PDF](03_So_do/Hien_hanh/KWS_Hien_hanh.pdf)** · **[Sơ đồ draw.io](03_So_do/Hien_hanh/KWS_Hien_hanh.drawio)** · **[Hướng dẫn chạy](01_Tai_lieu/CAI_DAT.md)**
 
+Giao diện KWS dùng xanh lá làm màu chủ đạo, với footer xanh đậm và trạng thái chọn đồng bộ trên thanh điều hướng, tab và bảng dữ liệu.
+
 KWS là ứng dụng quản lý kho desktop theo mô hình máy khách – máy chủ. Nhân viên thao tác trên giao diện Tkinter; máy chủ FastAPI kiểm tra quyền, phê duyệt và ghi sổ vào PostgreSQL. Dữ liệu nháp và yêu cầu cần phục hồi được lưu cục bộ bằng SQLite. Chứng từ đã ghi sổ có dấu vết người thực hiện và kết quả giao dịch để tra cứu.
 
 KWS được tách từ WMS và tập trung vào hàng thuộc doanh nghiệp. Bản này có 10 nhóm chức năng chính và 2 tiện ích kết nối/phục hồi. Không có màn hình ký gửi, bảo hành, trường mở rộng, soạn/đóng kiện, kiểm định, cất/di chuyển, chuyển kho, trả hàng, kiểm kê/điều chỉnh, đảo giao dịch hoặc nhập tệp hàng loạt.
@@ -57,17 +59,17 @@ Số lượng dùng số thập phân chính xác. Có kiểm tra lô, serial v�
 
 ![Đăng nhập KWS](assets/readme/login.png)
 
-### Kho làm việc
+### Kho đang quản lý
 
 Chọn kho được cấp quyền; tải lại quyền, chỉnh hồ sơ, đổi mật khẩu và quản lý MFA. Kho đang chọn được truyền vào các màn hình nghiệp vụ.
 
-![Kho làm việc](assets/readme/session_view.png)
+![Kho đang quản lý](assets/readme/session_view.png)
 
-### Danh mục sản phẩm
+### Sản phẩm & danh mục
 
 Quản lý sản phẩm, nhóm hàng, đơn vị, đối tác, kho và vị trí. Có ảnh/mô tả sản phẩm, quy đổi đơn vị, barcode và giá tham chiếu theo quyền. Đơn vị cơ sở và cách theo dõi không được đổi sau phát sinh.
 
-![Danh mục sản phẩm](assets/readme/master_container.png)
+![Sản phẩm & danh mục](assets/readme/master_container.png)
 
 ### Đơn mua / đơn bán
 
@@ -75,11 +77,11 @@ Lập đơn mua PO và đơn bán SO, sửa nháp, gửi duyệt, theo dõi ph�
 
 ![Đơn mua / đơn bán](assets/readme/order_view.png)
 
-### Hộp thư phê duyệt
+### Duyệt chứng từ
 
 Danh sách yêu cầu theo quyền và kho; xem dòng hàng, lý do và nội dung trước quyết định. Máy chủ áp dụng các bước duyệt và tách nhiệm vụ; người lập không tự duyệt phiếu của mình.
 
-![Hộp thư phê duyệt](assets/readme/approval_view.png)
+![Duyệt chứng từ](assets/readme/approval_view.png)
 
 ### Nhận hàng
 
@@ -93,23 +95,23 @@ Khai báo tồn đầu kỳ hàng doanh nghiệp, ngày nghiệp vụ, biên b�
 
 ![Tồn đầu kỳ](assets/readme/opening_view.png)
 
-### Giữ hàng & xuất kho
+### Giữ tồn & xuất hàng
 
 Chọn SO đã duyệt, lập phiếu xuất, phê duyệt, giữ nguồn tồn và ghi xuất từ lượng đã giữ. Không xuất vượt tồn, lượng giữ hoặc lượng đơn còn lại; thao tác đồng thời được khóa tại máy chủ.
 
-![Giữ hàng & xuất kho](assets/readme/issue_view.png)
+![Giữ tồn & xuất hàng](assets/readme/issue_view.png)
 
-### Tồn kho & báo cáo
+### Tra cứu tồn & báo cáo
 
 Sáu báo cáo: R01 tồn theo vị trí, R02 nhập/xuất, R03 thẻ kho, R04 giữ hàng/nhu cầu mở, R06 hạn dùng/tồn lâu, R08 hoạt động/giá tham chiếu. Snapshot giữ dữ liệu nhất quán khi phân trang; xuất CSV/XLSX có kiểm tra lại quyền.
 
-![Tồn kho & báo cáo](assets/readme/report_view.png)
+![Tra cứu tồn & báo cáo](assets/readme/report_view.png)
 
-### In chứng từ & tem
+### In phiếu & nhãn hàng
 
 Tạo PDF cho phiếu nhập, phiếu xuất, tem sản phẩm/serial và tem vị trí. Khung xem trước mở khi chọn In/xem trước. Chọn máy in, số bản, lưu PDF, theo dõi trạng thái và in lại từ menu thao tác.
 
-![In chứng từ & tem](assets/readme/print_view.png)
+![In phiếu & nhãn hàng](assets/readme/print_view.png)
 
 ### Tài khoản & phân quyền
 
@@ -117,17 +119,17 @@ Tạo và khóa/mở tài khoản, thu hồi phiên, yêu cầu cấp quyền th
 
 ![Tài khoản & phân quyền](assets/readme/admin_view.png)
 
-### Nháp & phục hồi lệnh
+### Bản nháp & khôi phục
 
 Xem nháp hoặc lệnh mất phản hồi, tra ACK trước khi quyết định gửi lại. Gửi lại giữ nguyên khóa và nội dung, không tự ghi sổ lúc mở ứng dụng.
 
-![Nháp & phục hồi lệnh](assets/readme/recovery_view.png)
+![Bản nháp & khôi phục](assets/readme/recovery_view.png)
 
-### Kết nối máy chủ
+### Kiểm tra kết nối
 
 Kiểm tra API và trạng thái sẵn sàng của cơ sở dữ liệu. Nút Tải lại khởi động lại ứng dụng; khi thoát có xác nhận và chờ worker kết thúc.
 
-![Kết nối máy chủ](assets/readme/connection_view.png)
+![Kiểm tra kết nối](assets/readme/connection_view.png)
 
 ## Chạy và tải ứng dụng
 

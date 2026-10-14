@@ -63,6 +63,7 @@ class ThemeSwitch(tk.Canvas):
         self.timer = None
         self.focused = False
         self.icons = [ui_icon(self, "sun", "white"), ui_icon(self, "moon", "white")]
+        self.selected_icons = list(self.icons)
         self.bind("<Configure>", lambda event: self.draw())
         self.bind("<Button-1>", self.click)
         self.bind("<Left>", lambda event: self.choose(False))
@@ -107,18 +108,19 @@ class ThemeSwitch(tk.Canvas):
     def draw(self):
         self.delete("all")
         width, height = self.winfo_width(), self.winfo_height()
-        rounded(self, width, height, fill="#e8edf2" if self.light_surface else "#3b3b40", outline="#a5ceff" if self.focused else "#ccd4dd" if self.light_surface else "#69696f", radius=12)
+        rounded(self, width, height, fill="#e8edf2" if self.light_surface else "#3b3b40", outline="#9bd3ae" if self.focused else "#ccd4dd" if self.light_surface else "#69696f", radius=12)
         half = (width-8)/2
-        selected = rounded(self, half, height-8, fill="#777780", radius=9)
+        selected = rounded(self, half, height-8, fill="#187445", radius=9)
         self.move(selected, 4+self.position*half, 4)
         for index, icon in enumerate(self.icons):
-            self.create_image(4+(index+.5)*half, height/2, image=icon)
+            self.create_image(4+(index+.5)*half, height/2, image=self.selected_icons[index] if index == int(self.dark_mode) else icon)
 
     def destroy(self):
         if self.timer is not None:
             self.after_cancel(self.timer)
             self.timer = None
         self.icons.clear()
+        self.selected_icons.clear()
         self.command = None
         super().destroy()
 
@@ -160,6 +162,9 @@ class RoundedField(tk.Canvas):
         super().configure(background=background)
         self.inner.configure(background=field, disabledbackground=field, readonlybackground=field,
                              foreground=foreground, insertbackground=foreground)
+        if self.dropdown is not None:
+            self.dropdown.configure(background=field, foreground=foreground,
+                                    activebackground="#187445", activeforeground="#ffffff")
         if self.trailing:
             self.trailing.set_dark(enabled, background=field)
         self.draw()
@@ -168,7 +173,7 @@ class RoundedField(tk.Canvas):
         super().delete("all")
         width, height = self.winfo_width(), self.winfo_height()
         rounded(self,width,height,fill="#222938" if self.dark_mode else "#ffffff",
-                outline=("#78baff" if self.dark_mode else "#0066cc") if self.focused else ("#465167" if self.dark_mode else "#e2e4e8"))
+                outline=("#86d9a6" if self.dark_mode else "#187445") if self.focused else ("#465167" if self.dark_mode else "#e2e4e8"))
         left = 40 if self.leading else 14
         right = 45 if self.trailing else 14
         if self.leading:
@@ -300,11 +305,11 @@ class RoundedButton(tk.Canvas):
     def draw(self):
         super().delete("all")
         width, height = self.winfo_width(), self.winfo_height()
-        fill = "#0066cc" if self.primary else self.header_surface if self.header else self.surface
+        fill = "#187445" if self.primary else self.header_surface if self.header else self.surface
         if self.disabled:
-            fill = "#91b5db" if self.primary else fill
+            fill = "#92b6a1" if self.primary else fill
         elif self.hovered:
-            fill = "#005bb5" if self.primary else ("#edf4fd" if self.header_tone != "white" else "#626265") if self.header else "#2d3748" if self.dark_mode else "#f4f7fa"
+            fill = "#105b35" if self.primary else ("#edf7ef" if self.header_tone != "white" else "#626265") if self.header else "#2d3748" if self.dark_mode else "#f4f7fa"
         outline = "" if self.primary or self.link or self.header else "#465167" if self.dark_mode else "#e2e4e8"
         if self.circular:
             diameter = max(1, min(width, height)-2)
@@ -316,9 +321,9 @@ class RoundedButton(tk.Canvas):
             self.create_image(width/2, height/2, image=self.circle_image)
         else:
             rounded(self,width,height,fill=fill,outline=outline)
-        color = "#ffffff" if self.primary or self.header else ("#78baff" if self.dark_mode else "#0066cc") if self.link else "#edf2f7" if self.dark_mode else "#263449"
+        color = "#ffffff" if self.primary or self.header else ("#86d9a6" if self.dark_mode else "#187445") if self.link else "#edf2f7" if self.dark_mode else "#263449"
         if self.header and self.header_tone != "white":
-            color = "#315c80"
+            color = "#205b3b"
         if self.disabled and not self.primary:
             color = "#7b8794"
         if self.glyph and not self.text:
@@ -338,7 +343,7 @@ class RoundedButton(tk.Canvas):
             self.create_image(start+icon_width/2,height/2,image=self.image)
         elif self.glyph:
             if self.avatar:
-                self.avatar_surface = circle_surface(self, 32, fill="#e8f2ff" if self.header_tone != "white" else "#354961", outline=None)
+                self.avatar_surface = circle_surface(self, 32, fill="#e5f3e9" if self.header_tone != "white" else "#354961", outline=None)
                 self.create_image(start+icon_width/2, height/2, image=self.avatar_surface)
             self.create_image(start+icon_width/2,height/2,image=self.glyph_image())
 

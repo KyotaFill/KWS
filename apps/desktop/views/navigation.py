@@ -40,7 +40,7 @@ class HoverItem(tk.Canvas):
         self.delete('all')
         width, height = max(1, self.winfo_width()), max(1, self.winfo_height())
         if self.selected:
-            base = (102,102,105)
+            base = (24,116,69)
             color = '#' + ''.join(f'{round(c + self.level*20):02x}' for c in base)
             x, y, right, bottom, radius = 5, 4, width-5, height-4, 8
             self.create_polygon(x+radius,y, right-radius,y, right,y, right,y+radius,

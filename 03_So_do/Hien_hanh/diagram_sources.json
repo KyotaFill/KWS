@@ -1560,7 +1560,7 @@
   },
   {
     "code": "UC_CURRENT_01",
-    "title": "Use case — Không gian làm việc",
+    "title": "Use case — Khu vực làm việc",
     "notation": "UML use case",
     "nodes": {
       "actor": {
@@ -1597,7 +1597,7 @@
     ],
     "width": 1100,
     "height": 520,
-    "group": "Không gian làm việc",
+    "group": "Khu vực làm việc",
     "feature_keys": [
       "session_view"
     ],
@@ -1836,7 +1836,7 @@
   },
   {
     "code": "UC_CURRENT_06",
-    "title": "Use case — Công cụ & hệ thống",
+    "title": "Use case — Tiện ích & quản trị",
     "notation": "UML use case",
     "nodes": {
       "actor": {
@@ -1921,7 +1921,7 @@
     ],
     "width": 1100,
     "height": 640,
-    "group": "Công cụ & hệ thống",
+    "group": "Tiện ích & quản trị",
     "feature_keys": [
       "print_view",
       "admin_view",

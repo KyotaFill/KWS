@@ -13,9 +13,9 @@ LIGHT = dict(
     text="#172b4d",
     muted="#65717c",
     line="#d7dfe9",
-    hover="#edf4fd",
-    selected="#e1e7fc",
-    blue="#2448d8",
+    hover="#edf7ef",
+    selected="#dcefe2",
+    accent="#187445",
 )
 DARK = dict(
     page="#141a24",
@@ -23,15 +23,15 @@ DARK = dict(
     text="#eef3fa",
     muted="#a3b1c5",
     line="#39475d",
-    hover="#293a52",
-    selected="#28466c",
-    blue="#78baff",
+    hover="#263f32",
+    selected="#27573b",
+    accent="#86d9a6",
 )
 ACTION_COLORS = {"Teal": "#087f8c", "Purple": "#7041a6", "Amber": "#956000",
                  "Slate": "#4e6078", "Danger": "#b42338", "Indigo": "#4248a2"}
 # Keep solid action colors even when import controls are unavailable.
 IMPORT_COLORS = {
-    "Primary": "#005b9e",
+    "Primary": "#187445",
     "Teal": ACTION_COLORS["Teal"],
     "Success": "#087f5b",
     "Danger": ACTION_COLORS["Danger"],
@@ -71,13 +71,13 @@ class AdminTheme:
         suffix = "Dark" if dark else "Light"
         if suffix not in self.registered:
             normal = self.border(p["surface"], p["line"])
-            hover = self.border(p["hover"], p["blue"])
+            hover = self.border(p["hover"], p["accent"])
             disabled = self.border(p["page"], p["line"])
             arrow = ui_icon(self.root, "chevron-down", "white" if dark else "slate", size=16)
             self.images.append(arrow)
             s.element_create(suffix + ".Combo.downarrow", "image", arrow, sticky="")
-            primary = self.border("#005b9e", "#005b9e")
-            pressed = self.border("#0056ad", "#0056ad")
+            primary = self.border("#187445", "#187445")
+            pressed = self.border("#105b35", "#105b35")
             s.element_create(
                 suffix + ".Admin.border",
                 "image",
@@ -114,8 +114,8 @@ class AdminTheme:
                 s.element_create(suffix + ".Import." + name + ".border", "image", surface,
                                  border=6, padding=0, sticky="nsew")
             tab = self.work_tab(p["surface"], p["line"])
-            selected_tab = self.work_tab("#005b9e", "#005b9e")
-            hover_tab = self.work_tab(p["hover"], p["blue"])
+            selected_tab = self.work_tab("#187445", "#187445")
+            hover_tab = self.work_tab(p["hover"], p["accent"])
             s.element_create(suffix + ".WorkTab.border", "image", tab,
                              ("selected", selected_tab), ("active", hover_tab),
                              border=(15, 2, 15, 2), sticky="nsew")
@@ -139,7 +139,7 @@ class AdminTheme:
         s.configure(
             "Card.Title.TLabel", font=("Arial", 10, "bold"), foreground=p["text"], background=p["surface"]
         )
-        s.configure("Card.Number.TLabel", font=("Arial", 18, "bold"), foreground=p["blue"])
+        s.configure("Card.Number.TLabel", font=("Arial", 18, "bold"), foreground=p["accent"])
         s.configure("TLabelframe", borderwidth=1, relief="solid", background=p["surface"])
         s.configure("TLabelframe.Label", font=("Arial", 9, "bold"), foreground=p["text"])
         s.layout(
@@ -180,7 +180,7 @@ class AdminTheme:
             ("Button.padding", {"sticky": "nsew", "children": [("Button.label", {"sticky": "nsew"})]})
         ]})])
         s.configure("TButton", padding=(12, 7), borderwidth=0, anchor="center", font=("Arial", 10))
-        s.map("TButton", foreground=[("disabled", p["muted"]), ("active", p["blue"])])
+        s.map("TButton", foreground=[("disabled", p["muted"]), ("active", p["accent"])])
         s.configure("Primary.TButton", foreground="#ffffff", font=("Arial", 10, "bold"))
         s.layout("Action.TMenubutton", s.layout("Primary.TButton"))
         s.configure("Action.TMenubutton", padding=(12, 7), foreground="#ffffff", font=("Arial", 10, "bold"))
@@ -239,7 +239,7 @@ class AdminTheme:
                 name,
                 fieldbackground=[("disabled", p["page"]), ("readonly", p["surface"])],
                 foreground=[("disabled", p["muted"]), ("readonly", p["text"])],
-                bordercolor=[("focus", p["blue"])],
+                bordercolor=[("focus", p["accent"])],
             )
         for name in ("TCheckbutton", "TRadiobutton"):
             s.configure(name, background=p["surface"], foreground=p["text"], padding=2)
@@ -249,7 +249,7 @@ class AdminTheme:
                     font=("Arial", 10), expand=(0, 0, 0, 0))
         s.map(
             "TNotebook.Tab",
-            background=[("selected", "#005b9e"), ("active", p["hover"])],
+            background=[("selected", "#187445"), ("active", p["hover"])],
             foreground=[("selected", "#ffffff"), ("active", p["text"])],
             padding=[("selected", (12, 7)), ("!selected", (12, 7))],
             expand=[("selected", (0, 0, 0, 0)), ("!selected", (0, 0, 0, 0))],
@@ -270,16 +270,16 @@ class AdminTheme:
             "Treeview.Heading",
             font=("Arial", 9, "bold"),
             padding=(7, 6),
-            background="#005b9e",
+            background="#187445",
             foreground="#ffffff",
-            bordercolor="#337cb1",
-            lightcolor="#337cb1",
-            darkcolor="#337cb1",
+            bordercolor="#4b9568",
+            lightcolor="#4b9568",
+            darkcolor="#4b9568",
             relief="solid",
             borderwidth=1,
         )
         s.map("Treeview", background=[("selected", p["selected"])], foreground=[("selected", p["text"])])
-        s.map("Treeview.Heading", background=[("pressed", "#004579"), ("active", "#086db7")],
+        s.map("Treeview.Heading", background=[("pressed", "#105b35"), ("active", "#24834f")],
               foreground=[("!disabled", "#ffffff")])
         s.configure("Nav.Treeview", rowheight=28, font=("Arial", 10), background=p["surface"], borderwidth=0, relief="flat")
         s.configure("Vertical.TScrollbar", width=11, arrowsize=11, background=p["line"], borderwidth=0)
@@ -291,14 +291,14 @@ class AdminTheme:
         )
         s.configure(
             "ERP.Nav.TButton",
-            background="#005b9e",
+            background="#187445",
             foreground="#ffffff",
             padding=(16, 14),
             font=("Arial", 10, "bold"),
         )
         s.map(
             "ERP.Nav.TButton",
-            background=[("selected", "#003f73"), ("active", "#2179b7")],
+            background=[("selected", "#0d4c2b"), ("active", "#27864e")],
             foreground=[("!disabled", "#ffffff")],
         )
         s.configure("ERP.WorkTab.TButton", padding=(18, 5), background=p["page"])
@@ -335,7 +335,7 @@ class AdminTheme:
                 relief="flat",
                 highlightthickness=1,
                 highlightbackground=p["line"],
-                highlightcolor=p["blue"],
+                highlightcolor=p["accent"],
                 padx=6,
                 pady=4,
             )
@@ -384,7 +384,7 @@ class AdminTheme:
         if icon is None or (widget.cget("image") and not getattr(widget, "_action_icon", False)):
             return
         filled = {"Primary.TButton", "Success.TButton", *(name + ".TButton" for name in ACTION_COLORS)}
-        tone = "white" if style.removeprefix("Import.") in filled or self.dark else "blue"
+        tone = "white" if style.removeprefix("Import.") in filled or self.dark else "green"
         disabled_tone = "white" if style.startswith("Import.") else "slate"
         for variant in (tone, disabled_tone):
             key = (icon, variant)

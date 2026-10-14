@@ -1,3 +1,5 @@
 Official source: https://github.com/lucide-icons/lucide
 Commit: 1fae58d0a9c661a338036838caf3399b5507bab6
 SVG geometry is unchanged. PNGs are rendered from these SVGs for Tk.
+
+KWS green variants: stroke #187445, rendered at 96×96 with CairoSVG from these source SVGs. Brand/logo images are unchanged.

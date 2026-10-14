@@ -1,9 +1,9 @@
 <?xml version='1.0' encoding='utf-8'?>
 <svg xmlns="http://www.w3.org/2000/svg" width="1100" height="520" viewBox="0 0 1100 520">
-  <title>Use case — Không gian làm việc</title>
-  <text font-family="DejaVu Sans" font-size="26" text-anchor="start" x="40" y="45.0" fill="#17384d">Use case — Không gian làm việc</text>
+  <title>Use case — Khu vực làm việc</title>
+  <text font-family="DejaVu Sans" font-size="26" text-anchor="start" x="40" y="45.0" fill="#17384d">Use case — Khu vực làm việc</text>
   <rect stroke-width="1.4" x="330" y="115" width="725" height="315" rx="0" fill="#dceef8" stroke="#17384d" />
-  <text font-family="DejaVu Sans" font-size="17" text-anchor="start" x="355" y="144.0" fill="#17384d">KWS · Không gian làm việc</text>
+  <text font-family="DejaVu Sans" font-size="17" text-anchor="start" x="355" y="144.0" fill="#17384d">KWS · Khu vực làm việc</text>
   <polyline stroke-width="1.5" points="195.0,250.0 455.0,195.0" fill="none" stroke="#17384d" />
   <ellipse stroke-width="1.4" cx="160.0" cy="219.5" rx="12.0" ry="12.0" fill="#dceef8" stroke="#17384d" />
   <polyline stroke-width="1.5" points="160.0,231.5 160.0,270.5" fill="none" stroke="#17384d" />

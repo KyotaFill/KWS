@@ -1,8 +1,8 @@
 [
   {
-    "group": "Không gian làm việc",
+    "group": "Khu vực làm việc",
     "key": "session_view",
-    "title": "Kho làm việc",
+    "title": "Kho đang quản lý",
     "description": "Chọn kho, quản lý phiên và bảo mật tài khoản",
     "source": "apps/desktop/views/session.py",
     "image": "assets/readme/session_view.png"
@@ -10,7 +10,7 @@
   {
     "group": "Dữ liệu",
     "key": "master_container",
-    "title": "Danh mục sản phẩm",
+    "title": "Sản phẩm & danh mục",
     "description": "Sản phẩm, ảnh, mô tả, đơn vị, kho và đối tác",
     "source": "apps/desktop/views/master_data.py",
     "image": "assets/readme/master_container.png"
@@ -26,7 +26,7 @@
   {
     "group": "Nhập hàng",
     "key": "approval_view",
-    "title": "Hộp thư phê duyệt",
+    "title": "Duyệt chứng từ",
     "description": "Rà soát chứng từ và quyết định theo thẩm quyền",
     "source": "apps/desktop/views/approvals.py",
     "image": "assets/readme/approval_view.png"
@@ -50,7 +50,7 @@
   {
     "group": "Vận hành kho",
     "key": "issue_view",
-    "title": "Giữ hàng & xuất kho",
+    "title": "Giữ tồn & xuất hàng",
     "description": "Giữ chỗ, kiểm tra khả dụng và ghi nhận xuất hàng",
     "source": "apps/desktop/views/issues.py",
     "image": "assets/readme/issue_view.png"
@@ -58,21 +58,21 @@
   {
     "group": "Kiểm soát",
     "key": "report_view",
-    "title": "Tồn kho & báo cáo",
+    "title": "Tra cứu tồn & báo cáo",
     "description": "Tra cứu tồn, thẻ kho và xuất dữ liệu",
     "source": "apps/desktop/views/reports.py",
     "image": "assets/readme/report_view.png"
   },
   {
-    "group": "Công cụ & hệ thống",
+    "group": "Tiện ích & quản trị",
     "key": "print_view",
-    "title": "In chứng từ & tem",
+    "title": "In phiếu & nhãn hàng",
     "description": "Xem trước, tạo phiếu và nhãn hàng hóa",
     "source": "apps/desktop/printing/view.py",
     "image": "assets/readme/print_view.png"
   },
   {
-    "group": "Công cụ & hệ thống",
+    "group": "Tiện ích & quản trị",
     "key": "admin_view",
     "title": "Tài khoản & phân quyền",
     "description": "Quản lý người dùng, vai trò và phạm vi kho",
@@ -80,17 +80,17 @@
     "image": "assets/readme/admin_view.png"
   },
   {
-    "group": "Công cụ & hệ thống",
+    "group": "Tiện ích & quản trị",
     "key": "recovery_view",
-    "title": "Nháp & phục hồi lệnh",
+    "title": "Bản nháp & khôi phục",
     "description": "Kiểm tra lệnh chưa rõ kết quả trước khi thao tác lại",
     "source": "apps/desktop/views/recovery.py",
     "image": "assets/readme/recovery_view.png"
   },
   {
-    "group": "Công cụ & hệ thống",
+    "group": "Tiện ích & quản trị",
     "key": "connection_view",
-    "title": "Kết nối máy chủ",
+    "title": "Kiểm tra kết nối",
     "description": "Kiểm tra kết nối và trạng thái sẵn sàng của máy chủ",
     "source": "apps/desktop/views/shell.py",
     "image": "assets/readme/connection_view.png"

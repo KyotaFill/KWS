@@ -114,8 +114,8 @@ class DataTable(ttk.Treeview):
         foreground = color("foreground", "#172b4d")
         line = color("bordercolor", "#d7dfe9")
         stripe = self._style.lookup("Page.TFrame", "background") or "#f5f7fa"
-        blue = self._style.lookup("Card.Number.TLabel", "foreground") or "#2448d8"
-        selected = self._style.lookup(style, "background", ("selected",)) or "#e1e7fc"
+        accent = self._style.lookup("Card.Number.TLabel", "foreground") or "#187445"
+        selected = self._style.lookup(style, "background", ("selected",)) or "#dcefe2"
         selected_text = self._style.lookup(style, "foreground", ("selected",)) or foreground
         rowheight = int(color("rowheight", "32"))
         width, height = self.winfo_width(), self.winfo_height()
@@ -165,7 +165,7 @@ class DataTable(ttk.Treeview):
                 anchor = column_alignment(column, str(super().column(column, "anchor")))
                 limit = 1 if anchor == "e" or column in CODES else max(1, min(2, row_height // self._font.metrics("linespace")))
                 lines = cell_lines(value, cell_width-14, self._font.measure, limit)
-                text_color = selected_text if item in chosen else blue if column in CODES else foreground
+                text_color = selected_text if item in chosen else accent if column in CODES else foreground
                 if str(value) in {"✓", "✔"}:
                     text_color = "#258345" if background == "#ffffff" else "#72d59b"
                 text_x = left + cell_width-7 if anchor == "e" else left+cell_width/2 if anchor == "center" else left+7
