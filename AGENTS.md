@@ -4,7 +4,8 @@
 - This is an independent derivative of WMS, with the scope in `01_Tai_lieu/NGHIEP_VU.md`.
 - Keep PostgreSQL migrations 001–026 and SQLite migrations immutable. Internal SQL schema remains `wms`.
 - Preserve server-side authorization, separation of duties, version checks, idempotency, atomic stock/audit/ACK updates.
-- Use disposable PostgreSQL through `scripts/check_application.py`; never use the operating database for tests.
+- The local deployment uses MySQL `kws_mysql` since 2026-10-16; preserve PostgreSQL for recovery. See `07_Kiem_tra/mysql/STATUS.md`.
+- Use disposable MySQL through `scripts/check_mysql.py` or disposable PostgreSQL through `scripts/check_application.py`; never use the operating database for tests.
 - Tk updates and teardown belong to the main thread. Wait for workers during exit/reload.
 - Do not commit credentials, user databases or operational screenshots.
 - Regenerate `SHA256SUMS.txt` with `scripts/update_artifacts.py`; verify with `scripts/check_artifacts.py`.

@@ -4,20 +4,33 @@
 <p align="center">
 <img src="assets/platforms/python.svg" width="38" alt="Python">
 <img src="assets/platforms/fastapi.svg" width="38" alt="FastAPI">
+<img src="assets/platforms/mysql.svg" width="38" alt="MySQL">
 <img src="assets/platforms/postgresql.svg" width="38" alt="PostgreSQL">
 <img src="assets/platforms/sqlite.svg" width="38" alt="SQLite">
 <img src="assets/platforms/sqlalchemy.svg" width="38" alt="SQLAlchemy">
 <img src="assets/platforms/nginx.svg" width="38" alt="Nginx">
 </p>
-<p align="center">Python / Tkinter · FastAPI · PostgreSQL · SQLite · SQLAlchemy · Nginx</p>
+<p align="center">Python / Tkinter · FastAPI · MySQL / PostgreSQL · SQLite · SQLAlchemy · Nginx</p>
 
 **[Tải mã nguồn ZIP](https://github.com/KyotaFill/KWS/archive/refs/heads/main.zip)** · **[Sơ đồ PDF](03_So_do/Hien_hanh/KWS_Hien_hanh.pdf)** · **[Sơ đồ draw.io](03_So_do/Hien_hanh/KWS_Hien_hanh.drawio)** · **[Hướng dẫn chạy](01_Tai_lieu/CAI_DAT.md)**
 
 Giao diện KWS dùng xanh lá làm màu chủ đạo, với footer xanh đậm và trạng thái chọn đồng bộ trên thanh điều hướng, tab và bảng dữ liệu.
 
-KWS là ứng dụng quản lý kho desktop theo mô hình máy khách – máy chủ. Nhân viên thao tác trên giao diện Tkinter; máy chủ FastAPI kiểm tra quyền, phê duyệt và ghi sổ vào PostgreSQL. Dữ liệu nháp và yêu cầu cần phục hồi được lưu cục bộ bằng SQLite. Chứng từ đã ghi sổ có dấu vết người thực hiện và kết quả giao dịch để tra cứu.
+KWS là ứng dụng quản lý kho desktop theo mô hình máy khách – máy chủ. Nhân viên thao tác trên giao diện Tkinter; máy chủ FastAPI kiểm tra quyền, phê duyệt và ghi sổ vào cơ sở dữ liệu MySQL hoặc PostgreSQL theo cấu hình máy chủ. Dữ liệu nháp và yêu cầu cần phục hồi được lưu cục bộ bằng SQLite. Chứng từ đã ghi sổ có dấu vết người thực hiện và kết quả giao dịch để tra cứu.
 
 KWS được tách từ WMS và tập trung vào hàng thuộc doanh nghiệp. Bản này có 10 nhóm chức năng chính và 2 tiện ích kết nối/phục hồi. Không có màn hình ký gửi, bảo hành, trường mở rộng, soạn/đóng kiện, kiểm định, cất/di chuyển, chuyển kho, trả hàng, kiểm kê/điều chỉnh, đảo giao dịch hoặc nhập tệp hàng loạt.
+
+## Hỗ trợ MySQL
+
+Mã nguồn hỗ trợ **MySQL 8.0** qua SQLAlchemy và PyMySQL. WMS dùng database
+`wms_mysql`; KWS dùng `kws_mysql`, tài khoản và API riêng. Các migration PostgreSQL
+được giữ nguyên để phục hồi. Quy trình chuyển dữ liệu kiểm tra số bản ghi, SHA-256,
+khóa ngoại và đối soát nghiệp vụ trước khi đổi kết nối ứng dụng.
+
+Xem [triển khai MySQL](deploy/lan/mysql/README.md) và
+[công cụ chuyển dữ liệu](mysql_migrations/README.md).
+Bản triển khai ngày 16/10/2026 đã chuyển mã nguồn và dữ liệu sang MySQL;
+xem [kết quả đối chiếu và kiểm thử](07_Kiem_tra/mysql/STATUS.md).
 
 ## Công nghệ và kiến trúc
 
@@ -25,16 +38,16 @@ KWS được tách từ WMS và tập trung vào hàng thuộc doanh nghiệp. B
 |---|---|---|
 | Desktop | Python 3.12+, Tkinter/ttk, Pillow | Biểu mẫu, bảng dữ liệu, tìm kiếm, quét mã, phân trang, giao diện sáng/tối |
 | HTTP API | FastAPI, Pydantic, Uvicorn, HTTPX | Hợp đồng dữ liệu, xác thực, kiểm tra nghiệp vụ và phân quyền |
-| Dữ liệu chính thức | PostgreSQL 15+, SQLAlchemy 2, psycopg 3 | Giao dịch, số dư, sổ kho, khóa cạnh tranh, audit, outbox, ACK |
+| Dữ liệu chính thức | MySQL 8.0 / PostgreSQL 15–16, SQLAlchemy 2, PyMySQL / psycopg 3 | Giao dịch, số dư, sổ kho, khóa cạnh tranh, audit, outbox, ACK |
 | Dữ liệu trên máy khách | SQLite, keyring | Nháp và nhật ký yêu cầu; token ghi nhớ phiên nằm trong kho bí mật hệ điều hành |
 | Bảo mật | Argon2, Fernet, TOTP | Băm mật khẩu, bảo vệ khóa MFA, xác thực và thu hồi phiên |
 | Báo cáo và in | CSV/XLSX, ReportLab, pypdfium2 | Snapshot báo cáo, kết xuất tệp, tạo PDF, xem trước và in |
 | Triển khai LAN | Nginx, systemd | HTTPS, proxy API, giám sát tiến trình |
-| Kiểm thử | pytest, PostgreSQL tạm, Xvfb | Kiểm tra nghiệp vụ, API, giao diện và lỗi cạnh tranh |
+| Kiểm thử | pytest, MySQL và PostgreSQL tạm, Xvfb | Kiểm tra nghiệp vụ, API, giao diện và lỗi cạnh tranh |
 
 ![Kiến trúc KWS](03_So_do/Hien_hanh/svg/ARCHITECTURE.svg)
 
-Desktop không kết nối trực tiếp PostgreSQL. Mỗi lệnh ghi được kiểm tra quyền hiện tại, phạm vi kho, phiên bản chứng từ và khóa chống trùng. Thay đổi sổ, số dư, giữ chỗ, audit và ACK được ghi trong cùng giao dịch. Worker xử lý xuất tệp và PDF ngoài giao dịch ghi sổ.
+Desktop không kết nối trực tiếp database máy chủ. Mỗi lệnh ghi được kiểm tra quyền hiện tại, phạm vi kho, phiên bản chứng từ và khóa chống trùng. Thay đổi sổ, số dư, giữ chỗ, audit và ACK được ghi trong cùng giao dịch. Worker xử lý xuất tệp và PDF ngoài giao dịch ghi sổ.
 
 ## Luồng nghiệp vụ
 

@@ -385,7 +385,7 @@ def test_exports_current_permission_before_download_even_after_ready(reports, pe
 
 
 def test_reports_quota_race_and_snapshot_immutability(reports, monkeypatch):
-    from sqlalchemy.exc import ProgrammingError
+    from sqlalchemy.exc import DatabaseError
 
     f = reports
     monkeypatch.setattr("apps.server.application.reports.MAX_ACTIVE", 1)
@@ -393,7 +393,7 @@ def test_reports_quota_race_and_snapshot_immutability(reports, monkeypatch):
         result = list(pool.map(lambda _: snapshot(f), range(2)))
     assert sorted(r.status_code for r in result) == [201, 409]
     report = next(r.json() for r in result if r.status_code == 201)
-    with pytest.raises(ProgrammingError), f.engine.begin() as c:
+    with pytest.raises(DatabaseError, match="append-only relation"), f.engine.begin() as c:
         c.execute(
             text("UPDATE wms.report_snapshot_row SET payload='{}' WHERE snapshot_id=:id"),
             {"id": report["id"]},
