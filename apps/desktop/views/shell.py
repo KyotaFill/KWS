@@ -13,6 +13,7 @@ from apps.desktop.views.admin_theme import AdminTheme
 from apps.desktop.views.admin_workspace import SECTIONS, AdminNavigation
 from apps.desktop.views.approvals import ApprovalView
 from apps.desktop.views.auth_controls import RoundedButton, RoundedField, ThemeSwitch, avatar_photo, ui_icon
+from apps.desktop.views.brand_badge import BrandBadge
 from apps.desktop.views.issues import IssueView
 from apps.desktop.views.master_data import MasterDataView
 from apps.desktop.views.master_details import ProductDetailsView
@@ -32,11 +33,11 @@ class DesktopShell:
         self.root = root
         self.settings = settings
         self.root.title("KWS  Quản lý kho")
-        with as_file(files("apps.desktop.assets").joinpath("kws-logo-transparent.png")) as logo:
-            self.application_icon = tk.PhotoImage(master=root, file=str(logo))
-        factor = (max(self.application_icon.width(), self.application_icon.height()) + 255) // 256
-        if factor > 1:
-            self.application_icon = self.application_icon.subsample(factor, factor)
+        with as_file(files("apps.desktop.assets").joinpath("kws-app-icon.png")) as logo:
+            with Image.open(logo) as source:
+                self.application_icon = ImageTk.PhotoImage(
+                    ImageOps.contain(source, (256, 256), Image.Resampling.LANCZOS), master=root,
+                )
         self.root.iconphoto(True, self.application_icon)
         self.root.update_idletasks()
         if self.root.winfo_width() <= 200 and self.root.winfo_height() <= 200:
@@ -64,15 +65,8 @@ class DesktopShell:
         self.header_inner.columnconfigure(1, weight=1)
         brand = self.brand = tk.Frame(self.header_inner, background="#515154")
         brand.grid(row=0, column=0, sticky="w", padx=(0, 24))
-        with as_file(files("apps.desktop.assets").joinpath("kws-logo-transparent.png")) as logo:
-            with Image.open(logo) as source:
-                self.header_icon = ImageTk.PhotoImage(ImageOps.contain(source,(64,64),Image.Resampling.LANCZOS), master=root)
-                self.compact_header_icon = ImageTk.PhotoImage(ImageOps.contain(source,(42,42),Image.Resampling.LANCZOS), master=root)
-        with as_file(files("apps.desktop.assets").joinpath("kws-logo-navy.png")) as logo:
-            with Image.open(logo) as source:
-                self.light_header_icon = ImageTk.PhotoImage(ImageOps.contain(source, (48, 48), Image.Resampling.LANCZOS), master=root)
-        self.brand_label = tk.Label(brand, image=self.header_icon, background="#515154")
-        self.brand_label.pack(side="left", padx=(0, 8))
+        self.brand_badge = BrandBadge(brand)
+        self.brand_badge.pack(side="left", padx=(0, 10))
         style = ttk.Style(root)
         style.theme_use("clam")
         style.configure("Search.TCombobox", padding=8, foreground="#515154", fieldbackground="#ffffff", font=("Segoe UI", 10))
@@ -343,8 +337,7 @@ class DesktopShell:
         self.header.configure(background=background)
         self.header_inner.configure(background=background)
         self.brand.configure(background=background)
-        self.brand_label.configure(image=self.light_header_icon if light else self.compact_header_icon if self.authenticated else self.header_icon,
-                                   background=background)
+        self.brand_badge.set_palette(background, compact=self.authenticated)
         self.erp_bar.configure(background="#187445")
         self.account_menu.configure(background=background, foreground="#172b4d" if light else "#ffffff",
                                     activebackground="#187445", activeforeground="#ffffff")
@@ -587,9 +580,6 @@ class DesktopShell:
         self.session_view.release_variables()
         self.status = None
         self.application_icon = None
-        self.header_icon = None
-        self.compact_header_icon = None
-        self.light_header_icon = None
         self.admin_theme.close()
         pending = [self.root]
         while pending:

@@ -68,6 +68,11 @@ class AdminTheme:
     def apply(self, dark=False):
         self.dark = dark
         p, s = DARK if dark else LIGHT, self.style
+        self.root.configure(
+            highlightthickness=2,
+            highlightbackground=p["accent"],
+            highlightcolor=p["accent"],
+        )
         suffix = "Dark" if dark else "Light"
         if suffix not in self.registered:
             normal = self.border(p["surface"], p["line"])

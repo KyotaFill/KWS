@@ -1,0 +1,7 @@
+Tool: built-in imagegen, transparent_background=true
+Input: kws-logo-transparent.png
+Output: kws-app-icon.png
+Prompt: Frame the existing KWS wolf/K/warehouse logo inside an opaque white
+rounded-square tile with a cool slate-blue border. Preserve the navy, white
+and cyan mark, center it with even padding, and keep the area outside the
+tile transparent. Flat front-facing desktop dock icon; no added text.

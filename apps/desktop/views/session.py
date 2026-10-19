@@ -8,6 +8,7 @@ from PIL import Image, ImageOps, ImageTk
 from apps.desktop.api.identity import IdentityClient
 from apps.desktop.presenters.session import SessionPresenter
 from apps.desktop.views.auth_controls import RoundedButton, RoundedField, avatar_photo, ui_icon
+from apps.desktop.views.brand_badge import BrandBadge
 from apps.desktop.views.data_table import DataTable
 from apps.desktop.views.image_picker import ImagePicker
 from apps.desktop.views.mfa_qr import enrollment_qr
@@ -82,9 +83,9 @@ class SessionView(ttk.Frame):
         self.content.pack(fill="x")
         self.content.columnconfigure(0, weight=6, uniform="auth")
         self.content.columnconfigure(1, weight=5, uniform="auth")
-        self.visual = ttk.Frame(self.content, style="Auth.Card.TFrame", padding=(12, 48))
+        self.visual = ttk.Frame(self.content, style="Auth.Card.TFrame", padding=(12, 12))
         self.visual.grid(row=0, column=0, sticky="nsew")
-        with as_file(files("apps.desktop.assets").joinpath("login-security-transparent.png")) as path:
+        with as_file(files("apps.desktop.assets").joinpath("login-security.png")) as path:
             with Image.open(path) as illustration:
                 self.hero_source = illustration.copy()
                 self.hero_icon = ImageTk.PhotoImage(ImageOps.contain(illustration, (530, 287), Image.Resampling.LANCZOS), master=self)
@@ -97,13 +98,6 @@ class SessionView(ttk.Frame):
         self.hero_label.pack(pady=(12, 20))
         self.card = ttk.Frame(self.content, style="Auth.Card.TFrame", padding=(28, 8))
         self.card.grid(row=0, column=1, sticky="nsew")
-        brand = ttk.Frame(self.card, style="Auth.Card.TFrame")
-        # Header carries the brand; keep the form aligned like the supplied reference.
-        with as_file(files("apps.desktop.assets").joinpath("kws-logo-transparent.png")) as path:
-            with Image.open(path) as logo:
-                self.brand_icon = ImageTk.PhotoImage(logo.resize((52, 52), Image.Resampling.LANCZOS), master=self)
-        ttk.Label(brand, image=self.brand_icon, style="Auth.TLabel").pack(side="left", padx=(0, 12))
-        ttk.Label(brand, text="KWS  /  KyotaFill", style="Auth.Muted.TLabel").pack(side="left")
         self.title_label = ttk.Label(self.card, text="Chào mừng trở lại", style="Auth.Title.TLabel")
         self.title_label.pack(anchor="w")
         self.subtitle = ttk.Label(self.card, text="Đăng nhập để quản lý kho của bạn", style="Auth.Muted.TLabel", wraplength=420)
@@ -354,7 +348,8 @@ class SessionView(ttk.Frame):
         else:
             self.visual.grid()
             self.card.grid_configure(column=1, columnspan=1)
-            hero_width = min(560, max(280, int((min(width,1180)-48)*6/11)-24))
+            hero_limit = 420 if self.screen == "login" else 560
+            hero_width = min(hero_limit, max(280, int((min(width,1180)-48)*6/11)-24))
             if hero_width != self.hero_width:
                 self.hero_icon = ImageTk.PhotoImage(ImageOps.contain(self.hero_source, (hero_width, round(hero_width*self.hero_source.height/self.hero_source.width)), Image.Resampling.LANCZOS), master=self)
                 self.hero_label.configure(image=self.hero_icon)
@@ -376,7 +371,9 @@ class SessionView(ttk.Frame):
             self.footer_blocks.append(block)
         brand = tk.Frame(self.footer_blocks[0], background="#124d31")
         brand.pack(anchor="w", pady=(0, 20))
-        tk.Label(brand, image=self.brand_icon, background="#124d31").pack(side="left", padx=(0, 12))
+        badge = BrandBadge(brand)
+        badge.set_palette("#124d31", compact=False)
+        badge.pack(side="left", padx=(0, 12))
         tk.Label(brand, text="KWS\nKyotaFill", background="#124d31", foreground="#ffffff",
                  justify="left", font=("Segoe UI", 15, "bold")).pack(side="left")
         self.footer_text(0, "Kiểm soát hàng hóa mỗi ngày; Nhập xuất rõ ràng, tồn kho dễ theo dõi")
@@ -847,7 +844,6 @@ class SessionView(ttk.Frame):
         self.hide_enrollment()
         self.close_security()
         self.hide_codes()
-        self.brand_icon = None
         self.google_icon = None
         self.hero_icon = None
         self.hero_source = None

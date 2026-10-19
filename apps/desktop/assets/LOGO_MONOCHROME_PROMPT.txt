@@ -1,0 +1,10 @@
+Tool: built-in imagegen; transparent_background=true
+Style reference: WMS apps/desktop/assets/wms-logo-navy.png
+Identity reference: KWS apps/desktop/assets/kws-logo-transparent.png
+Output: kws-logo-monochrome.png
+Prompt: Create a KWS logo in the WMS visual family: compact monochrome
+upright wolf joined to a warehouse with cartons, integrated K, and bold KWS
+lettering beneath. Flat navy on transparent background with clean negative
+space; no gradients, frame, tile or shadows. Readable at header icon size.
+Rendering: BrandBadge uses the same alpha silhouette with white on dark
+surfaces and navy on light surfaces, keeping identical geometry per theme.
