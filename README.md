@@ -12,6 +12,19 @@
 </p>
 <p align="center">Python / Tkinter · FastAPI · MySQL / PostgreSQL · SQLite · SQLAlchemy · Nginx</p>
 
+## Tải ứng dụng
+
+<p align="center">
+  <a href="https://github.com/KyotaFill/KWS/releases/download/v0.1.0-mysql-local.20261020/KWS-MySQL-Setup-0.1.0-9a70934813c9-x64.exe"><strong>⬇ Tải Windows (.exe)</strong></a><br>
+  <sub>KWS MySQL Local · Windows x64 · bản thử nghiệm ngày 20/10/2026</sub>
+</p>
+
+[Hướng dẫn cài bộ .exe](https://github.com/KyotaFill/KWS/blob/v0.1.0-mysql-local.20261020/packaging/windows/LOCAL_MYSQL.md) · [Bản phát hành, báo cáo kiểm thử và SHA-256](https://github.com/KyotaFill/KWS/releases/tag/v0.1.0-mysql-local.20261020) · [Mã nguồn đúng phiên bản bộ cài](https://github.com/KyotaFill/KWS/tree/9a70934813c987c3bfa79486313d42f5cb511f64)
+
+Chạy bộ cài rồi mở shortcut **KWS MySQL Local**. App tự kiểm tra và bật dịch vụ MySQL đang tắt; chọn **Yes** nếu Windows hỏi quyền UAC. Nếu chưa phát hiện MySQL Server, app mở trang tải chính thức. Lần đầu nhập mật khẩu MySQL root và tạo tài khoản quản trị app; database mới chỉ có cấu trúc và tài khoản quản trị, **không nạp dữ liệu mẫu**. Mật khẩu root không được lưu; database đã tồn tại không được tự ghi đè. Nếu có nhiều dịch vụ MySQL, chọn đúng dịch vụ và cổng. Hỗ trợ MySQL 8.0 từ 8.0.23 hoặc 8.4 LTS.
+
+Bộ cài **chưa ký số**, Windows có thể cảnh báo hoặc chặn. Đã kiểm tra cài/gỡ, khởi tạo MySQL trống, đăng nhập/MFA, worker và dừng/mở lại máy chủ ứng dụng trên Windows Server 2022 x64 với MySQL 8.0.46. Chưa kiểm thử UAC trực tiếp hoặc nghiệm thu đầy đủ trên Windows 10/11. Giao diện và nghiệp vụ dùng thuyết trình được giữ nguyên.
+
 **[Tải mã nguồn ZIP](https://github.com/KyotaFill/KWS/archive/refs/heads/main.zip)** · **[Sơ đồ PDF](03_So_do/Hien_hanh/KWS_Hien_hanh.pdf)** · **[Sơ đồ draw.io](03_So_do/Hien_hanh/KWS_Hien_hanh.drawio)** · **[Hướng dẫn chạy](01_Tai_lieu/CAI_DAT.md)**
 
 Giao diện KWS dùng xanh lá làm màu chủ đạo, với footer xanh đậm và trạng thái chọn đồng bộ trên thanh điều hướng, tab và bảng dữ liệu.
@@ -146,7 +159,7 @@ Kiểm tra API và trạng thái sẵn sàng của cơ sở dữ liệu. Nút T�
 
 ## Chạy và tải ứng dụng
 
-Repository hiện cung cấp mã nguồn và cấu hình đóng gói. Liên kết tải ZIP ở đầu trang tải nhánh `main`; chưa có bộ cài KWS phát hành đã ký. Không dùng bộ cài WMS để chạy bản KWS này.
+Bộ cài Windows **KWS MySQL Local** được tải ở [phần Tải ứng dụng](#tải-ứng-dụng) phía trên. Liên kết **Tải mã nguồn ZIP** tải nhánh `main`; mã nguồn đúng phiên bản bộ cài được liên kết riêng. Các lệnh dưới đây dành cho chạy từ mã nguồn; hướng dẫn cấu hình qua giao diện nằm trong [hướng dẫn bộ .exe](https://github.com/KyotaFill/KWS/blob/v0.1.0-mysql-local.20261020/packaging/windows/LOCAL_MYSQL.md).
 
 ```bash
 python3 -m venv .venv
