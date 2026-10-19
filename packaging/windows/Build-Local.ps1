@@ -50,7 +50,10 @@ try {
     } finally { Pop-Location; $env:PYTHONPATH=$savedPath }
     & $python scripts/check_windows_local.py (Join-Path $output 'frozen-local-mysql.json') (Join-Path $payload 'server\KWSLocal.exe')
     if ($LASTEXITCODE -ne 0) { throw 'Frozen API and all workers failed native MySQL acceptance' }
-    & $ISCC "/DBundleDir=$payload" "/DReleaseId=$releaseId" "/DOutputDir=$output" packaging/windows/local_setup.iss
+    $setupIcon=Join-Path $work 'kws-setup.ico'
+    & $python -c "from PIL import Image; import sys; Image.open(sys.argv[1]).convert('RGBA').save(sys.argv[2], format='ICO', sizes=[(16,16),(32,32),(48,48),(64,64),(128,128),(256,256)])" (Join-Path $repo 'apps/desktop/assets/kws-app-icon.png') $setupIcon
+    if ($LASTEXITCODE -ne 0 -or !(Test-Path $setupIcon)) { throw 'Installer icon conversion failed' }
+    & $ISCC "/DBundleDir=$payload" "/DReleaseId=$releaseId" "/DOutputDir=$output" "/DSetupIcon=$setupIcon" packaging/windows/local_setup.iss
     if ($LASTEXITCODE -ne 0) { throw 'Local installer failed' }
     $installer=Join-Path $output "KWS-MySQL-Setup-$releaseId-x64.exe"
     $install=Start-Process $installer -ArgumentList '/VERYSILENT','/SUPPRESSMSGBOXES','/NORESTART','/CURRENTUSER' -Wait -PassThru

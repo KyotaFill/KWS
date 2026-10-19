@@ -7,6 +7,9 @@
 #ifndef OutputDir
   #error OutputDir is required
 #endif
+#ifndef SetupIcon
+  #error SetupIcon is required
+#endif
 [Setup]
 AppId={{187F2EBD-B8E7-4317-B4C5-443BE58ECB5B}
 AppName=KWS MySQL Local
@@ -29,7 +32,7 @@ Compression=lzma2
 SolidCompression=yes
 UninstallDisplayIcon={app}\server\KWSLocal.exe
 WizardStyle=modern
-SetupIconFile=..\..\apps\desktop\assets\kws-app-icon.ico
+SetupIconFile={#SetupIcon}
 #ifdef WmsSignedBuild
 SignTool=WmsSign
 SignedUninstaller=yes
